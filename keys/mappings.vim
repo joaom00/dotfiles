@@ -34,10 +34,6 @@ nnoremap <silent> <C-Right> :vertical resize -2<CR>
 " Enable folding with spacebar
 nnoremap <space> za
 
-" Open files with ctrl-p
-nnoremap <C-p> :Files<CR>
-nnoremap <C-b> :Buffer<CR>
-
 " Clear Highlights
 nnoremap // :noh<return>
 

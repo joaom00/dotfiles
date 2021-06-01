@@ -40,12 +40,12 @@ require('telescope').setup {
             i = {
                 ["<C-j>"] = actions.move_selection_next,
                 ["<C-k>"] = actions.move_selection_previous,
-                ["v"] = actions.select_vertical
+                ["vv"] = actions.select_vertical
             },
             n = {
                 ["<C-j>"] = actions.move_selection_next,
                 ["<C-k>"] = actions.move_selection_previous,
-                ["v"] = actions.select_vertical
+                ["vv"] = actions.select_vertical
 
             }
         } 

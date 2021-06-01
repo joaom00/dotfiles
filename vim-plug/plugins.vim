@@ -13,6 +13,9 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
 
+" Snippets
+Plug 'hrsh7th/vim-vsnip'
+
 Plug 'preservim/nerdcommenter'
 
 " Treesitter
@@ -20,9 +23,9 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'p00f/nvim-ts-rainbow'
 
-"Plug 'HerringtonDarkholme/yats.vim'
-"Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+" HTML Emmet
 Plug 'mattn/emmet-vim'
+
 " Better Tabline
 Plug 'romgrk/barbar.nvim'
 
@@ -43,6 +46,7 @@ Plug 'nvim-telescope/telescope-media-files.nvim'
 
 " Intellisense
 Plug 'neovim/nvim-lspconfig'
+Plug 'kabouzeid/nvim-lspinstall'
 Plug 'hrsh7th/nvim-compe'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'onsails/lspkind-nvim'

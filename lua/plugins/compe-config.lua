@@ -19,7 +19,6 @@ require'compe'.setup {
     path = true;
     buffer = true;
     calc = true;
-    vsnip = true;
     nvim_lsp = true;
     nvim_lua = true;
     spell = true;
@@ -39,14 +38,14 @@ local check_back_space = function()
         return true
     else
         return false
-    end
+   end
 end
 
 -- Use (s-)tab to:
 --- move to prev/next item in completion menuone
 --- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
+ _G.tab_complete = function()
+ if vim.fn.pumvisible() == 1 then
     return t "<C-n>"
   elseif vim.fn.call("vsnip#available", {1}) == 1 then
     return t "<Plug>(vsnip-expand-or-jump)"
