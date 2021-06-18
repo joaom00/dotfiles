@@ -43,6 +43,13 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-media-files.nvim'
+Plug 'nvim-telescope/telescope-github.nvim'
+Plug 'nvim-telescope/telescope-fzf-writer.nvim'
+Plug 'nvim-telescope/telescope-frecency.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+
+" SQLite
+Plug 'tami5/sql.nvim'
 
 " Intellisense
 Plug 'neovim/nvim-lspconfig'
@@ -52,9 +59,13 @@ Plug 'glepnir/lspsaga.nvim'
 Plug 'onsails/lspkind-nvim'
 Plug 'kosayoda/nvim-lightbulb'
 
+" Git
+Plug 'airblade/vim-gitgutter'
+
 " Themes
 Plug 'Shadorain/shadotheme'
 Plug 'folke/tokyonight.nvim'
+Plug 'arzg/vim-colors-xcode'
 
 " Status Line
 Plug 'glepnir/galaxyline.nvim'

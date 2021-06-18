@@ -13,6 +13,9 @@ colorscheme xshado
 "let g:tokyonight_sidebars = ["qf", "vista_kind", "terminal", "packer"]
 "let g:tokyonight_transparent = 1
 
+" XCode Theme
+"colorscheme xcodedarkhc
+
 
 " Checks if your terminal has 24-bit color support
 if (has("termguicolors"))

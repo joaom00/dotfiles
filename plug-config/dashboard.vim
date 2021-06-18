@@ -1,2 +1,2 @@
-nmap <Leader>ss :<C-u>SessionSave<CR>
-nmap <Leader>sl :<C-u>SessionLoad<CR>
+nnoremap <silent> <space>ss :<C-u>SessionSave<CR>
+nnoremap <silent> <space>sl :<C-u>SessionLoad<CR>
