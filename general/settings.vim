@@ -32,7 +32,7 @@ set hlsearch "highlights matching searches
 
 set showtabline=2
 set updatetime=300
-set timeoutlen=500
+set timeoutlen=200
 set guifont=FiraCode\ Nerd\ Font\ Mono
 
 set nobackup
