@@ -25,5 +25,7 @@ nnoremap <silent> <space>fi <cmd>Telescope lsp_implementations<CR>
 "Nvim
 nnoremap <silent> <space>fb <cmd>lua require("plugins.telescope").buffers()<CR>
 nnoremap <silent> <space>ff <cmd>lua require("plugins.telescope").curbuf()<CR>
+nnoremap <silent> <space>gp <cmd>lua require("plugins.telescope").grep_prompt()<CR>
+nnoremap <silent> <space>fi <cmd>lua require("plugins.telescope").search_all_files()<CR>
 
 

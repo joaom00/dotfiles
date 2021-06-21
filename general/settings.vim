@@ -14,6 +14,7 @@ set cursorline
 set mouse=a
 set splitbelow
 set splitright
+set completeopt=menuone,noselect
 
 set backspace=indent,eol,start " let backspace delete over lines
 set autoindent " enable auto indentation of lines

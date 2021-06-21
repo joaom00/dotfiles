@@ -39,7 +39,6 @@ source ~/.config/nvim/plug-config/gitgutter.vim
 "-------------------------------------------------------------------------------
 " LSP
 "-------------------------------------------------------------------------------
-"source ~/.config/nvim/plug-config/compe-config.vim
 
 luafile ~/.config/nvim/lua/lsp/init.lua
 luafile ~/.config/nvim/lua/plugins/compe-config.lua

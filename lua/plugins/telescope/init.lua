@@ -120,7 +120,6 @@ function M.live_grep()
     require("telescope").extensions.fzf_writer.staged_grep {
         shorten_path = true,
         previewer = false,
-        fzf_separator = "|>",
     }
 end
 
@@ -148,7 +147,6 @@ end
 
 function M.git_status()
     require("telescope.builtin").git_status {
-        winblend = 10,
         border = true,
         previewer = false,
         shorten_path = true
@@ -191,6 +189,19 @@ function M.curbuf()
         previewer = false,
         shorten_path = false,
     })
+end
+
+function M.grep_prompt()
+    require("telescope.builtin").grep_string {
+        shorten_path = true,
+        search = vim.fn.input "Grep String > ",
+    }
+end
+
+function M.search_all_files()
+    require("telescope.builtin").find_files {
+        find_command = {"rg", "--no-ignore", "--files"}
+    }
 end
 
 return setmetatable({}, {
