@@ -1,14 +1,11 @@
-filetype plugin on
-autocmd BufWritePre *.tsx,*.ts Prettier
-
-source ~/.config/nvim/plug-config/polyglot.vim
 "-------------------------------------------------------------------------------
 " General
 "-------------------------------------------------------------------------------
 source ~/.config/nvim/vim-plug/plugins.vim
-source ~/.config/nvim/general/theme.vim
 source ~/.config/nvim/general/settings.vim
+source ~/.config/nvim/general/theme.vim
 source ~/.config/nvim/keys/mappings.vim
+source ~/.config/nvim/general/autocommands.vim
 source ~/.config/nvim/general/compile-run.vim
 
 luafile ~/.config/nvim/lua/globals.lua
@@ -34,6 +31,11 @@ luafile ~/.config/nvim/lua/plugins/telescope/init.lua
 " Git
 "-------------------------------------------------------------------------------
 source ~/.config/nvim/plug-config/gitgutter.vim
+source ~/.config/nvim/plug-config/diffview-config.vim
+source ~/.config/nvim/plug-config/octo.vim
+
+luafile ~/.config/nvim/lua/plugins/diffview-config.lua
+luafile ~/.config/nvim/lua/plugins/octo-config.lua
 
 
 "-------------------------------------------------------------------------------
@@ -46,7 +48,7 @@ luafile ~/.config/nvim/lua/plugins/lsp-install.lua
 
 luafile ~/.config/nvim/lua/lsp/bash-ls.lua
 luafile ~/.config/nvim/lua/lsp/clangd.lua
-luafile ~/.config/nvim/lua/lsp/cmake-ls.lua
+"luafile ~/.config/nvim/lua/lsp/cmake-ls.lua
 luafile ~/.config/nvim/lua/lsp/css-ls.lua
 luafile ~/.config/nvim/lua/lsp/graphql-ls.lua
 luafile ~/.config/nvim/lua/lsp/html-ls.lua

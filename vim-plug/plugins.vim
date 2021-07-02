@@ -3,9 +3,6 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 " Start Screen
 Plug 'glepnir/dashboard-nvim'
 
-" Better Syntax Support
-Plug 'sheerun/vim-polyglot'
-
 " Auto Pairs
 Plug 'jiangmiao/auto-pairs'
 
@@ -61,6 +58,8 @@ Plug 'kosayoda/nvim-lightbulb'
 
 " Git
 Plug 'airblade/vim-gitgutter'
+Plug 'sindrets/diffview.nvim'
+Plug 'pwntester/octo.nvim'
 
 " Themes
 Plug 'Shadorain/shadotheme'

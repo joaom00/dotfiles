@@ -1,3 +1,5 @@
+filetype plugin on
+
 set iskeyword+=-
 set formatoptions-=cro
 
@@ -33,7 +35,7 @@ set hlsearch "highlights matching searches
 
 set showtabline=2
 set updatetime=300
-set timeoutlen=200
+set timeoutlen=250
 set guifont=FiraCode\ Nerd\ Font\ Mono
 
 set nobackup
@@ -47,7 +49,8 @@ set hidden
 set background=dark
 set t_Co=256
 set laststatus=2
+set termguicolors
 
-set foldmethod=indent
-set foldlevel=20
+"set foldmethod=indent
+"set foldlevel=20
 

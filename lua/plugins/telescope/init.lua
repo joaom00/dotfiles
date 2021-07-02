@@ -71,12 +71,25 @@ require('telescope').setup {
             use_highlighter = false,
             minimum_grep_characters = 6,
         }
-     }
+     },
+    pickers = {
+        git_commits = {
+            mappings = {
+                i = {
+                    ["<C-o>"] = function(prompt_bufnr)
+                        actions.close(prompt_bufnr)
+                        local value = actions.get_selected_entry(prompt_bufnr).value
+                        vim.cmd('DiffviewOpen' .. value .. '~1..' .. value)
+                    end,
+                }
+            },
+        },
+    }
 }
 
+pcall(require("telescope").load_extension, "media_files")
 pcall(require("telescope").load_extension, "fzy_native")
 pcall(require("telescope").load_extension, "fzf")
-pcall(require("telescope").load_extension, "media_files")
 pcall(require("telescope").load_extension, "gh")
 
 local M = {}
@@ -133,6 +146,16 @@ function M.oldfiles()
     end
 end
 
+function M.file_browser()
+    require("telescope.builtin").file_browser(themes.get_dropdown {
+        previewer = false,
+        layout_config = {
+            width = 0.25,
+        }
+
+    })
+end
+
 function M.project()
     require("telescope.builtin").file_browser(themes.get_dropdown {
         prompt_title = "~ Projects ~",
@@ -154,9 +177,7 @@ function M.git_status()
 end
 
 function M.git_commits()
-    require("telescope.builtin").git_commits {
-        winblend = 5,
-    }
+    require("telescope.builtin").git_commits {}
 end
 
 function M.git_issues()

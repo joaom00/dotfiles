@@ -4,14 +4,15 @@ let g:nvcode_termcolors=256
 syntax on
 
 " Shado Theme
-colorscheme xshado
+"colorscheme xshado
 
 " Tokyonight Theme
-"colorscheme tokyonight
-"let g:tokyonight_style= "night"
-"let g:tokyonight_italic_functions = 1
-"let g:tokyonight_sidebars = ["qf", "vista_kind", "terminal", "packer"]
-"let g:tokyonight_transparent = 1
+let g:tokyonight_style= "night"
+let g:tokyonight_italic_functions = 1
+let g:tokyonight_sidebars = ["qf", "vista_kind", "terminal", "packer"]
+let g:tokyonight_transparent = 1
+
+colorscheme tokyonight
 
 " XCode Theme
 "colorscheme xcodedarkhc
@@ -21,4 +22,4 @@ colorscheme xshado
 if (has("termguicolors"))
     set termguicolors
     hi LineNr ctermbg=NONE guibg=NONE
-  endif
+endif

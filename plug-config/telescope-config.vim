@@ -6,7 +6,8 @@ nnoremap <silent> <space>ft <cmd>lua require("plugins.telescope").git_files()<CR
 nnoremap <silent> <space>fg <cmd>lua require("plugins.telescope").live_grep()<CR>
 nnoremap <silent> <space>fo <cmd>lua require("plugins.telescope").oldfiles()<CR>
 nnoremap <silent> <space>pp <cmd>lua require("plugins.telescope").project()<CR>
-nnoremap <silent> <space>fe <cmd>Telescope file_browser<CR>
+nnoremap <silent> <space>fe <cmd>lua require("plugins.telescope").file_browser()<CR>
+nnoremap <silent> <space>fF <cmd>Telescope find_files<CR>
 nnoremap <silent> <space>mf <cmd>Telescope media_files<CR>
 
 "Git
@@ -25,7 +26,7 @@ nnoremap <silent> <space>fi <cmd>Telescope lsp_implementations<CR>
 "Nvim
 nnoremap <silent> <space>fb <cmd>lua require("plugins.telescope").buffers()<CR>
 nnoremap <silent> <space>ff <cmd>lua require("plugins.telescope").curbuf()<CR>
-nnoremap <silent> <space>gp <cmd>lua require("plugins.telescope").grep_prompt()<CR>
+nnoremap <silent> <space>gg <cmd>lua require("plugins.telescope").grep_prompt()<CR>
 nnoremap <silent> <space>fi <cmd>lua require("plugins.telescope").search_all_files()<CR>
 
 

@@ -8,10 +8,10 @@ map <left> :echoerr "Pq você ta fazendo isso?"<CR>
 map <right> :echoerr "Pq você ta fazendo isso?"<CR>
 
 " Split Navigations
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w><C-J>
+nnoremap <C-k> <C-w><C-K>
+nnoremap <C-l> <C-w><C-L>
+nnoremap <C-h> <C-w><C-H>
 
 " I hate Esc
 inoremap <silent> <C-c> <Esc>
@@ -32,7 +32,7 @@ nnoremap <silent> <C-Left> :vertical resize +2<CR>
 nnoremap <silent> <C-Right> :vertical resize -2<CR>
 
 " Enable folding with spacebar
-nnoremap <space> za
+"nnoremap <space> za
 
 " Clear Highlights
 nnoremap // :noh<return>
