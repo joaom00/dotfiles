@@ -48,7 +48,7 @@ luafile ~/.config/nvim/lua/plugins/lsp-install.lua
 
 luafile ~/.config/nvim/lua/lsp/bash-ls.lua
 luafile ~/.config/nvim/lua/lsp/clangd.lua
-"luafile ~/.config/nvim/lua/lsp/cmake-ls.lua
+luafile ~/.config/nvim/lua/lsp/cmake-ls.lua
 luafile ~/.config/nvim/lua/lsp/css-ls.lua
 luafile ~/.config/nvim/lua/lsp/graphql-ls.lua
 luafile ~/.config/nvim/lua/lsp/html-ls.lua
