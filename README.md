@@ -1,8 +1,8 @@
 # Necessário
-lua
-go
-lua-format
-yapf --Python format
+- lua
+- go
+- lua-format
+- yapf --Python format
 
 Passo 1:
 sudo apt install gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip build-essential lua5.4
