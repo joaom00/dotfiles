@@ -38,12 +38,6 @@ vim.api.nvim_set_keymap('i', 'jk', '<ESC>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('i', 'kj', '<ESC>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('i', 'jj', '<ESC>', {noremap = true, silent = true})
 
--- Tab switch buffer
-vim.api.nvim_set_keymap('n', '<TAB>', ':BufferLineCycleNext<CR>',
-                        {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<S-TAB>', ':BufferLineCyclePrev<CR>',
-                        {noremap = true, silent = true})
-
 -- Move selected line / block of text in visual mode
 vim.api.nvim_set_keymap('x', 'J', ':move \'>+1<CR>gv-gv',
                         {noremap = true, silent = true})
@@ -65,7 +59,17 @@ vim.api.nvim_set_keymap('x', '<A-k>', ':m \'<-2<CR>gv-gv',
                         {noremap = true, silent = true})
 
 -- Comment
-vim.api.nvim_set_keymap('n', '<space>q', ':CommentToggle<CR>',
+vim.api.nvim_set_keymap('n', '<S-c>', ':CommentToggle<CR>',
+                        {noremap = true, silent = true})
+vim.api.nvim_set_keymap('v', '<S-c>', ':CommentToggle<CR>',
+                        {noremap = true, silent = true})
+
+-- Barbar
+vim.api.nvim_set_keymap("n", "<TAB>", ":BufferNext<CR>",
+                        {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<S-TAB>", ":BufferPrevious<CR>",
+                        {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<C-x>", ":BufferClose<CR>",
                         {noremap = true, silent = true})
 
 -- Better nav for omnicomplete

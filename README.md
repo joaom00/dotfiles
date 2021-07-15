@@ -1,19 +1,34 @@
-# Necessário
-- lua
-- go
-- lua-format
-- yapf --Python format
+## :boom: Instalação
 
-Passo 1:
+- ### Pré-requisitos
+    - [Go](https://golang.org)
+    - [GitHub CLI](https://cli.github.com)
+
+
+1. Faça a instalação dos seguintes packages 
+```
 sudo apt install gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip build-essential lua5.4
+```
 
-Passo 2: Instalar Neovim 0.5
+2. Instale o [Neovim](https://github.com/neovim/neovim/wiki/Installing-Neovim)
+```
 sudo apt install neovim
+```
 
-Passo 3: Clone meu repositorio
-https://github.com/joaom00/nvim.git ~/.config/nvim
+3. Faça um clone do repositório
+```
+git clone https://github.com/joaom00/nvim.git ~/.config/nvim
+```
 
-Passo 4: instalar packer
+4. Entre no nvim e instale os plugins
+```
+:PackerInstall
+```
 
-Passo 5: nvim e instalar os plugins
+## Formatters
+
+- [LuaFormatter](https://github.com/Koihik/LuaFormatter)
+- [Yapf](https://github.com/google/yapf)
+- Prettier
+- Eslint
 
