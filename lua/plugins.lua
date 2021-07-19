@@ -63,8 +63,21 @@ return require('packer').startup(function(use)
     end
   }
 
-  -- GO
-  -- use {'zchee/nvim-go', run = 'make'}
+  -- FORMATTER
+  use {
+    'mhartington/formatter.nvim',
+    config = function()
+      require 'lv-formatter'
+    end
+  }
+
+  -- LINTER
+  use {
+    'mfussenegger/nvim-lint',
+    config = function()
+      require'lv-linter'.setup()
+    end
+  }
 
   -- ELIXIR
   use {'elixir-editors/vim-elixir', ft = {'elixir', 'eelixir', 'euphoria3'}}
@@ -122,7 +135,7 @@ return require('packer').startup(function(use)
   use {
     'pwntester/nautilus.nvim',
     config = function()
-      require'nautilus'.setup({mode = 'grey'})
+      require'nautilus'.setup({mode = 'blue'})
     end
   }
   use {
