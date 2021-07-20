@@ -4,7 +4,7 @@ CACHE_PATH = vim.fn.stdpath('cache')
 TERMINAL = vim.fn.expand('$TERMINAL')
 
 O = {
-  colorscheme = 'nautilus',
+  colorscheme = 'xcodedarkhc',
   lang = {
     python = {
       linter = '',

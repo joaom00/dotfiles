@@ -45,8 +45,9 @@ return require('packer').startup(function(use)
 
   -- TELESCOPE
   use {'nvim-telescope/telescope.nvim', requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'}}
-  use {'nvim-telescope/telescope-github.nvim'}
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
+  use {'nvim-telescope/telescope-frecency.nvim'}
+  use {'nvim-telescope/telescope-fzf-writer.nvim'}
 
   -- GIT
   use {
@@ -132,12 +133,7 @@ return require('packer').startup(function(use)
   use {'arzg/vim-colors-xcode'}
   use {'kyazdani42/nvim-web-devicons'}
   use {'p00f/nvim-ts-rainbow'}
-  use {
-    'pwntester/nautilus.nvim',
-    config = function()
-      require'nautilus'.setup({mode = 'blue'})
-    end
-  }
+  use {'pwntester/nautilus.nvim'}
   use {
     'norcalli/nvim-colorizer.lua',
     event = 'BufRead',
@@ -156,7 +152,7 @@ return require('packer').startup(function(use)
     end
   }
 
-  -- AUTOTAGS 
+  -- AUTOTAGS
   use {'windwp/nvim-ts-autotag', event = 'InsertEnter'}
 
   -- MARKDOWN PREVIEW

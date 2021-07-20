@@ -74,11 +74,8 @@ require('telescope').setup {
 }
 
 pcall(require('telescope').load_extension, 'fzf')
-
-if vim.fn.executable 'gh' == 1 then
-  pcall(require('telescope').load_extension, 'gh')
-  pcall(require('telescope').load_extension, 'octo')
-end
+pcall(require('telescope').load_extension, 'frecency')
+pcall(require('telescope').load_extension, 'fzf_writer')
 
 local M = {}
 
@@ -88,7 +85,6 @@ function M.edit_neovim()
     previewer = false,
     prompt_title = false,
     results_title = false,
-    preview_title = false,
     sorting_strategy = 'ascending',
     layout_config = {prompt_position = 'top'}
 
@@ -108,15 +104,19 @@ function M.git_files()
 end
 
 function M.live_grep()
-  require('telescope').extensions.fzf_writer.staged_grep {shorten_path = true, previewer = false}
+  require('telescope').extensions.fzf_writer.staged_grep {
+    previewer = false,
+    fzf_separator = '|>',
+    prompt_title = false,
+    results_title = false
+    -- sorting_strategy = 'ascending',
+    -- layout_config = {prompt_position = 'top'}
+
+  }
 end
 
 function M.oldfiles()
-  if true then require('telescope').extensions.frecency.frecency() end
-  if pcall(require('telescope').load_extension, 'frecency') then
-  else
-    require('telescope.builtin').oldfiles {layout_strategy = 'vertical'}
-  end
+  require'telescope'.extensions.frecency.frecency {results_title = false}
 end
 
 function M.file_browser()
@@ -133,31 +133,17 @@ function M.project()
 end
 
 function M.git_status()
-  require('telescope.builtin').git_status {
-    layout_strategy = 'vertical',
-    prompt_title = false,
-    results_title = false,
-    previewer = delta
-
-  }
+  require'telescope.builtin'.git_status {results_title = false, previewer = delta, layout_config = {preview_width = 80}}
 
 end
 
 function M.git_commits()
   require('telescope.builtin').git_commits {
-    layout_config = {horizontal = {preview_width = 85}},
+    layout_config = {preview_width = 80},
     prompt_title = false,
     results_title = false,
     previewer = delta
   }
-end
-
-function M.git_issues()
-  require('telescope').extensions.gh.issues {prompt_title = false}
-end
-
-function M.git_pr()
-  require('telescope').extensions.gh.pull_request {}
 end
 
 function M.buffers()
