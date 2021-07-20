@@ -116,7 +116,7 @@ function M.live_grep()
 end
 
 function M.oldfiles()
-  require'telescope'.extensions.frecency.frecency {results_title = false}
+  require'telescope.builtin'.oldfiles {results_title = false}
 end
 
 function M.file_browser()

@@ -53,7 +53,7 @@ return require('packer').startup(function(use)
   use {
     'pwntester/octo.nvim',
     config = function()
-      require'octo'.setup()
+      require'lv-octo'.config()
     end,
     requires = {'nvim-telescope/telescope.nvim'}
   }
@@ -78,6 +78,12 @@ return require('packer').startup(function(use)
     config = function()
       require'lv-linter'.setup()
     end
+  }
+
+  -- JAVASCRIPT / TYPESCRIPT
+  use {
+    'jose-elias-alvarez/nvim-lsp-ts-utils',
+    ft = {'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact', 'typescript.tsx'}
   }
 
   -- ELIXIR
