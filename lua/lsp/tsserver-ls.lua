@@ -4,7 +4,10 @@ if vim.fn.executable(prettier_instance) ~= 1 then prettier_instance = 'prettier'
 
 O.formatters.filetype['javascriptreact'] = {
   function()
-    local args = {'--stdin-filepath --no-semi --single-quote --trailing-comma=none', vim.fn.fnameescape(vim.api.nvim_buf_get_name(0))}
+    local args = {
+      '--stdin-filepath --no-semi --single-quote --trailing-comma=none',
+      vim.fn.fnameescape(vim.api.nvim_buf_get_name(0))
+    }
     local extend_args = {}
 
     if extend_args then for i = 1, #extend_args do table.insert(args, extend_args[i]) end end
