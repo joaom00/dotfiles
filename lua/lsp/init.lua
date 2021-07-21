@@ -13,8 +13,8 @@ vim.cmd('nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>')
 vim.cmd('nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>')
 vim.cmd('nnoremap <silent> K  <cmd>lua vim.lsp.buf.hover()<CR>')
 vim.cmd('nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>')
-vim.cmd('nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-vim.cmd('nnoremap <silent> <C-n> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+vim.cmd('nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts = {border = "single"}})<CR>')
+vim.cmd('nnoremap <silent> <C-n> <cmd>lua vim.lsp.diagnostic.goto_next({popup_opts = {border = "single"}})<CR>')
 -- scroll up hover doc
 vim.cmd('command! -nargs=0 LspVirtualTextToggle lua require("lsp/virtual_text").toggle()')
 
@@ -34,13 +34,6 @@ vim.lsp.protocol.CompletionItemKind = {
   '   (Folder)', '   (EnumMember)', ' ﲀ  (Constant)', ' ﳤ  (Struct)', '   (Event)', '   (Operator)',
   '   (TypeParameter)'
 }
-
---[[ " autoformat
-autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 100)
-autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 100)
-autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync(nil, 100) ]]
--- Java
--- autocmd FileType java nnoremap ca <Cmd>lua require('jdtls').code_action()<CR>
 
 local function documentHighlight(client, bufnr)
   -- Set autocommands conditional on server_capabilities
@@ -64,14 +57,50 @@ function lsp_config.common_on_attach(client, bufnr)
 end
 
 function lsp_config.tsserver_on_attach(client, bufnr)
-  lsp_config.common_on_attach(client, bufnr)
+  -- lsp_config.common_on_attach(client, bufnr)
   client.resolved_capabilities.document_formatting = false
+
+  local ts_utils = require 'nvim-lsp-ts-utils'
+
+  -- defaults
+  ts_utils.setup {
+    debug = false,
+    disable_commands = false,
+    enable_import_on_completion = false,
+    import_all_timeout = 5000, -- ms
+
+    -- eslint
+    eslint_enable_code_actions = true,
+    eslint_enable_disable_comments = true,
+    -- eslint_bin = 'eslint_d',
+    eslint_config_fallback = nil,
+    eslint_enable_diagnostics = true,
+
+    -- formatting
+    enable_formatting = true,
+    formatter = 'prettier',
+    formatter_config_fallback = nil,
+
+    -- parentheses completion
+    complete_parens = false,
+    signature_help_in_parens = false,
+
+    -- update imports on file move
+    update_imports_on_move = false,
+    require_confirmation_on_move = false,
+    watch_dir = nil
+  }
+
+  -- required to fix code action ranges
+  ts_utils.setup_client(client)
+
+  -- TODO: keymap these?
+  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganize<CR>", {silent = true})
+  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "qq", ":TSLspFixCurrent<CR>", {silent = true})
+  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>", {silent = true})
+  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", ":TSLspImportAll<CR>", {silent = true})
 end
 
 require('utils').define_augroups({_general_lsp = {{'FileType', 'lspinfo', 'nnoremap <silent> <buffer> q :q<CR>'}}})
 
--- Use a loop to conveniently both setup defined servers
--- and map buffer local keybindings when the language server attaches
--- local servers = {"pyright", "tsserver"}
--- for _, lsp in ipairs(servers) do nvim_lsp[lsp].setup {on_attach = on_attach} end
 return lsp_config
