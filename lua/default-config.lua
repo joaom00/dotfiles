@@ -16,6 +16,7 @@ require('lang.json').config()
 require('lang.lua').config()
 require('lang.python').config()
 require('lang.vim').config()
+require('lang.yaml').config()
 
 P = function(v)
   print(vim.inspect(v))
