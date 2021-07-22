@@ -19,6 +19,7 @@ O = {
 }
 
 require('lang.go').config()
+require('lang.clang').config()
 
 P = function(v)
   print(vim.inspect(v))
