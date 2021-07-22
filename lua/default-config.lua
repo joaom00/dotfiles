@@ -22,6 +22,7 @@ require('lang.go').config()
 require('lang.clang').config()
 require('lang.html').config()
 require('lang.css').config()
+require('lang.dockerfile').config()
 
 P = function(v)
   print(vim.inspect(v))
