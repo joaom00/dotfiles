@@ -15,6 +15,7 @@ require('lang.graphql').config()
 require('lang.json').config()
 require('lang.lua').config()
 require('lang.python').config()
+require('lang.vim').config()
 
 P = function(v)
   print(vim.inspect(v))
