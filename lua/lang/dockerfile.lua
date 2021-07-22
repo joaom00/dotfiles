@@ -15,7 +15,6 @@ M.lint = function()
 end
 
 M.lsp = function()
-
   require('lspconfig').dockerls.setup {
     cmd = {O.lang.docker.lsp.path, '--stdio'},
     on_attach = require('lsp').common_on_attach,
