@@ -20,6 +20,8 @@ O = {
 
 require('lang.go').config()
 require('lang.clang').config()
+require('lang.html').config()
+require('lang.css').config()
 
 P = function(v)
   print(vim.inspect(v))
