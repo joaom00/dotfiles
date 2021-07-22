@@ -3,7 +3,6 @@ local gl = require('galaxyline')
 -- local colors = require('galaxyline.theme').default
 local colors = {
   bg = '#2E2E2E',
-  -- bg = '#292D38',
   yellow = '#DCDCAA',
   dark_yellow = '#D7BA7D',
   cyan = '#4EC9B0',
@@ -155,6 +154,48 @@ table.insert(gls.left, {
   }
 })
 
+table.insert(gls.left, {
+  Filler = {
+    provider = function()
+      return ' '
+    end,
+    highlight = {colors.grey, colors.bg}
+  }
+})
+
+-- get output from shell command
+function os.capture(cmd, raw)
+  local f = assert(io.popen(cmd, 'r'))
+  local s = assert(f:read '*a')
+  f:close()
+  if raw then return s end
+  s = string.gsub(s, '^%s+', '')
+  s = string.gsub(s, '%s+$', '')
+  s = string.gsub(s, '[\n\r]+', ' ')
+  return s
+end
+-- cleanup virtual env
+local function env_cleanup(venv)
+  if string.find(venv, '/') then
+    local final_venv = venv
+    for w in venv:gmatch '([^/]+)' do final_venv = w end
+    venv = final_venv
+  end
+  return venv
+end
+local PythonEnv = function()
+  if vim.bo.filetype == 'python' then
+    local venv = os.getenv 'CONDA_DEFAULT_ENV'
+    if venv ~= nil then return '  (' .. env_cleanup(venv) .. ')' end
+    venv = os.getenv 'VIRTUAL_ENV'
+    if venv ~= nil then return '  (' .. env_cleanup(venv) .. ')' end
+    return ''
+  end
+  return ''
+end
+
+table.insert(gls.left, {VirtualEnv = {provider = PythonEnv, event = 'BufEnter', highlight = {colors.green, colors.bg}}})
+
 table.insert(gls.right, {
   DiagnosticError = {provider = 'DiagnosticError', icon = '  ', highlight = {colors.error_red, colors.bg}}
 })
@@ -172,7 +213,7 @@ table.insert(gls.right, {
 table.insert(gls.right, {
   TreesitterIcon = {
     provider = function()
-      if next(vim.treesitter.highlighter.active) ~= nil then return ' ' end
+      if next(vim.treesitter.highlighter.active) ~= nil then return '  ' end
       return ''
     end,
     separator = ' ',
@@ -182,7 +223,7 @@ table.insert(gls.right, {
 })
 
 local get_lsp_client = function(msg)
-  msg = msg or 'No Active LSP Client'
+  msg = msg or 'LSP Inactive'
   local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
   local clients = vim.lsp.get_active_clients()
   if next(clients) == nil then return msg end

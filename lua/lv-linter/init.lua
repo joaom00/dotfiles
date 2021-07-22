@@ -9,7 +9,7 @@ M.setup = function()
   }
 end
 
-local status_ok, linter = pcall(require, 'lint')
+local status_ok, _ = pcall(require, 'lint')
 if not status_ok then return end
 
 return M

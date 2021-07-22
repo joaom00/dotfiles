@@ -35,7 +35,7 @@ vim.lsp.protocol.CompletionItemKind = {
   '   (TypeParameter)'
 }
 
-local function documentHighlight(client, bufnr)
+local function documentHighlight(client, _)
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
@@ -56,7 +56,7 @@ function lsp_config.common_on_attach(client, bufnr)
   documentHighlight(client, bufnr)
 end
 
-function lsp_config.tsserver_on_attach(client, bufnr)
+function lsp_config.tsserver_on_attach(client, _)
   -- lsp_config.common_on_attach(client, bufnr)
   client.resolved_capabilities.document_formatting = false
 
@@ -78,7 +78,7 @@ function lsp_config.tsserver_on_attach(client, bufnr)
 
     -- formatting
     enable_formatting = true,
-    formatter = 'prettier',
+    formatter = 'prettier_d_slim',
     formatter_config_fallback = nil,
 
     -- parentheses completion

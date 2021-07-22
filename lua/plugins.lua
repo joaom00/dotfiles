@@ -155,12 +155,19 @@ return require('packer').startup(function(use)
     end
   }
 
-  -- FLOATING TERMINAL
+  -- TERMINAL
+  -- use {
+  --   'numToStr/FTerm.nvim',
+  --   event = 'BufRead',
+  --   config = function()
+  --     require'lv-fterm'.config()
+  --   end
+  -- }
   use {
-    'numToStr/FTerm.nvim',
-    event = 'BufRead',
+    'akinsho/nvim-toggleterm.lua',
+    event = 'BufWinEnter',
     config = function()
-      require'lv-fterm'.config()
+      require('lv-terminal').config()
     end
   }
 

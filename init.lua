@@ -10,3 +10,4 @@ require 'lv-telescope.mappings'
 require 'lsp'
 -- require 'lsp.emmet-ls'
 vim.g.colors_name = O.colorscheme
+

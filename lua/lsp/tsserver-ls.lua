@@ -1,6 +1,6 @@
 -- use the global prettier if you didn't find the local one
 local prettier_instance = './node_modules/.bin/prettier'
-if vim.fn.executable(prettier_instance) ~= 1 then prettier_instance = 'prettier' end
+if vim.fn.executable(prettier_instance) ~= 1 then prettier_instance = 'prettier_d_slim' end
 
 O.formatters.filetype['javascriptreact'] = {
   function()
