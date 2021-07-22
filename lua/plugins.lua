@@ -63,13 +63,7 @@ return require('packer').startup(function(use)
       require'lv-diffview'.config()
     end
   }
-  use {
-    'lewis6991/gitsigns.nvim',
-    config = function()
-      require('lv-gitsigns').setup()
-    end,
-    requires = {'nvim-lua/plenary.nvim'}
-  }
+  use {'lewis6991/gitsigns.nvim'}
 
   -- FORMATTER
   use {
@@ -109,9 +103,14 @@ return require('packer').startup(function(use)
     end
   }
 
-  -- STATUS LINE & BARBAR
+  -- STATUS LINE & BUFFERLINE
   use {'glepnir/galaxyline.nvim'}
-  use {'romgrk/barbar.nvim'}
+  use {
+    'akinsho/nvim-bufferline.lua',
+    config = function()
+      require'lv-bufferline'.config()
+    end
+  }
 
   -- AUTOPAIRS
   use {
