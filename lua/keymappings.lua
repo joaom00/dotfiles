@@ -57,10 +57,10 @@ vim.api.nvim_set_keymap('x', '<A-k>', ':m \'<-2<CR>gv-gv', {noremap = true, sile
 vim.api.nvim_set_keymap('n', '<S-c>', ':CommentToggle<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('v', '<S-c>', ':CommentToggle<CR>', {noremap = true, silent = true})
 
--- Barbar
-vim.api.nvim_set_keymap('n', '<TAB>', ':BufferNext<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<S-TAB>', ':BufferPrevious<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<C-x>', ':BufferClose<CR>', {noremap = true, silent = true})
+-- BufferLine
+vim.api.nvim_set_keymap('n', '<TAB>', ':BufferLineCycleNext<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<S-TAB>', ':BufferLineCyclePrev<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-x>', ':BufferLinePickClose<CR>', {noremap = true, silent = true})
 
 -- Better nav for omnicomplete
 vim.cmd('inoremap <expr> <c-j> (\"\\<C-n>\")')
