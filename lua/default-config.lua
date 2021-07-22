@@ -25,6 +25,7 @@ require('lang.css').config()
 require('lang.dockerfile').config()
 require('lang.elixir').config()
 require('lang.graphql').config()
+require('lang.json').config()
 
 P = function(v)
   print(vim.inspect(v))
