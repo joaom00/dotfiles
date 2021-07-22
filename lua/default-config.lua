@@ -3,20 +3,7 @@ DATA_PATH = vim.fn.stdpath('data')
 CACHE_PATH = vim.fn.stdpath('cache')
 TERMINAL = vim.fn.expand('$TERMINAL')
 
-O = {
-  colorscheme = 'xcodedarkhc',
-  lang = {
-    python = {
-      linter = '',
-      formatter = 'yapf',
-      autoformat = true,
-      isort = false,
-      diagnostics = {virtual_text = {spacing = 0, prefix = ''}, signs = true, underline = true},
-      analysis = {type_checking = 'basic', auto_search_paths = true, use_library_code_types = true}
-    }
-  },
-  formatters = {filetype = {}}
-}
+O = {colorscheme = 'xcodedarkhc', lang = {}, formatters = {filetype = {}}}
 
 require('lang.go').config()
 require('lang.clang').config()
@@ -27,6 +14,7 @@ require('lang.elixir').config()
 require('lang.graphql').config()
 require('lang.json').config()
 require('lang.lua').config()
+require('lang.python').config()
 
 P = function(v)
   print(vim.inspect(v))
