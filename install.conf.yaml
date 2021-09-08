@@ -1,0 +1,21 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- create:
+    - ~/.ssh
+    - ~/.config
+    - ~/dev
+
+- clean: ["~"]
+
+- link:
+    ~/.zshrc: zsh/.zshrc
+    ~/.gitconfig: git/.gitconfig
+    ~/.gitmessage: git/.gitmessage
+    ~/themes.gitconfig: git/themes.gitconfig
+    ~/.config/nvim: .config/nvim
+
+- shell:
+    - [git submodule update --init --recursive, Installing submodules]

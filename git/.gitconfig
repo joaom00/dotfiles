@@ -1,0 +1,40 @@
+[user]
+  name = João Pedro
+  email = joaomljcanal@gmail.com
+
+[include]
+  path = ~/themes.gitconfig
+
+[init]
+  defaultBranch = main
+
+[core]
+  editor = nvim
+  pager = delta
+
+[commit]
+  template = ~/.gitmessage
+
+[pager]
+  diff = delta
+  log = delta
+  reflog = delta
+  show = delta
+
+[format]
+  pretty = format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset
+
+[alias]
+  # Thanks r00k, this creates a pretty graph view of the log
+  lg = log --graph --abbrev-commit --date=relative
+  c = commit -m
+
+[delta]
+  features = coracias-caudatus
+  navigate = true
+ 
+[interactive]
+  diffFilter = delta --color-only
+
+[pull]
+  rebase = true
