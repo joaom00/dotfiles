@@ -12,6 +12,7 @@ function M.config()
     fix_pos = false,
     hint_enable = false,
     handler_opts = { border = "rounded" },
+    floating_window_above_cur_line = true,
   }
 end
 
