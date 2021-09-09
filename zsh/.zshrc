@@ -8,6 +8,8 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 export EDITOR='nvim'
 
+export DOTFILES=$HOME/.dotfiles
+
 ZSH_THEME="spaceship"
 
 # GIT ALIAS
@@ -19,6 +21,8 @@ alias gd='git diff'
 alias gadd='git add .'
 
 alias gweb='gh repo view --web'
+
+alias dots='cd $DOTFILES'
 
 __new_branch() {git checkout -b $1}
 alias gbn=__new_branch
