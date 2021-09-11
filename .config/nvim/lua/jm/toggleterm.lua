@@ -1,11 +1,26 @@
 local M = {}
 
-local nnoremap = JM.mapper("n")
-local tnoremap = JM.mapper("t")
+local nnoremap = JM.mapper "n"
+local tnoremap = JM.mapper "t"
 
 local Terminal = require("toggleterm.terminal").Terminal
-local gcommit = Terminal:new({cmd = "git commit", hidden = true, direction = "float", float_opts = {border = "curved"}})
-local lazygit = Terminal:new({cmd = "lazygit", hidden = true, direction = "float", float_opts = {border = "curved"}})
+
+local gcommit = Terminal:new {
+  cmd = "git commit",
+  hidden = true,
+  direction = "float",
+  float_opts = { border = "curved" },
+  on_close = function()
+    vim.cmd "DiffviewRefresh"
+  end,
+}
+
+local lazygit = Terminal:new {
+  cmd = "lazygit",
+  hidden = true,
+  direction = "float",
+  float_opts = { border = "curved" },
+}
 
 function M.config()
   require("toggleterm").setup {
@@ -24,12 +39,16 @@ function M.config()
     start_in_insert = true,
     insert_mappings = true,
     persist_size = true,
-    direction = "vertical" -- 'vertical' | 'horizontal' | 'window' | 'float'
+    direction = "vertical", -- 'vertical' | 'horizontal' | 'window' | 'float'
   }
 end
 
-function M.gcommit_toggle() gcommit:toggle() end
-function M.lazygit_toggle() lazygit:toggle() end
+function M.gcommit_toggle()
+  gcommit:toggle()
+end
+function M.lazygit_toggle()
+  lazygit:toggle()
+end
 
 function M.keymappings()
   nnoremap("<F9>", "<cmd>ToggleTermOpenAll<CR>")
