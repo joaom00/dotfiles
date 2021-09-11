@@ -1,7 +1,13 @@
+local status_ok, treesitter_configs = pcall(require, "nvim-treesitter.configs")
+if not status_ok then
+  JM.notify "Failed to load treesitter configs"
+  return
+end
+
 local M = {}
 
 function M.config()
-  require("nvim-treesitter.configs").setup {
+  treesitter_configs.setup {
     ensure_installed = "all",
     ignore_install = { "haskell" },
     matchup = { enable = true },

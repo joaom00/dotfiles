@@ -1,10 +1,10 @@
-local M = {}
-
 local status_ok, headlines = pcall(require, "headlines")
 if not status_ok then
   JM.notify "Missing headlines dependency"
   return
 end
+
+local M = {}
 
 function M.config()
   vim.cmd [[highlight Headline1 guibg=#1e2718]]

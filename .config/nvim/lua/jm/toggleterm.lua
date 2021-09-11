@@ -1,9 +1,20 @@
-local M = {}
+local status_ok, toggleterm = pcall(require, "toggleterm")
+if not status_ok then
+  JM.notify "Missing toggleterm dependency"
+  return
+end
 
+local toggleterm_terminal_ok, toggleterm_terminal = pcall(require, "toggleterm.terminal")
+if not toggleterm_terminal_ok then
+  JM.notify "Failed to load terminal module in toggleterm"
+  return
+end
+
+local M = {}
 local nnoremap = JM.mapper "n"
 local tnoremap = JM.mapper "t"
 
-local Terminal = require("toggleterm.terminal").Terminal
+local Terminal = toggleterm_terminal.Terminal
 
 local gcommit = Terminal:new {
   cmd = "git commit",
@@ -25,7 +36,7 @@ local lazygit = Terminal:new {
 }
 
 function M.config()
-  require("toggleterm").setup {
+  toggleterm.setup {
     size = function(term)
       if term.direction == "horizontal" then
         return 15
@@ -48,6 +59,7 @@ end
 function M.gcommit_toggle()
   gcommit:toggle()
 end
+
 function M.lazygit_toggle()
   lazygit:toggle()
 end

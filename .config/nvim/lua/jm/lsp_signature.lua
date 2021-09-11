@@ -1,10 +1,10 @@
-local M = {}
-
 local status_ok, lsp_signature = pcall(require, "lsp_signature")
 if not status_ok then
   JM.notify "Missing lsp_signature dependency"
   return
 end
+
+local M = {}
 
 function M.config()
   lsp_signature.setup {

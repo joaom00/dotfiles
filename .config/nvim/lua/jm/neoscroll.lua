@@ -1,12 +1,12 @@
+local status_ok, neoscroll = pcall(require, "neoscroll")
+if not status_ok then
+  JM.notify "Missing neoscroll dependency"
+  return
+end
+
 local M = {}
 
 function M.config()
-  local status_ok, neoscroll = pcall(require, "neoscroll")
-  if not status_ok then
-    JM.notify "Missing neoscroll dependency"
-    return
-  end
-
   neoscroll.setup {
     -- All these keys will be mapped to their corresponding default scrolling animation
     mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },

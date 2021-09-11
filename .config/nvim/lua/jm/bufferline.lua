@@ -1,8 +1,14 @@
+local status_ok, bufferline = pcall(require, "bufferline")
+if not status_ok then
+  JM.notify "Missing bufferline dependency"
+  return
+end
+
 local M = {}
 local nnoremap = JM.mapper "n"
 
 function M.config()
-  require("bufferline").setup {
+  bufferline.setup {
     options = {
       numbers = "none", -- | 'ordinal' | 'buffer_id' | 'both'
       close_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"

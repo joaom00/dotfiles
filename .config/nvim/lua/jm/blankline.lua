@@ -1,3 +1,9 @@
+local status_ok, _ = pcall(require, "indent_blankline")
+if not status_ok then
+  JM.notify "Missing blankline dependency"
+  return
+end
+
 local M = {}
 
 function M.config()

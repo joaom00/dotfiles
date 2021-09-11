@@ -1,8 +1,14 @@
+local status_ok, octo = pcall(require, "octo")
+if not status_ok then
+  JM.notify "Missing octo dependency"
+  return
+end
+
 local M = {}
 local nnoremap = JM.mapper "n"
 
 function M.config()
-  require("octo").setup {
+  octo.setup {
     default_remote = { "upstream", "origin" }, -- order to try remotes
     reaction_viewer_hint_icon = "", -- marker for user reactions
     user_icon = " ", -- user icon

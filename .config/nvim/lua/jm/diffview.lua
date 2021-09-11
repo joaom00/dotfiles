@@ -1,9 +1,21 @@
+local diffview_ok, diffview = pcall(require, "diffview")
+if not diffview_ok then
+  JM.notify "Missing diffview dependency"
+  return
+end
+
+local diffview_config_ok, diffview_config = pcall(require, "diffview.config")
+if not diffview_config_ok then
+  JM.notify "Failed to load diffview.config"
+  return
+end
+
 local M = {}
 local nnoremap = JM.mapper "n"
-local cb = require("diffview.config").diffview_callback
+local cb = diffview_config.diffview_callback
 
 function M.config()
-  require("diffview").setup {
+  diffview.setup {
     diff_binaries = false, -- Show diffs for binaries
     use_icons = true, -- Requires nvim-web-devicons
     file_panel = {
@@ -123,30 +135,6 @@ function M.sanediffdefaults()
   M.link("diffOnly", "DiffAdd")
   M.link("GitsignsAdd", "String")
   M.link("DiffviewNormal", "NormalSB")
-
-  --   vim.cmd [[
-  --   function! SaneDiffDefaults()
-  --     hi DiffAdd     guibg=#283B4D guifg=NONE"
-  --     hi DiffDelete  guibg=#3C2C3C guifg=NONE"
-  --     hi DiffChange  guibg=#28304d guifg=NONE"
-  --     hi DiffText    guibg=#36426b guifg=NONE"
-  --     hi! link       diffAdded     DiffAdd
-  --     hi! link       diffChanged   DiffChange
-  --     hi! link       diffRemoved   DiffDelete
-  --     hi! link       diffBDiffer   WarningMsg
-  --     hi! link       diffCommon    WarningMsg
-  --     hi! link       diffDiffer    WarningMsg
-  --     hi! link       diffFile      Directory
-  --     hi! link       diffIdentical WarningMsg
-  --     hi! link       diffIndexLine Number
-  --     hi! link       diffIsA       WarningMsg
-  --     hi! link       diffNoEOL     WarningMsg
-  --     hi! link       diffOnly      WarningMsg
-  --     hi! DiffAddAsDelete guibg=#3C2C3C
-  --     hi! link GitsignsAdd String
-  --     hi! link DiffviewNormal NormalSB
-  --   endfunction
-  -- ]]
 end
 
 function M.setup()

@@ -7,7 +7,7 @@ end
 local M = {}
 
 function M.config()
-  JM.gitsigns = {
+  gitsigns.setup = {
     signs = {
       add = { hl = "GitSignsAdd", text = "▍", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
       change = { hl = "GitSignsChange", text = "▍", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
@@ -20,10 +20,6 @@ end
 
 function M.setup()
   M.config()
-
-  gitsigns.setup {
-    signs = JM.gitsigns.signs,
-  }
 end
 
 return M

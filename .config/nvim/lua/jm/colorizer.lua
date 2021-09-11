@@ -1,12 +1,12 @@
-local M = {}
-
 local status_ok, colorizer = pcall(require, "colorizer")
 if not status_ok then
   JM.notify "Missing colorizer dependency"
   return
 end
 
-M.setup = function()
+local M = {}
+
+function M.config()
   colorizer.setup({ "*" }, {
     RGB = true, -- #RGB hex codes
     RRGGBB = true, -- #RRGGBB hex codes
@@ -16,6 +16,10 @@ M.setup = function()
     css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
     css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
   })
+end
+
+function M.setup()
+  M.config()
 end
 
 return M

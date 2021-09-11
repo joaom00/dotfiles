@@ -1,3 +1,15 @@
+local status_ok, _ = pcall(require, "nvim-tree")
+if not status_ok then
+  JM.notify "Missing nvimtree dependency"
+  return
+end
+
+local nvim_tree_config_ok, nvim_tree_config = pcall(require, "nvim-tree.config")
+if not nvim_tree_config_ok then
+  JM.notify "Failed to load NvimTree Config"
+  return
+end
+
 local M = {}
 local nnoremap = JM.mapper "n"
 
@@ -40,14 +52,28 @@ function M.keymappings()
   nnoremap("<space>e", "<cmd>NvimTreeToggle<CR>")
 end
 
-function M.setup()
-  local status_ok, nvim_tree_config = pcall(require, "nvim-tree.config")
-
-  if not status_ok then
-    JM.notify "Failed to load NvimTree Config"
-    return
+function M.on_open()
+  if package.loaded["bufferline.state"] and JM.nvimtree.side == "left" then
+    require("bufferline.state").set_offset(JM.nvimtree.width + 1, "")
   end
+end
 
+function M.on_close()
+  local buf = tonumber(vim.fn.expand "<abuf>")
+  local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+  if ft == "NvimTree" and package.loaded["bufferline.state"] then
+    require("bufferline.state").set_offset(0)
+  end
+end
+
+function M.change_tree_dir(dir)
+  local lib_status_ok, lib = pcall(require, "nvim-tree.lib")
+  if lib_status_ok then
+    lib.change_dir(dir)
+  end
+end
+
+function M.setup()
   M.config()
   M.keymappings()
 
@@ -84,27 +110,6 @@ function M.setup()
   end
 
   vim.cmd "au WinClosed * lua require('jm.nvimtree').on_close()"
-end
-
-function M.on_open()
-  if package.loaded["bufferline.state"] and JM.nvimtree.side == "left" then
-    require("bufferline.state").set_offset(JM.nvimtree.width + 1, "")
-  end
-end
-
-function M.on_close()
-  local buf = tonumber(vim.fn.expand "<abuf>")
-  local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-  if ft == "NvimTree" and package.loaded["bufferline.state"] then
-    require("bufferline.state").set_offset(0)
-  end
-end
-
-function M.change_tree_dir(dir)
-  local lib_status_ok, lib = pcall(require, "nvim-tree.lib")
-  if lib_status_ok then
-    lib.change_dir(dir)
-  end
 end
 
 return M
