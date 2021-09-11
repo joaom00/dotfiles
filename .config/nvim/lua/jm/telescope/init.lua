@@ -170,6 +170,10 @@ function M.code_actions()
   require("telescope.builtin").lsp_code_actions { prompt_title = false, layout_config = { width = 0.3, height = 0.2 } }
 end
 
+function M.colorscheme()
+  require("telescope.builtin").colorscheme()
+end
+
 return setmetatable({}, {
   __index = function(_, k)
     if M[k] then
