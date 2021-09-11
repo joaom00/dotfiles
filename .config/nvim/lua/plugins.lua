@@ -190,7 +190,6 @@ return require("packer").startup(function(use)
   use { "Shadorain/shadotheme" }
   use { "folke/tokyonight.nvim" }
   use { "arzg/vim-colors-xcode" }
-  use { "p00f/nvim-ts-rainbow" }
   use { "pwntester/nautilus.nvim" }
   use {
     "NvChad/nvim-base16.lua",
@@ -209,6 +208,7 @@ return require("packer").startup(function(use)
   -- UTILS
   use { "hrsh7th/vim-vsnip", event = "InsertEnter" }
   use { "windwp/nvim-ts-autotag", event = "InsertEnter" }
+  use { "p00f/nvim-ts-rainbow" }
   use {
     "terrortylor/nvim-comment",
     event = "BufRead",
@@ -236,6 +236,12 @@ return require("packer").startup(function(use)
     end,
   }
   use {
+    "lukas-reineke/headlines.nvim",
+    config = function()
+      require("jm.headlines").setup()
+    end,
+  }
+  use {
     "karb94/neoscroll.nvim",
     config = function()
       require("jm.neoscroll").setup()
@@ -249,4 +255,5 @@ return require("packer").startup(function(use)
   }
 
   use { "~/dev/markdown.nvim", rtp = "~/dev/markdown.nvim" }
+  use { "~/dev/discussions.nvim", rtp = "~/dev/discussions.nvim" }
 end)
