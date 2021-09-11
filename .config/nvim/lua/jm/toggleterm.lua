@@ -9,8 +9,10 @@ local gcommit = Terminal:new {
   cmd = "git commit",
   hidden = true,
   direction = "float",
+  close_on_exit = true,
   float_opts = { border = "curved" },
   on_close = function()
+    vim.fn.histadd("cmd", "DiffviewRefresh")
     vim.cmd "DiffviewRefresh"
   end,
 }
