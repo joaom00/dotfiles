@@ -16,6 +16,7 @@
     ~/.gitmessage: git/.gitmessage
     ~/themes.gitconfig: git/themes.gitconfig
     ~/.config/nvim: .config/nvim
+    ~/.config/gh/config.yml: .config/gh/config.yml
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
