@@ -9,15 +9,6 @@ P = function(v)
   return v
 end
 
-if pcall(require, "plenary") then
-  RELOAD = require("plenary.reload").reload_module
-
-  R = function(name)
-    RELOAD(name)
-    return require(name)
-  end
-end
-
 JM = { leader = "-", colorscheme = "tokyonight", line_wrap_cursor_movement = true, format_on_save = true }
 
 JM.lsp = {
@@ -85,9 +76,9 @@ end
 
 function JM.notify(message, level, title)
   local notify = require "notify"
-  local log_level = level or "error"
+  level = level or "error"
 
-  notify(message, log_level, { title = title or "Dependecy Error" })
+  notify(message, level, { title = title or "Dependecy Error" })
 end
 
 local function load_lang(lang)
