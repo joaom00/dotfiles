@@ -1,12 +1,12 @@
 local M = {}
 
-M.setup = function()
-  local status_ok, colorizer = pcall(require, "colorizer")
-  if not status_ok then
-    JM.notify "Missing colorizer dependency"
-    return
-  end
+local status_ok, colorizer = pcall(require, "colorizer")
+if not status_ok then
+  JM.notify "Missing colorizer dependency"
+  return
+end
 
+M.setup = function()
   colorizer.setup({ "*" }, {
     RGB = true, -- #RGB hex codes
     RRGGBB = true, -- #RRGGBB hex codes
