@@ -82,31 +82,7 @@ function M.config()
     },
   }
 
-  vim.cmd [[
-  function! SaneDiffDefaults()
-    hi DiffAdd     guibg=#283B4D guifg=NONE"
-    hi DiffDelete  guibg=#3C2C3C guifg=NONE"
-    hi DiffChange  guibg=#28304d guifg=NONE"
-    hi DiffText    guibg=#36426b guifg=NONE"
-    hi! link       diffAdded     DiffAdd
-    hi! link       diffChanged   DiffChange
-    hi! link       diffRemoved   DiffDelete
-    hi! link       diffBDiffer   WarningMsg
-    hi! link       diffCommon    WarningMsg
-    hi! link       diffDiffer    WarningMsg
-    hi! link       diffFile      Directory
-    hi! link       diffIdentical WarningMsg
-    hi! link       diffIndexLine Number
-    hi! link       diffIsA       WarningMsg
-    hi! link       diffNoEOL     WarningMsg
-    hi! link       diffOnly      WarningMsg
-    hi! DiffAddAsDelete guibg=#3C2C3C
-    hi! link GitsignsAdd String
-    hi! link DiffviewNormal NormalSB
-  endfunction
-]]
-
-  require("jm.autocmds").define_augroups { init_colors = { { "Filetype", "*", "call SaneDiffDefaults()" } } }
+  -- require("jm.autocmds").define_augroups { init_colors = { { "Filetype", "*", "call SaneDiffDefaults()" } } }
 end
 
 function M.keymappings()
@@ -115,9 +91,68 @@ function M.keymappings()
   nnoremap("<leader>dc", "<cmd>DiffviewClose<CR>")
 end
 
+function M.highlight(group, options)
+  local guibg = options.bg or "NONE"
+  local guifg = options.fg or "NONE"
+
+  vim.cmd(string.format("highlight %s guibg=%s guifg=%s", group, guibg, guifg))
+end
+
+function M.link(groupa, groupb)
+  vim.cmd(string.format("highlight link %s %s", groupa, groupb))
+end
+
+function M.sanediffdefaults()
+  M.highlight("DiffAdd", { bg = "#283B4D" })
+  M.highlight("DiffDelete", { bg = "#3C2C3C" })
+  M.highlight("DiffChange", { bg = "#28304D" })
+  M.highlight("DiffText", { bg = "#36426B" })
+  M.highlight("DiffAddAsDelete", { bg = "#3C2C3C" })
+
+  M.link("diffAdded", "DiffAdd")
+  M.link("diffChanged", "DiffAdd")
+  M.link("diffRemoved", "DiffAdd")
+  M.link("diffBDiffer", "DiffAdd")
+  M.link("diffCommon", "DiffAdd")
+  M.link("diffDiffer", "DiffAdd")
+  M.link("diffFile", "DiffAdd")
+  M.link("diffIdentical", "DiffAdd")
+  M.link("diffIndexLine", "DiffAdd")
+  M.link("diffIsA", "DiffAdd")
+  M.link("diffNoEOL", "DiffAdd")
+  M.link("diffOnly", "DiffAdd")
+  M.link("GitsignsAdd", "String")
+  M.link("DiffviewNormal", "NormalSB")
+
+  --   vim.cmd [[
+  --   function! SaneDiffDefaults()
+  --     hi DiffAdd     guibg=#283B4D guifg=NONE"
+  --     hi DiffDelete  guibg=#3C2C3C guifg=NONE"
+  --     hi DiffChange  guibg=#28304d guifg=NONE"
+  --     hi DiffText    guibg=#36426b guifg=NONE"
+  --     hi! link       diffAdded     DiffAdd
+  --     hi! link       diffChanged   DiffChange
+  --     hi! link       diffRemoved   DiffDelete
+  --     hi! link       diffBDiffer   WarningMsg
+  --     hi! link       diffCommon    WarningMsg
+  --     hi! link       diffDiffer    WarningMsg
+  --     hi! link       diffFile      Directory
+  --     hi! link       diffIdentical WarningMsg
+  --     hi! link       diffIndexLine Number
+  --     hi! link       diffIsA       WarningMsg
+  --     hi! link       diffNoEOL     WarningMsg
+  --     hi! link       diffOnly      WarningMsg
+  --     hi! DiffAddAsDelete guibg=#3C2C3C
+  --     hi! link GitsignsAdd String
+  --     hi! link DiffviewNormal NormalSB
+  --   endfunction
+  -- ]]
+end
+
 function M.setup()
   M.config()
   M.keymappings()
+  M.sanediffdefaults()
 end
 
 return M
