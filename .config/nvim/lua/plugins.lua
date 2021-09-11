@@ -93,7 +93,7 @@ return require("packer").startup(function(use)
   use {
     "ahmedkhalf/project.nvim",
     config = function()
-      require("project_nvim").setup {}
+      require("project_nvim").setup()
     end,
   }
 
@@ -101,7 +101,7 @@ return require("packer").startup(function(use)
   use {
     "folke/trouble.nvim",
     config = function()
-      require("trouble").setup {}
+      require("trouble").setup()
     end,
   }
 
@@ -109,7 +109,7 @@ return require("packer").startup(function(use)
   use {
     "folke/todo-comments.nvim",
     config = function()
-      require("todo-comments").setup {}
+      require("todo-comments").setup()
     end,
   }
 
@@ -222,6 +222,7 @@ return require("packer").startup(function(use)
     config = function()
       require("jm.autopairs").setup()
     end,
+    disable = true,
   }
   use {
     "norcalli/nvim-colorizer.lua",
