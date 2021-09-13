@@ -1,15 +1,3 @@
-local status_ok, _ = pcall(require, "nvim-tree")
-if not status_ok then
-  JM.notify "Missing nvimtree dependency"
-  return
-end
-
-local nvim_tree_config_ok, nvim_tree_config = pcall(require, "nvim-tree.config")
-if not nvim_tree_config_ok then
-  JM.notify "Failed to load NvimTree Config"
-  return
-end
-
 local M = {}
 local nnoremap = JM.mapper "n"
 
@@ -76,6 +64,12 @@ end
 function M.setup()
   M.config()
   M.keymappings()
+
+  local nvim_tree_config_ok, nvim_tree_config = pcall(require, "nvim-tree.config")
+  if not nvim_tree_config_ok then
+    JM.notify "Failed to load NvimTree Config"
+    return
+  end
 
   local g = vim.g
 
