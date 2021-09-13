@@ -71,11 +71,18 @@ return require("packer").startup(function(use)
 
   -- AUTOCOMPLETE
   use {
-    "hrsh7th/nvim-compe",
-    event = "InsertEnter",
+    "hrsh7th/nvim-cmp",
     config = function()
-      require("jm.compe").config()
+      require("jm.cmp").setup()
     end,
+    requires = {
+      { "L3MON4D3/LuaSnip" },
+      { "saadparwaiz1/cmp_luasnip" },
+      { "hrsh7th/cmp-buffer" },
+      { "hrsh7th/cmp-nvim-lsp" },
+      { "hrsh7th/cmp-path" },
+      { "hrsh7th/cmp-nvim-lua" },
+    },
   }
 
   -- FORMATTER & LINTER
@@ -90,6 +97,7 @@ return require("packer").startup(function(use)
   }
   use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
   use { "nvim-telescope/telescope-fzf-writer.nvim" }
+  use { "nvim-telescope/telescope-frecency.nvim" }
   use {
     "ahmedkhalf/project.nvim",
     config = function()
@@ -206,7 +214,6 @@ return require("packer").startup(function(use)
   }
 
   -- UTILS
-  use { "hrsh7th/vim-vsnip", event = "InsertEnter" }
   use { "windwp/nvim-ts-autotag", event = "InsertEnter" }
   use { "p00f/nvim-ts-rainbow" }
   use {
@@ -218,7 +225,7 @@ return require("packer").startup(function(use)
   }
   use {
     "windwp/nvim-autopairs",
-    after = "nvim-compe",
+    after = "nvim-cmp",
     config = function()
       require("jm.autopairs").setup()
     end,
@@ -257,4 +264,5 @@ return require("packer").startup(function(use)
 
   use { "~/dev/markdown.nvim", rtp = "~/dev/markdown.nvim" }
   use { "~/dev/discussions.nvim", rtp = "~/dev/discussions.nvim" }
+  use { "~/dev/omni.nvim", rtp = "~/dev/omni.nvim" }
 end)

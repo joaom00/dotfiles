@@ -1,0 +1,22 @@
+{
+  "Function block": {
+    "prefix": "function",
+    "body": "function ${1:name}(${2:params}) {\n\t$3\n}"
+  },
+  "Testing it block": {
+    "prefix": "it",
+    "body": "it('should ${1:description}', () => {\n\t$2\n})"
+  },
+  "React useState function": {
+    "prefix": "state",
+    "body": "const [${1:state}, set${2:setterState}] = useState(${3:initialState})"
+  },
+  "React useEffect function": {
+    "prefix": "effect",
+    "body": "useEffect(() => {\n\t$0\n}, [])"
+  },
+  "Styled components theme": {
+    "prefix": "theme",
+    "body": ["${({ theme }) => css`", "\t$0", "`}"]
+  }
+}
