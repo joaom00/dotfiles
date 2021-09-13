@@ -1,7 +1,7 @@
 local M = {}
 
 function M.init(theme)
-  theme = theme or JM.colorscheme
+  theme = theme or "tokyonight"
 
   local status_ok, base16 = pcall(require, "base16")
 
