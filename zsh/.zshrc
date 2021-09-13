@@ -9,6 +9,10 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 export EDITOR='nvim'
 
 export DOTFILES=$HOME/.dotfiles
+export PROJECTS_DIR=$HOME/dev
+export JS_PROJECTS=$HOME/dev/js-projects
+export RCT_PROJECTS=$HOME/dev/rct-projects
+export GO_PROJECTS=$HOME/dev/golang
 
 ZSH_THEME="spaceship"
 
@@ -31,8 +35,7 @@ alias gbn=__new_branch
 alias ai='sudo apt install '
 alias au='sudo apt update && sudo apt-get upgrade'
 
-alias dc='powershell.exe Start C:/Users/joaom/AppData/Local/Discord/app-1.0.9002/Discord.exe'
-alias spt='powershell.exe Start C:/Users/joaom/AppData/Roaming/Spotify/Spotify.exe'
+source $DOTFILES/zsh/alias_w.zsh
 
 plugins=(nvm ssh-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions)
 
