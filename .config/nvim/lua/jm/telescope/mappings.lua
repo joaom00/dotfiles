@@ -28,9 +28,11 @@ map_tele("<space>en", "edit_neovim")
 -- Files
 map_tele("<space>ft", "git_files")
 map_tele("<space>fg", "live_grep")
+map_tele("<space>fh", "frecency")
 map_tele("<space>fo", "oldfiles")
 map_tele("<space>pp", "project")
 map_tele("<space>fe", "file_browser")
+map_tele("<space>gg", "grep_prompt")
 
 -- Git
 map_tele("<space>gs", "git_status")
@@ -41,7 +43,6 @@ map_tele("<space>gc", "git_commits")
 -- Nvim
 map_tele("<space>fb", "buffers")
 map_tele("<space>ff", "curbuf")
-map_tele("<space>gg", "grep_prompt")
 map_tele("<space>fi", "search_all_files")
 
 -- LSP

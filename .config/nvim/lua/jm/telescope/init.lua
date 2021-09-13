@@ -31,10 +31,6 @@ require("telescope").setup {
     prompt_prefix = " ",
     selection_caret = " ",
 
-    prompt_title = false,
-    results_title = false,
-    preview_title = false,
-
     selection_strategy = "reset",
     sorting_strategy = "descending",
     scroll_strategy = "cycle",
@@ -54,6 +50,21 @@ require("telescope").setup {
         ["<C-k>"] = actions.move_selection_previous,
         ["vv"] = actions.select_vertical,
       },
+    },
+  },
+  extensions = {
+    frecency = {
+      workspaces = {
+        ["conf"] = vim.env.DOTFILES,
+        ["project"] = vim.env.PROJECTS_DIR,
+        ["js"] = vim.env.JS_PROJECTS,
+        ["rct"] = vim.env.RCT_PROJECTS,
+        ["go"] = vim.env.GO_PROJECTS,
+      },
+    },
+    fzf_writer = {
+      use_highlighter = false,
+      minimum_grep_characters = 6,
     },
   },
   pickers = {
@@ -85,15 +96,12 @@ require("telescope").setup {
 }
 
 load_extension "fzf"
-load_extension "fzf_writer"
 load_extension "projects"
 
 function M.edit_neovim()
   require("telescope.builtin").find_files {
     cwd = "~/.config/nvim",
     previewer = false,
-    prompt_title = false,
-    results_title = false,
     sorting_strategy = "ascending",
     layout_config = { prompt_position = "top" },
   }
@@ -104,46 +112,47 @@ function M.git_files()
 
   require("telescope.builtin").git_files(themes.get_dropdown {
     cwd = path,
-    prompt_title = false,
-    results_title = false,
     previewer = false,
   })
 end
 
 function M.live_grep()
-  require("telescope").extensions.fzf_writer.staged_grep {
+  require("telescope.builtin").live_grep {
     fzf_separator = "|>",
-    prompt_title = false,
-    results_title = false,
-    preview_title = false,
-    layout_config = { preview_width = 75 },
+    previewer = false,
   }
 end
 
+function M.frecency()
+  require("telescope").extensions.frecency.frecency(themes.get_dropdown {
+    winblend = 10,
+    border = true,
+    previewer = false,
+    path_display = { "shorten" },
+  })
+end
+
 function M.oldfiles()
-  require("telescope.builtin").oldfiles { results_title = false }
+  require("telescope.builtin").oldfiles()
 end
 
 function M.file_browser()
-  require("telescope.builtin").file_browser(
-    themes.get_dropdown { prompt_title = false, previewer = false, hidden = true }
-  )
+  require("telescope.builtin").file_browser(themes.get_dropdown { previewer = false, hidden = true })
 end
 
 function M.project()
-  require("telescope").extensions.projects.projects(themes.get_dropdown { prompt_title = false })
+  require("telescope").extensions.projects.projects(themes.get_dropdown())
 end
 
 function M.git_status()
   require("telescope.builtin").git_status {
-    results_title = false,
     previewer = delta,
     layout_config = { preview_width = 80 },
   }
 end
 
 function M.git_commits()
-  require("telescope.builtin").git_commits { prompt_title = false, results_title = false, previewer = false }
+  require("telescope.builtin").git_commits { previewer = false }
 end
 
 function M.buffers()
@@ -154,12 +163,12 @@ function M.curbuf()
   require("telescope.builtin").current_buffer_fuzzy_find(themes.get_dropdown {
     border = true,
     previewer = false,
-    shorten_path = false,
+    path_display = { "shorten" },
   })
 end
 
 function M.grep_prompt()
-  require("telescope.builtin").grep_string { shorten_path = true, search = vim.fn.input "Grep String > " }
+  require("telescope.builtin").grep_string { path_display = { "shorten" }, search = vim.fn.input "Grep String > " }
 end
 
 function M.search_all_files()
@@ -167,7 +176,7 @@ function M.search_all_files()
 end
 
 function M.code_actions()
-  require("telescope.builtin").lsp_code_actions { prompt_title = false, layout_config = { width = 0.3, height = 0.2 } }
+  require("telescope.builtin").lsp_code_actions { layout_config = { width = 0.3, height = 0.2 } }
 end
 
 function M.colorscheme()
