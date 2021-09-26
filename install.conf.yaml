@@ -2,9 +2,9 @@
     link:
       create: true
       relink: true
+      force: true
 
 - create:
-    - ~/.ssh
     - ~/.config
     - ~/dev
 
