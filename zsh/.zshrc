@@ -1,10 +1,21 @@
 export ZSH="/home/joaom/.oh-my-zsh"
 export PATH=$HOME/.local/bin:$PATH
+# export PATH="$HOME/.miniconda/bin:$PATH"  # commented out by conda initialize
 
 export GO111MODULE='on'
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export PATH=$PATH:$JAVA_HOME/bin
+export ANDROID_HOME=/home/joaom/Android
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export WSL_HOST=$(tail -1 /etc/resolv.conf | cut -d' ' -f2)
+export ADB_SERVER_SOCKET=tcp:$WSL_HOST:5037
 
 export EDITOR='nvim'
 
@@ -36,9 +47,9 @@ alias gbn=__new_branch
 alias ai='sudo apt install '
 alias au='sudo apt update && sudo apt-get upgrade'
 
-source $DOTFILES/zsh/alias_w.zsh
+source ~/.zsh-nvm/zsh-nvm.plugin.zsh
 
-plugins=(nvm ssh-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions)
+plugins=(ssh-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -60,3 +71,21 @@ SPACESHIP_USER_SHOW=always
 SPACESHIP_PROMPT_ADD_NEWLINE=false
 SPACESHIP_CHAR_SYMBOL="❯"
 SPACESHIP_CHAR_SUFFIX=" "
+
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/joaom/.miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/joaom/.miniconda/etc/profile.d/conda.sh" ]; then
+        . "/home/joaom/.miniconda/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/joaom/.miniconda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

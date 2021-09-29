@@ -5,6 +5,7 @@
       force: true
 
 - create:
+    - ~/.ssh
     - ~/.config
     - ~/dev
 
