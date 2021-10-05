@@ -1,8 +1,7 @@
 local M = {}
 
-M.config = function()
+function M.config()
   JM.lualine = {
-    active = true,
     style = "lvim",
     options = {
       icons_enabled = nil,
@@ -26,7 +25,7 @@ M.config = function()
   }
 end
 
-M.setup = function()
+function M.setup()
   require("jm.lualine.styles").update()
   require("jm.lualine.utils").validate_theme()
 
