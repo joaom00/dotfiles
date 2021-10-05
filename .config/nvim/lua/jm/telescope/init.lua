@@ -68,6 +68,9 @@ require("telescope").setup {
     },
   },
   pickers = {
+    find_files = {
+      hidden = true,
+    },
     git_commits = {
       mappings = {
         i = {
@@ -113,6 +116,7 @@ function M.git_files()
   require("telescope.builtin").git_files(themes.get_dropdown {
     cwd = path,
     previewer = false,
+    hidden = true,
   })
 end
 
