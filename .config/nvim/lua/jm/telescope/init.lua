@@ -71,7 +71,12 @@ require("telescope").setup {
     find_files = {
       hidden = true,
     },
+    git_branches = {
+      previewer = false,
+      theme = "dropdown",
+    },
     git_commits = {
+      previewer = false,
       mappings = {
         i = {
           ["<C-o>"] = function(prompt_bufnr)
@@ -87,14 +92,24 @@ require("telescope").setup {
       sort_lastused = true,
       show_all_buffers = true,
       ignore_current_buffer = true,
+      shorten_path = false,
       previewer = false,
       theme = "dropdown",
       mappings = { i = { ["<c-x>"] = "delete_buffer" }, n = { ["<c-x>"] = "delete_buffer" } },
     },
-    oldfiles = { theme = "dropdown", previewer = false },
-    colorscheme = { enable_preview = true },
-    lsp_code_actions = { theme = "cursor" },
-    projects = { theme = "dropdown" },
+    oldfiles = {
+      theme = "dropdown",
+      previewer = false,
+    },
+    colorscheme = {
+      enable_preview = true,
+    },
+    lsp_code_actions = {
+      theme = "cursor",
+    },
+    projects = {
+      theme = "dropdown",
+    },
   },
 }
 
@@ -136,10 +151,6 @@ function M.frecency()
   })
 end
 
-function M.oldfiles()
-  require("telescope.builtin").oldfiles()
-end
-
 function M.file_browser()
   require("telescope.builtin").file_browser(themes.get_dropdown { previewer = false, hidden = true })
 end
@@ -151,16 +162,10 @@ end
 function M.git_status()
   require("telescope.builtin").git_status {
     previewer = delta,
-    layout_config = { preview_width = 80 },
+    layout_config = {
+      preview_width = 80,
+    },
   }
-end
-
-function M.git_commits()
-  require("telescope.builtin").git_commits { previewer = false }
-end
-
-function M.buffers()
-  require("telescope.builtin").buffers { shorten_path = false }
 end
 
 function M.curbuf()
@@ -181,10 +186,6 @@ end
 
 function M.code_actions()
   require("telescope.builtin").lsp_code_actions { layout_config = { width = 0.3, height = 0.2 } }
-end
-
-function M.colorscheme()
-  require("telescope.builtin").colorscheme()
 end
 
 return setmetatable({}, {

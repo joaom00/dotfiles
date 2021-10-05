@@ -37,8 +37,7 @@ map_tele("<space>gg", "grep_prompt")
 -- Git
 map_tele("<space>gs", "git_status")
 map_tele("<space>gc", "git_commits")
--- map_tele('<space>gi', 'git_issues')
--- map_tele('<space>gp', 'git_pr')
+map_tele("<space>gb", "git_branches")
 
 -- Nvim
 map_tele("<space>fb", "buffers")
