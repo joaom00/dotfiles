@@ -22,7 +22,12 @@ function M.formatter()
 end
 
 function M.linter()
-  JM.lang.go.linters = {}
+  JM.lang.go.linters = {
+    -- {
+    --   exe = "golangci_lint",
+    --   args = {},
+    -- },
+  }
 end
 
 function M.lsp()
