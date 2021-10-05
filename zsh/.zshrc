@@ -25,6 +25,8 @@ export JS_PROJECTS=$HOME/dev/js-projects
 export RCT_PROJECTS=$HOME/dev/rct-projects
 export GO_PROJECTS=$HOME/dev/golang
 
+export GPG_TTY=$(tty)
+
 ZSH_THEME="spaceship"
 
 # GIT ALIAS
@@ -35,7 +37,6 @@ alias gpull='git pull'
 alias gd='git diff'
 alias gl='git log'
 alias gadd='git add .'
-
 alias gweb='gh repo view --web'
 
 alias dots='cd $DOTFILES'
@@ -43,13 +44,17 @@ alias dots='cd $DOTFILES'
 __new_branch() {git checkout -b $1}
 alias gbn=__new_branch
 
-
-alias ai='sudo apt install '
+alias ai='sudo apt install'
 alias au='sudo apt update && sudo apt-get upgrade'
+
+alias ya='yarn add'
+alias yad='yarn add -D'
+alias ni='npm install'
+alias nid='npm install -D'
 
 source ~/.zsh-nvm/zsh-nvm.plugin.zsh
 
-plugins=(ssh-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions)
+plugins=(ssh-agent gpg-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -58,9 +63,11 @@ SPACESHIP_PROMPT_ORDER=(
   dir           # Current directory section
   git           # Git section (git_branch + git_status)
   hg            # Mercurial section (hg_branch  + hg_status)
+  package       # Package version
   node          # Node.js section
   golang        # Go section
   docker        # Docker section
+  conda         # conda virtualenv section
   exec_time     # Execution time
   line_sep      # Line break
   vi_mode       # Vi-mode indicator
