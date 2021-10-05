@@ -1,6 +1,7 @@
 [user]
   name = João Pedro
-  email = joaomljcanal@gmail.com
+  email = joaopsilvamagalhaes@gmail.com
+	signingkey = 10C8FF11D3F97E01
 
 [include]
   path = ~/themes.gitconfig
@@ -14,6 +15,7 @@
 
 [commit]
   template = ~/.gitmessage
+	gpgSign = true
 
 [pager]
   diff = delta

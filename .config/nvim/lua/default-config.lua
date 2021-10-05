@@ -9,35 +9,35 @@ P = function(v)
   return v
 end
 
-JM = { leader = "-", colorscheme = "tokyonight", line_wrap_cursor_movement = true, format_on_save = true }
+JM = { leader = "-", colorscheme = "omni", line_wrap_cursor_movement = true, format_on_save = true }
 
 JM.lsp = {
   completion = {
     item_kind = {
-      "   (Text) ",
+      "   (Text) ",
       "   (Method)",
       "   (Function)",
       "   (Constructor)",
-      " ﴲ  (Field)",
-      "[] (Variable)",
+      "   (Field)",
+      "   (Variable)",
       "   (Class)",
       " ﰮ  (Interface)",
       "   (Module)",
-      " 襁 (Property)",
-      "   (Unit)",
+      "   (Property)",
+      " 塞 (Unit)",
       "   (Value)",
       " 練 (Enum)",
       "   (Keyword)",
       "   (Snippet)",
       "   (Color)",
-      "   (File)",
+      "   (File)",
       "   (Reference)",
       "   (Folder)",
       "   (EnumMember)",
       " ﲀ  (Constant)",
-      " ﳤ  (Struct)",
+      "   (Struct)",
       "   (Event)",
-      "   (Operator)",
+      "   (Operator)",
       "   (TypeParameter)",
     },
   },
@@ -45,10 +45,14 @@ JM.lsp = {
     signs = {
       active = true,
       values = {
-        { name = "LspDiagnosticsSignError", text = "" },
-        { name = "LspDiagnosticsSignWarning", text = "" },
-        { name = "LspDiagnosticsSignHint", text = "" },
-        { name = "LspDiagnosticsSignInformation", text = "" },
+        -- { name = "LspDiagnosticsSignError", text = "" },
+        -- { name = "LspDiagnosticsSignWarning", text = "" },
+        -- { name = "LspDiagnosticsSignHint", text = "" },
+        -- { name = "LspDiagnosticsSignInformation", text = "" },
+        { name = "LspDiagnosticsSignError", text = " " },
+        { name = "LspDiagnosticsSignWarning", text = "" },
+        { name = "LspDiagnosticsSignHint", text = "" },
+        { name = "LspDiagnosticsSignInformation", text = "" },
       },
     },
     virtual_text = false,
@@ -75,7 +79,10 @@ function JM.mapper(mode, is_noremap)
 end
 
 function JM.notify(message, level, title)
-  local notify = require "notify"
+  local status_ok, notify = pcall(require, "notify")
+  if not status_ok then
+    return
+  end
   level = level or "error"
 
   notify(message, level, { title = title or "Dependecy Error" })
@@ -111,4 +118,4 @@ for _, lang in pairs(langs) do
   load_lang(lang)
 end
 
-require("jm.json_schemas").setup()
+-- require("jm.json_schemas").setup()

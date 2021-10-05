@@ -138,7 +138,6 @@ return require("packer").startup(function(use)
   }
   use {
     "lewis6991/gitsigns.nvim",
-    event = "BufRead",
     config = function()
       require("jm.gitsigns").setup()
     end,
@@ -204,10 +203,10 @@ return require("packer").startup(function(use)
     config = function()
       require("colors").init()
     end,
+    disable = true,
   }
   use {
     "kyazdani42/nvim-web-devicons",
-    after = "nvim-base16.lua",
     config = function()
       require("jm.icons").setup()
     end,
@@ -262,7 +261,6 @@ return require("packer").startup(function(use)
     end,
   }
 
-  use { "~/dev/markdown.nvim", rtp = "~/dev/markdown.nvim" }
-  use { "~/dev/discussions.nvim", rtp = "~/dev/discussions.nvim" }
-  use { "~/dev/omni.nvim", rtp = "~/dev/omni.nvim" }
+  use { "~/dev/omni.nvim" }
+  --  use { "~/dev/discussions.nvim" }
 end)

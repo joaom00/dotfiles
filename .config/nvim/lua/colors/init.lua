@@ -1,16 +1,15 @@
 local M = {}
 
 function M.init(theme)
-  theme = theme or "tokyonight"
+  theme = theme or ""
 
   local status_ok, base16 = pcall(require, "base16")
-
-  if status_ok then
-    base16(base16.themes(theme), true)
-  else
+  if not status_ok then
     JM.notify "Missing base16 dependency"
     return
   end
+
+  base16(base16.themes(theme), true)
 end
 
 function M.get(theme)
