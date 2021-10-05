@@ -39,7 +39,7 @@ nnoremap("gr", "<cmd>lua vim.lsp.buf.references()<CR>")
 nnoremap("gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
 nnoremap("gp", "<cmd>lua require'lsp.peek'.Peek('definition')<CR>")
 nnoremap("K", "<cmd>lua vim.lsp.buf.hover()<CR>")
-nnoremap("<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
+nnoremap("gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
 nnoremap("<C-p>", "<cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts = {border = 'single'}})<CR>")
 nnoremap("<C-n>", "<cmd>lua vim.lsp.diagnostic.goto_next({popup_opts = {border = 'single'}})<CR>")
 
