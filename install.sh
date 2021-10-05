@@ -31,7 +31,7 @@ fi
 ZSHPLUGINS=("zsh-autosuggestions" "zsh-completions")
 
 for p in ${ZSHPLUGINS[@]}; do
-  if [ ! -d "$ZSH_CUSTOM/plugins/$p" ]
+  if [ ! -d "$ZSH_CUSTOM/plugins/$p" ]; then
     echo "--------------------------------------"
     echo "Cloning $p plugin"
     echo "--------------------------------------"
