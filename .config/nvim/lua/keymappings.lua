@@ -65,7 +65,7 @@ xnoremap("<A-j>", "<cmd>m '>+1<CR>gv-gv")
 xnoremap("<A-k>", "<cmd>m '<-2<CR>gv-gv")
 
 -- Comment
-nnoremap("<S-c>", "<cmd>CommentToggle<CR>")
-vnoremap("<S-c>", ":CommentToggle<CR>")
+nnoremap("/", "<cmd>CommentToggle<CR>")
+vnoremap("/", ":CommentToggle<CR>")
 
 nnoremap("<Space>go", "<cmd>lua vim.cmd('colorscheme xcodedarkhc')<CR>")
