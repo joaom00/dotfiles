@@ -119,7 +119,7 @@ fi
 
 echo "Dotfiles -------------------------------------------------"
 
-DOTFILES="~/.dotfiles"
+export DOTFILES="$HOME/.dotfiles"
 
 if [ -d "$DOTFILES" ]; then
   echo "Dotfiles have already been cloned into the home dir"
