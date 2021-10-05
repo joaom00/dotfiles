@@ -20,6 +20,7 @@ local gcommit = Terminal:new {
   cmd = "git commit",
   hidden = true,
   direction = "float",
+  start_in_insert = true,
   close_on_exit = true,
   float_opts = { border = "curved" },
   on_close = function()
