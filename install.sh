@@ -18,7 +18,8 @@ if [ ! -d "$OHMYZSH" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || echo "Failed to install ohmyzsh"
 fi
 
-SPACESHIP="~/.oh-my-zsh/custom/themes/spaceship-prompt"
+ZSH_CUSTOM="$OHMYZSH/custom"
+SPACESHIP="$OHMYZSH/custom/themes/spaceship-prompt"
 if [ ! -d "$SPACESHIP" ]; then 
   echo "----------------------------"
   echo "  Cloning spaceship theme   "
