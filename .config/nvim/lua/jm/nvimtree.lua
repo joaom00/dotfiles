@@ -3,21 +3,41 @@ local nnoremap = JM.mapper "n"
 
 function M.config()
   JM.nvimtree = {
-    side = "left",
-    width = 40,
-    show_icons = { git = 1, folders = 1, files = 1, folder_arrows = 1 },
-    ignore = { ".git", "node_modules", ".cache" },
-    auto_open = 0,
-    auto_close = 1,
-    hide_dotfiles = 0,
-    quit_on_open = 0,
-    follow = 1,
+    setup = {
+      update_cwd = 1,
+      disable_netrw = 0,
+      hijack_netrw = 0,
+      auto_open = 0,
+      auto_close = 1,
+      tab_open = 0,
+      update_focused_file = {
+        enable = 1,
+      },
+      lsp_diagnostics = 1,
+      view = {
+        width = 40,
+        side = "left",
+        auto_resize = false,
+        mappings = {
+          custom_only = false,
+        },
+      },
+    },
+    respect_buf_cwd = 1,
     indent_markers = 1,
+    show_icons = {
+      files = 1,
+      git = 1,
+      folders = 1,
+      folder_arrows = 1,
+    },
+    ignore = { ".git", "node_modules", ".cache" },
+    special_files = {},
+    quit_on_open = 0,
+    hide_dotfiles = 0,
     git_hl = 1,
     root_folder_modifier = ":t",
-    tab_open = 0,
     allow_resize = 1,
-    lsp_diagnostics = 1,
     auto_ignore_ft = { "startify", "dashboard" },
     icons = {
       default = "",
@@ -31,7 +51,13 @@ function M.config()
         untracked = "U",
         ignored = "◌",
       },
-      folder = { default = "", open = "", empty = "", empty_open = "", symlink = "" },
+      folder = {
+        default = "",
+        open = "",
+        empty = "",
+        empty_open = "",
+        symlink = "",
+      },
     },
   }
 end
@@ -41,8 +67,8 @@ function M.keymappings()
 end
 
 function M.on_open()
-  if package.loaded["bufferline.state"] and JM.nvimtree.side == "left" then
-    require("bufferline.state").set_offset(JM.nvimtree.width + 1, "")
+  if package.loaded["bufferline.state"] and JM.nvimtree.setup.view.side == "left" then
+    require("bufferline.state").set_offset(JM.nvimtree.setup.view.width + 1, "")
   end
 end
 
@@ -77,17 +103,12 @@ function M.setup()
     g["nvim_tree_" .. opt] = val
   end
 
-  -- Implicitly update nvim-tree when project module is active
-  vim.g.nvim_tree_update_cwd = 1
-  vim.g.nvim_tree_respect_buf_cwd = 1
-  vim.g.nvim_tree_disable_netrw = 0
-  vim.g.nvim_tree_hijack_netrw = 0
-  vim.g.netrw_banner = 0
+  g.netrw_banner = 0
 
   local tree_cb = nvim_tree_config.nvim_tree_callback
 
-  if not g.nvim_tree_bindings then
-    g.nvim_tree_bindings = {
+  if not JM.nvimtree.setup.view.mappings.list then
+    JM.nvimtree.setup.view.mappings.list = {
       { key = { "l", "<CR>", "o" }, cb = tree_cb "edit" },
       { key = "h", cb = tree_cb "close_node" },
       { key = "v", cb = tree_cb "vsplit" },
@@ -104,6 +125,8 @@ function M.setup()
   end
 
   vim.cmd "au WinClosed * lua require('jm.nvimtree').on_close()"
+
+  require("nvim-tree").setup(JM.nvimtree.setup)
 end
 
 return M
