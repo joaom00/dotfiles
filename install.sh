@@ -31,27 +31,18 @@ fi
 ZSHPLUGINS=("zsh-autosuggestions" "zsh-completions")
 
 for p in ${ZSHPLUGINS[@]}; do
-  echo "--------------------------------------"
-  echo "Cloning $p plugin"
-  echo "--------------------------------------"
-  git clone https://github.com/zsh-users/"$p" ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/"$p"
+  if [ ! -d "$ZSH_CUSTOM/plugins/$p" ]
+    echo "--------------------------------------"
+    echo "Cloning $p plugin"
+    echo "--------------------------------------"
+    git clone https://github.com/zsh-users/"$p" ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/"$p"
+  fi
 done
 
 echo "-------------------------------------------------"
 echo "Cloning fast-syntax-highlighting plugin"
 echo "-------------------------------------------------"
 git clone https://github.com/zdharma/fast-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
-
-
-# echo "Cloning zsh-autosuggestions plugin..."
-# git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-# 
-# echo "Cloning zsh-completions plugin..."
-# git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
-# 
-# echo "Cloning fast-syntax-highlighting plugin..."
-# git clone https://github.com/zdharma/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
-
 
 if ! exists brew; then
   echo "Installing homebrew..."
