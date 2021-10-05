@@ -22,7 +22,11 @@ function M.formatter()
 end
 
 function M.linter()
-  JM.lang.javascriptreact.linters = {}
+  JM.lang.javascriptreact.linters = {
+    {
+      exe = "eslint",
+    },
+  }
 end
 
 function M.lsp()

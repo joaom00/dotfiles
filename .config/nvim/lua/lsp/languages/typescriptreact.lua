@@ -9,6 +9,7 @@ function M.formatter()
     {
       exe = "prettier",
       args = {},
+      -- args = { "--single-quote", "--no-semi" },
     },
     -- {
     --   exe = "prettierd",
@@ -23,12 +24,12 @@ end
 
 function M.linter()
   JM.lang.typescriptreact.linters = {
-    -- {
-    --   exe = "eslint"
-    -- }
     {
-      exe = "eslint_d",
+      exe = "eslint",
     },
+    -- {
+    --   exe = "eslint_d",
+    -- },
   }
 end
 

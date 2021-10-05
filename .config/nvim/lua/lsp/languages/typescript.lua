@@ -22,7 +22,11 @@ function M.formatter()
 end
 
 function M.linter()
-  JM.lang.typescript.linters = {}
+  JM.lang.typescript.linters = {
+    {
+      exe = "eslint",
+    },
+  }
 end
 
 function M.lsp()

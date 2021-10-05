@@ -23,12 +23,12 @@ end
 
 function M.linter()
   JM.lang.javascript.linters = {
-    -- {
-    --   exe = "eslint"
-    -- }
     {
-      exe = "eslint_d",
+      exe = "eslint",
     },
+    -- {
+    --   exe = "eslint_d",
+    -- },
   }
 end
 
