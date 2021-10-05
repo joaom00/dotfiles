@@ -18,5 +18,9 @@
   "Styled components theme": {
     "prefix": "theme",
     "body": ["${({ theme }) => css`", "\t$0", "`}"]
+  },
+  "Import statement": {
+    "prefix": "imp",
+    "body": "import ${2:module} from '${1:package}'"
   }
 }

@@ -1,0 +1,6 @@
+{
+  "Error Statement": {
+    "prefix": "err",
+    "body": "if err != nil {\n\t$0\n}"
+  }
+}

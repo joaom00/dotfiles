@@ -9,6 +9,12 @@
           "typescriptreact"
         ],
         "path": "./react.json"
+      },
+      {
+        "language": [
+          "go"
+        ],
+        "path": "./go.json"
       }
     ]
   }
