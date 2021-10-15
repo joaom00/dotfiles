@@ -214,12 +214,13 @@ return require("packer").startup(function(use)
 
   -- UTILS
   use { "windwp/nvim-ts-autotag", event = "InsertEnter" }
+  use { "JoosepAlviste/nvim-ts-context-commentstring" }
   use { "p00f/nvim-ts-rainbow" }
   use {
-    "terrortylor/nvim-comment",
+    "numToStr/Comment.nvim",
     event = "BufRead",
     config = function()
-      require("nvim_comment").setup()
+      require("jm.comment").setup()
     end,
   }
   use {

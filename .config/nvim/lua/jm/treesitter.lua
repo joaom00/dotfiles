@@ -12,7 +12,7 @@ function M.config()
     ignore_install = { "haskell" },
     matchup = { enable = true },
     highlight = { enable = true, additional_vim_regex_highlighting = true, disable = { "latex" } },
-    context_commentstring = { enable = false, config = { css = "// %s" } },
+    context_commentstring = { enable = true, config = { css = "// %s" } },
     indent = { enable = { "javascriptreact" } },
     autotag = { enable = true },
 
