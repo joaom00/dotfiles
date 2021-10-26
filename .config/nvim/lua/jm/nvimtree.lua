@@ -7,13 +7,21 @@ function M.config()
       update_cwd = 1,
       disable_netrw = 0,
       hijack_netrw = 0,
-      auto_open = 0,
-      auto_close = 1,
-      tab_open = 0,
+      open_on_setup = false,
+      auto_close = true,
+      open_on_tab = false,
       update_focused_file = {
-        enable = 1,
+        enable = true,
       },
-      lsp_diagnostics = 1,
+      diagnostics = {
+        enable = true,
+        icons = {
+          hint = "",
+          info = "",
+          warning = "",
+          error = "",
+        },
+      },
       view = {
         width = 40,
         side = "left",

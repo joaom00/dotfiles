@@ -21,9 +21,14 @@ function M.config()
       name = "Js",
     },
     md = {
-      icon = "",
-      color = "#519aba",
+      icon = "",
+      color = colors.teal,
       name = "Md",
+    },
+    [".gitignore"] = {
+      icon = "",
+      color = "#E64A19",
+      name = "GitIgnore",
     },
   }
   -- icons.setup {
