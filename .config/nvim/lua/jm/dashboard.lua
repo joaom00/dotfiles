@@ -11,12 +11,12 @@ function M.config()
       [[███████ ██   ██ ██   ██ ███████ ███████      ███ ███  ███████     ██      ███████ ██   ██    ██        ██   ██      ██████  ██   ██ ██      ██ ███████   ██    ]],
     },
     custom_section = {
-      a = { description = { "  Find File             " }, command = "lua require('jm.telescope').search_all_files()" },
-      b = { description = { "  Recents               " }, command = "Telescope oldfiles" },
-      c = { description = { "  Projects              " }, command = "lua require('jm.telescope').project()" },
-      d = { description = { "  Find Word             " }, command = "lua require('jm.telescope').live_grep()" },
-      e = { description = { "  Neovim Files          " }, command = "lua require('jm.telescope').edit_neovim()" },
-      f = { description = { "  Colorscheme           " }, command = "Telescope colorscheme" },
+      a = { description = { "  Find File     " }, command = "lua require('jm.telescope').search_all_files()" },
+      b = { description = { "  Recents       " }, command = "Telescope oldfiles" },
+      c = { description = { "  Projects      " }, command = "lua require('jm.telescope').project()" },
+      d = { description = { "  Find Word     " }, command = "lua require('jm.telescope').live_grep()" },
+      e = { description = { "  Neovim Files  " }, command = "lua require('jm.telescope').edit_neovim()" },
+      f = { description = { "  Colorscheme   " }, command = "Telescope colorscheme" },
     },
   }
 end
