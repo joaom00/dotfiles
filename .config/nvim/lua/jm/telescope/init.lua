@@ -13,6 +13,7 @@ local function load_extension(extension)
 end
 
 local actions = require "telescope.actions"
+local actions_state = require "telescope.actions.state"
 local themes = require "telescope.themes"
 local previewers = require "telescope.previewers"
 
@@ -81,7 +82,7 @@ require("telescope").setup {
         i = {
           ["<C-o>"] = function(prompt_bufnr)
             actions.close(prompt_bufnr)
-            local value = actions.get_selected_entry(prompt_bufnr).value
+            local value = actions_state.get_selected_entry(prompt_bufnr).value
             vim.cmd("DiffviewOpen " .. value .. "~1.." .. value)
           end,
         },
