@@ -52,6 +52,8 @@ alias yad='yarn add -D'
 alias ni='npm install'
 alias nid='npm install -D'
 
+alias upgo='sudo ./update-golang.sh'
+
 source ~/.zsh-nvm/zsh-nvm.plugin.zsh
 
 plugins=(ssh-agent gpg-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions)
@@ -63,7 +65,7 @@ SPACESHIP_PROMPT_ORDER=(
   dir           # Current directory section
   git           # Git section (git_branch + git_status)
   hg            # Mercurial section (hg_branch  + hg_status)
-  package       # Package version
+#  package       # Package version
   node          # Node.js section
   golang        # Go section
   docker        # Docker section

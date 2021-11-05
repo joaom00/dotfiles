@@ -19,6 +19,7 @@
     ~/.config/nvim: .config/nvim
     ~/.config/gh/config.yml: .config/gh/config.yml
     ~/.config/pgcli/config: .config/pgcli/config
+    ~/update-golang.sh: update-golang/update-golang.sh
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
