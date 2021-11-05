@@ -116,6 +116,7 @@ require("telescope").setup {
 
 load_extension "fzf"
 load_extension "projects"
+load_extension "ghn"
 
 function M.edit_neovim()
   require("telescope.builtin").find_files {
@@ -129,11 +130,10 @@ end
 function M.git_files()
   local path = vim.fn.expand "%:h"
 
-  require("telescope.builtin").git_files(themes.get_dropdown {
+  require("telescope.builtin").git_files {
     cwd = path,
-    previewer = false,
     hidden = true,
-  })
+  }
 end
 
 function M.live_grep()
@@ -187,6 +187,10 @@ end
 
 function M.code_actions()
   require("telescope.builtin").lsp_code_actions { layout_config = { width = 0.3, height = 0.2 } }
+end
+
+function M.git_notification()
+  require("telescope").extensions.ghn.notifications()
 end
 
 return setmetatable({}, {

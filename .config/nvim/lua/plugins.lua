@@ -261,7 +261,17 @@ return require("packer").startup(function(use)
       require("notify").setup { timeout = 3000 }
     end,
   }
+  use {
+    "rlch/github-notifications.nvim",
+    cond = function()
+      return vim.fn.executable "gh"
+    end,
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+  }
 
   use { "~/dev/omni.nvim" }
-  --  use { "~/dev/discussions.nvim" }
+  use { "~/dev/404.nvim" }
 end)
