@@ -56,6 +56,13 @@ alias upgo='sh update-golang.sh'
 
 source ~/.zsh-nvm/zsh-nvm.plugin.zsh
 
+take() {
+  mkdir "$1";
+  cd "$1";
+}
+
+alias take='take'
+
 plugins=(ssh-agent gpg-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions)
 
 source $ZSH/oh-my-zsh.sh

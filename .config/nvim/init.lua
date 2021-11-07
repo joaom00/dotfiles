@@ -4,6 +4,8 @@ require "settings"
 require "theme"
 require "plugins"
 
+vim.g.omni_dev = true
+vim.g.purple_daze_dev = true
 vim.cmd("colorscheme " .. JM.colorscheme)
 
 vim.g.mapleader = JM.leader

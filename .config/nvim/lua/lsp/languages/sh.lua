@@ -6,10 +6,10 @@ end
 
 function M.formatter()
   JM.lang.sh.formatters = {
-    -- {
-    --   exe = "shfmt",
-    --   args = {},
-    -- },
+    {
+      exe = "shfmt",
+      args = {},
+    },
   }
 end
 
