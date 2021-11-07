@@ -52,7 +52,7 @@ alias yad='yarn add -D'
 alias ni='npm install'
 alias nid='npm install -D'
 
-alias upgo='sudo ./update-golang.sh'
+alias upgo='sh update-golang.sh'
 
 source ~/.zsh-nvm/zsh-nvm.plugin.zsh
 
