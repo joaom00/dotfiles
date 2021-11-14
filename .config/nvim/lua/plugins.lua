@@ -1,30 +1,19 @@
-local execute = vim.api.nvim_command
 local fn = vim.fn
-
 local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-
+local packer_bootstrap
 if fn.empty(fn.glob(install_path)) > 0 then
-  execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
-  execute "packadd packer.nvim"
+  packer_bootstrap = fn.system {
+    "git",
+    "clone",
+    "--depth",
+    "1",
+    "https://github.com/wbthomason/packer.nvim",
+    install_path,
+  }
 end
-
-local packer_ok, packer = pcall(require, "packer")
-if not packer_ok then
-  return
-end
-
-packer.init {
-  compile_path = require("packer.util").join_paths(vim.fn.stdpath "config", "plugin", "packer_compiled.vim"),
-  git = { clone_timeout = 300 },
-  display = {
-    open_fn = function()
-      return require("packer.util").float { border = "single" }
-    end,
-  },
-}
 
 return require("packer").startup(function(use)
-  use "wbthomason/packer.nvim"
+  use { "wbthomason/packer.nvim" }
 
   -- DEPS
   use { "tami5/sql.nvim" }
@@ -82,6 +71,7 @@ return require("packer").startup(function(use)
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/cmp-path" },
       { "hrsh7th/cmp-nvim-lua" },
+      { "petertriho/cmp-git" },
     },
   }
 
@@ -168,7 +158,7 @@ return require("packer").startup(function(use)
 
   -- STATUS LINE & BUFFERLINE
   use {
-    "shadmansaleh/lualine.nvim",
+    "nvim-lualine/lualine.nvim",
     config = function()
       require("jm.lualine").setup()
     end,
@@ -229,7 +219,6 @@ return require("packer").startup(function(use)
     config = function()
       require("jm.autopairs").setup()
     end,
-    disable = true,
   }
   use {
     "norcalli/nvim-colorizer.lua",
@@ -261,17 +250,31 @@ return require("packer").startup(function(use)
       require("notify").setup { timeout = 3000 }
     end,
   }
+  use { "rlch/github-notifications.nvim" }
   use {
-    "rlch/github-notifications.nvim",
-    cond = function()
-      return vim.fn.executable "gh"
+    "phaazon/hop.nvim",
+    branch = "v1", -- optional but strongly recommended
+    config = function()
+      -- you can configure Hop the way you like here; see :h hop-config
+      require("hop").setup { keys = "etovxqpdygfblzhckisuran" }
     end,
-    requires = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-    },
+  }
+  use {
+    "abecodes/tabout.nvim",
+    wants = { "nvim-treesitter" },
+    after = { "nvim-cmp" },
+    config = function()
+      require("tabout").setup {
+        tabkey = "<c-o>",
+        ignore_beginning = false,
+      }
+    end,
   }
 
   use { "~/dev/omni.nvim" }
   use { "~/dev/404.nvim" }
+
+  if packer_bootstrap then
+    require("packer").sync()
+  end
 end)
