@@ -64,4 +64,5 @@ inoremap("<A-k>", "<Esc><cmd>m .-2<CR>==gi")
 xnoremap("<A-j>", "<cmd>m '>+1<CR>gv-gv")
 xnoremap("<A-k>", "<cmd>m '<-2<CR>gv-gv")
 
-nnoremap("<Space>go", "<cmd>lua vim.cmd('colorscheme xcodedarkhc')<CR>")
+nnoremap("s", "<cmd>lua require('hop').hint_char1()<CR>")
+nnoremap("fs", "<cmd>GoFillStruct<CR>")
