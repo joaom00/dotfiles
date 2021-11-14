@@ -2,6 +2,20 @@ export ZSH="/home/joaom/.oh-my-zsh"
 export PATH=$HOME/.local/bin:$PATH
 # export PATH="$HOME/.miniconda/bin:$PATH"  # commented out by conda initialize
 
+setopt autocd extendedglob nomatch menucomplete
+setopt interactive_comments
+stty stop undef
+zle_highlight=('paste:none')
+
+unsetopt BEEP
+
+autoload -Uz compinit
+compinit -i
+zstyle ':completion:*' menu select
+_comp_options+=(globdots)
+
+autoload -Uz colors && colors
+
 export GO111MODULE='on'
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
@@ -28,6 +42,9 @@ export GO_PROJECTS=$HOME/dev/golang
 export GPG_TTY=$(tty)
 
 ZSH_THEME="spaceship"
+
+alias vi='nvim'
+alias vim='nvim'
 
 # GIT ALIAS
 alias gs='git status'
@@ -56,12 +73,12 @@ alias upgo='sh update-golang.sh'
 
 source ~/.zsh-nvm/zsh-nvm.plugin.zsh
 
-take() {
-  mkdir "$1";
-  cd "$1";
+__take() {
+  mkdir $1;
+  cd $1;
 }
 
-alias take='take'
+alias take=__take
 
 plugins=(ssh-agent gpg-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions)
 
