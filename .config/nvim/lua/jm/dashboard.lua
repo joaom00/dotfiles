@@ -26,15 +26,6 @@ function M.setup()
   for k, v in pairs(JM.dashboard) do
     vim.g["dashboard_" .. k] = v
   end
-
-  vim.cmd "let packages = len(globpath('~/.local/share/lunarvim/site/pack/packer/start', '*', 0, 1))"
-
-  vim.api.nvim_exec(
-    [[
-    let g:dashboard_custom_footer = ['Loaded '..packages..' plugins  ']
-]],
-    false
-  )
 end
 
 return M
