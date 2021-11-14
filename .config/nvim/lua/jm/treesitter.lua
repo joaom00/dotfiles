@@ -8,14 +8,22 @@ local M = {}
 
 function M.config()
   treesitter_configs.setup {
-    ensure_installed = "all",
-    ignore_install = { "haskell" },
-    matchup = { enable = true },
-    highlight = { enable = true, additional_vim_regex_highlighting = true, disable = { "latex" } },
-    context_commentstring = { enable = true, config = { css = "// %s" } },
-    indent = { enable = { "javascriptreact" } },
+    ensure_installed = "maintained",
+    highlight = { enable = true },
+    indent = { enable = true },
     autotag = { enable = true },
-
+    autopairs = { enable = true },
+    context_commentstring = { enable = true, config = { css = "// %s" } },
+    rainbow = {
+      enable = true,
+      colors = {
+        "royalblue3",
+        "darkorange3",
+        "seagreen3",
+        "firebrick",
+        "darkorchid3",
+      },
+    },
     playground = {
       enable = true,
       disable = {},
@@ -34,7 +42,6 @@ function M.config()
         show_help = "?",
       },
     },
-    rainbow = { enable = true, extended_mode = true, max_file_lines = 1000 },
   }
 end
 
