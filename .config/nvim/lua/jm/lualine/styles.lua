@@ -1,7 +1,10 @@
-local M = {}
 local components = require "jm.lualine.components"
+local ghn_count = require("github-notifications").statusline_notification_count
+local pkg_info_loading = require("package-info").get_status()
 
 local styles = { lvim = nil, default = nil, none = nil }
+
+local M = {}
 
 styles.none = {
   style = "none",
@@ -51,8 +54,15 @@ styles.lvim = {
   sections = {
     lualine_a = { components.mode },
     lualine_b = { components.branch, components.filename },
-    lualine_c = { components.diff, require("github-notifications").statusline_notification_count, components.python_env },
-    lualine_x = { components.diagnostics, components.treesitter, components.spaces, components.lsp, components.filetype },
+    lualine_c = { components.diff, components.python_env, pkg_info_loading },
+    lualine_x = {
+      components.diagnostics,
+      ghn_count,
+      components.treesitter,
+      components.spaces,
+      components.lsp,
+      components.filetype,
+    },
     lualine_y = {},
     lualine_z = { components.scrollbar },
   },

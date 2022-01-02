@@ -3,6 +3,10 @@
     "prefix": "function",
     "body": "function ${1:name}(${2:params}) {\n\t$3\n}"
   },
+  "Testing describe block": {
+    "prefix": "descri",
+    "body": "describe('${1:text}', () => {\n\tit('should ${2:text}', () => {\n\t\t$3\n\t})\n})"
+  },
   "Testing it block": {
     "prefix": "it",
     "body": "it('should ${1:description}', () => {\n\t$2\n})"

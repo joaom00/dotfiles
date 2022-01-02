@@ -65,4 +65,5 @@ xnoremap("<A-j>", "<cmd>m '>+1<CR>gv-gv")
 xnoremap("<A-k>", "<cmd>m '<-2<CR>gv-gv")
 
 nnoremap("s", "<cmd>lua require('hop').hint_char1()<CR>")
-nnoremap("fs", "<cmd>GoFillStruct<CR>")
+
+nnoremap("<leader>nu", "<cmd>lua require('package-info').update()<CR>")

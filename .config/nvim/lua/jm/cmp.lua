@@ -202,12 +202,14 @@ function M.config()
       { name = "crates" },
     },
     mapping = {
+      ["<C-k>"] = cmp.mapping.select_prev_item(),
+      ["<C-j>"] = cmp.mapping.select_next_item(),
       ["<C-d>"] = cmp.mapping.scroll_docs(-4),
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
       ["<Tab>"] = cmp.mapping(function()
-        if cmp.visible() then
-          cmp.select_next_item()
-        elseif luasnip.expand_or_jumpable() then
+        -- if cmp.visible() then
+        -- cmp.select_next_item()
+        if luasnip.expand_or_jumpable() then
           vim.fn.feedkeys(T "<Plug>luasnip-expand-or-jump", "")
         elseif check_backspace() then
           vim.fn.feedkeys(T "<Tab>", "n")
@@ -221,9 +223,9 @@ function M.config()
         "s",
       }),
       ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif inside_snippet() and luasnip.jumpable(-1) then
+        -- if cmp.visible() then
+        --   cmp.select_prev_item()
+        if inside_snippet() and luasnip.jumpable(-1) then
           luasnip.jump(-1)
         else
           fallback()

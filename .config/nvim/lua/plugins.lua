@@ -39,14 +39,7 @@ return require("packer").startup(function(use)
       require("jm.lsp_signature").setup()
     end,
   }
-  use {
-    "kabouzeid/nvim-lspinstall",
-    event = "VimEnter",
-    config = function()
-      local lspinstall = require "lspinstall"
-      lspinstall.setup()
-    end,
-  }
+  use { "williamboman/nvim-lsp-installer" }
 
   -- TREESITTER
   use {
@@ -268,6 +261,14 @@ return require("packer").startup(function(use)
         tabkey = "<c-o>",
         ignore_beginning = false,
       }
+    end,
+  }
+  use { "pantharshit00/vim-prisma" }
+  use {
+    "vuki656/package-info.nvim",
+    requires = "MunifTanjim/nui.nvim",
+    config = function()
+      require("package-info").setup()
     end,
   }
 

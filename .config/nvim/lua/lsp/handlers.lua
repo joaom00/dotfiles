@@ -4,7 +4,7 @@ function M.setup()
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     virtual_text = JM.lsp.diagnostics.virtual_text,
     signs = JM.lsp.diagnostics.signs.active,
-    underline = JM.lsp.document_highlight
+    underline = JM.lsp.document_highlight,
   })
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = function(_, result, ctx, _)
@@ -13,12 +13,12 @@ function M.setup()
       signs = JM.lsp.diagnostics.signs,
       underline = JM.lsp.diagnostics.underline,
       update_in_insert = JM.lsp.diagnostics.update_in_insert,
-      severity_sort = JM.lsp.diagnostics.severity_sort
+      severity_sort = JM.lsp.diagnostics.severity_sort,
     }
     local uri = result.uri
     local bufnr = vim.uri_to_bufnr(uri)
 
-    if not bufnr then 
+    if not bufnr then
       return
     end
 
@@ -27,7 +27,9 @@ function M.setup()
     for i, v in ipairs(diagnostics) do
       local source = v.source
       if source then
-        if string.find(source, "/") then source = string.sub(v.source, string.find(v.source, "([%w-_]+)$")) end
+        if string.find(source, "/") then
+          source = string.sub(v.source, string.find(v.source, "([%w-_]+)$"))
+        end
         diagnostics[i].message = string.format("%s: %s", source, v.message)
       else
         diagnostics[i].message = string.format("%s", v.message)
@@ -40,15 +42,19 @@ function M.setup()
 
     vim.lsp.diagnostic.save(diagnostics, bufnr, ctx.client_id)
 
-    if not vim.api.nvim_buf_is_loaded(bufnr) then return end
+    if not vim.api.nvim_buf_is_loaded(bufnr) then
+      return
+    end
 
-    vim.lsp.diagnostic.display(diagnostics, bufnr, ctx.client_id, config)
+    -- vim.lsp.diagnostic.on_publish_diagnostics(diagnostics, bufnr, ctx.client_id, config)
   end
 
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {border = JM.lsp.popup_border})
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = JM.lsp.popup_border })
 
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help,
-                                                                {border = JM.lsp.popup_border})
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+    vim.lsp.handlers.signature_help,
+    { border = JM.lsp.popup_border }
+  )
 end
 
 return M

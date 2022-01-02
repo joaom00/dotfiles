@@ -140,7 +140,7 @@ end
 function M.setup()
   M.config()
   M.keymappings()
-  M.sanediffdefaults()
+  -- M.sanediffdefaults()
 end
 
 return M

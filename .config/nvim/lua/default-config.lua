@@ -109,7 +109,9 @@ local langs = {
   "sh",
   "typescript",
   "typescriptreact",
+  "tailwindcss",
   "vim",
+  "vue",
   "yaml",
 }
 
@@ -118,4 +120,4 @@ for _, lang in pairs(langs) do
   load_lang(lang)
 end
 
--- require("jm.json_schemas").setup()
+require("jm.json_schemas").setup()

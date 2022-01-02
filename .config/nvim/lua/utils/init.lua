@@ -3,7 +3,7 @@ local utils = {}
 function utils.toggle_autoformat()
   if JM.format_on_save then
     require("jm.autocmds").define_augroups {
-      autoformat = { { "BufWritePre", "*", ":silent lua vim.lsp.buf.formatting_sync()" } },
+      autoformat = { { "BufWritePre", "*", ":silent lua vim.lsp.buf.formatting_sync({}, 1000)" } },
     }
   end
 
