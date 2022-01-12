@@ -1,1 +1,1 @@
-require("lsp").setup "c"
+require("lsp").setup "clangd"

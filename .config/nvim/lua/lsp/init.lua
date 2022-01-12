@@ -9,28 +9,7 @@ function M.config()
   end
 
   require("lsp.handlers").setup()
-end
-
-local function lsp_highlight_document(client)
-  if JM.lsp.document_highlight == false then
-    return -- we don't need further
-  end
-  -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec(
-      [[
-      hi LspReferenceRead cterm=bold ctermbg=red guibg=#464646
-      hi LspReferenceText cterm=bold ctermbg=red guibg=#464646
-      hi LspReferenceWrite cterm=bold ctermbg=red guibg=#464646
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]],
-      false
-    )
-  end
+  require("lsp.null-ls").setup()
 end
 
 nnoremap("gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
@@ -49,13 +28,60 @@ function M.common_capabilities()
   capabilities.textDocument.completion.completionItem.resolveSupport = {
     properties = { "documentation", "detail", "additionalTextEdits" },
   }
+
   local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-  if not status_ok then
-    JM.notify "Missing cmp_nvim_lsp dependency"
+  if status_ok then
+    capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+  end
+
+  return capabilities
+end
+
+local function lsp_highlight_document(client)
+  -- Set autocommands conditional on server_capabilities
+  if client.resolved_capabilities.document_highlight then
+    vim.api.nvim_exec(
+      [[
+      augroup lsp_document_highlight
+        autocmd! * <buffer>
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]],
+      false
+    )
+  end
+end
+
+local function lsp_code_lens_refresh(client)
+  if client.resolved_capabilities.code_lens then
+    vim.api.nvim_exec(
+      [[
+      augroup lsp_code_lens_refresh
+        autocmd! * <buffer>
+        autocmd InsertLeave <buffer> lua vim.lsp.codelens.refresh()
+        autocmd InsertLeave <buffer> lua vim.lsp.codelens.display()
+      augroup END
+    ]],
+      false
+    )
+  end
+end
+
+local function select_default_formater(client)
+  if client.name == "null-ls" or not client.resolved_capabilities.document_formatting then
     return
   end
-  capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
-  return capabilities
+  vim.notify("Checking for formatter overriding for " .. client.name, vim.log.levels.INFO)
+  local formatters = require "lsp.null-ls.formatters"
+  local client_filetypes = client.config.filetypes or {}
+  for _, filetype in ipairs(client_filetypes) do
+    if #vim.tbl_keys(formatters.list_registered(filetype)) > 0 then
+      --       JM.notify("Formatter overriding detected. Disabling formatting capabilities for " .. client.name)
+      client.resolved_capabilities.document_formatting = false
+      client.resolved_capabilities.document_range_formatting = false
+    end
+  end
 end
 
 function M.get_ls_capabilities(client_id)
@@ -86,63 +112,52 @@ function M.get_ls_capabilities(client_id)
   return enabled_caps
 end
 
-function M.common_on_init(client, bufnr)
-  if JM.lsp.on_init_callback then
-    JM.lsp.on_init_callback(client, bufnr)
-    JM.notify("Called lsp.on_init_callback", "info", "LSP")
-    return
-  end
-
-  local formatters = JM.lang[vim.bo.filetype].formatters
-  if not vim.tbl_isempty(formatters) and formatters[1]["exe"] ~= nil and formatters[1].exe ~= "" then
-    client.resolved_capabilities.document_formatting = false
-    JM.notify(
-      string.format('Overriding language server "%s" with format provider "%s"', client.name, formatters[1].exe),
-      "info",
-      "LSP"
-    )
-  end
+function M.common_on_init(client)
+  select_default_formater(client)
 end
 
-function M.common_on_attach(client, bufnr)
-  if JM.lsp.on_attach_callback then
-    JM.lsp.on_attach_callback(client, bufnr)
-    JM.notify("Called lsp.on_init_callback", "info", "LSP")
-  end
+function M.common_on_attach(client)
   lsp_highlight_document(client)
-  require("lsp.null-ls").setup(vim.bo.filetype)
+  lsp_code_lens_refresh(client)
 end
 
-function M.setup(lang)
-  local lsp_utils = require "lsp.utils"
-  local lsp = JM.lang[lang].lsp
+local function resolve_config(user_config)
+  local config = {
+    on_attach = M.common_on_attach,
+    on_init = M.common_on_init,
+    capabilities = M.common_capabilities(),
+  }
 
-  if (lsp.active ~= nil and not lsp.active) or lsp_utils.is_client_active(lsp.provider) then
+  if user_config then
+    config = vim.tbl_deep_extend("force", config, user_config)
+  end
+
+  return config
+end
+
+local function buf_try_add(server_name, bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  require("lspconfig")[server_name].manager.try_add_wrapper(bufnr)
+end
+
+function M.setup(server_name, user_config)
+  local config = resolve_config(user_config)
+
+  local servers = require "nvim-lsp-installer.servers"
+  local server_available, requested_server = servers.get_server(server_name)
+
+  if not server_available then
+    pcall(function()
+      require("lspconfig")[server_name].setup(config)
+      buf_try_add(server_name)
+    end)
     return
   end
 
-  local overrides = JM.lsp.override
-  if type(overrides) == "table" then
-    if vim.tbl_contains(overrides, lang) then
-      return
-    end
-  end
-
-  if lsp.provider ~= nil and lsp.provider ~= "" then
-    local lspconfig = require "lspconfig"
-
-    if not lsp.setup.on_attach then
-      lsp.setup.on_attach = M.common_on_attach
-    end
-    if not lsp.setup.on_init then
-      lsp.setup.on_init = M.common_on_init
-    end
-    if not lsp.setup.capabilities then
-      lsp.setup.capabilities = M.common_capabilities()
-    end
-
-    lspconfig[lsp.provider].setup(lsp.setup)
-  end
+  requested_server:on_ready(function()
+    vim.notify(string.format("Installation complete for [%s] server", requested_server.name), vim.log.levels.INFO)
+    requested_server:setup(config)
+  end)
 end
 
 return M

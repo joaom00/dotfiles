@@ -40,6 +40,10 @@ require("telescope").setup {
     grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
     qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
 
+    preview = {
+      treesitter = false,
+    },
+
     mappings = {
       i = {
         ["<C-j>"] = actions.move_selection_next,
@@ -117,6 +121,8 @@ require("telescope").setup {
 load_extension "fzf"
 load_extension "projects"
 load_extension "ghn"
+load_extension "file_browser"
+load_extension "git_worktree"
 
 function M.edit_neovim()
   require("telescope.builtin").find_files {
@@ -153,7 +159,7 @@ function M.frecency()
 end
 
 function M.file_browser()
-  require("telescope.builtin").file_browser(themes.get_dropdown { previewer = false, hidden = true })
+  require("telescope").extensions.file_browser.file_browser()
 end
 
 function M.project()

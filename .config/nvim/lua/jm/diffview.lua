@@ -18,10 +18,23 @@ function M.config()
   diffview.setup {
     diff_binaries = false, -- Show diffs for binaries
     use_icons = true, -- Requires nvim-web-devicons
+    icons = { -- Only applies when use_icons is true.
+      folder_closed = "",
+      folder_open = "",
+    },
+    signs = {
+      fold_closed = "",
+      fold_open = "",
+    },
     file_panel = {
       position = "left", -- One of 'left', 'right', 'top', 'bottom'
       width = 35, -- Only applies when position is 'left' or 'right'
       height = 10, -- Only applies when position is 'top' or 'bottom'
+      listing_style = "tree", -- One of 'list' or 'tree'
+      tree_options = { -- Only applies when listing_style is 'tree'
+        flatten_dirs = true, -- Flatten dirs that only contain one single dir
+        folder_statuses = "only_folded", -- One of 'never', 'only_folded' or 'always'.
+      },
     },
     file_history_panel = {
       position = "bottom",
@@ -57,7 +70,7 @@ function M.config()
         ["<cr>"] = cb "select_entry", -- Open the diff for the selected entry.
         ["o"] = cb "select_entry",
         ["<2-LeftMouse>"] = cb "select_entry",
-        ["-"] = cb "toggle_stage_entry", -- Stage / unstage the selected entry.
+        ["i"] = cb "toggle_stage_entry", -- Stage / unstage the selected entry.
         ["S"] = cb "stage_all", -- Stage all entries.
         ["U"] = cb "unstage_all", -- Unstage all entries.
         ["X"] = cb "restore_entry", -- Restore entry to the state on the left side.
@@ -93,14 +106,12 @@ function M.config()
       option_panel = { ["<tab>"] = cb "select", ["q"] = cb "close" },
     },
   }
-
-  -- require("jm.autocmds").define_augroups { init_colors = { { "Filetype", "*", "call SaneDiffDefaults()" } } }
 end
 
 function M.keymappings()
   nnoremap("<leader>d", "<cmd>DiffviewOpen<CR>")
   nnoremap("<leader>df", "<cmd>DiffviewFileHistory<CR>")
-  nnoremap("<leader>dc", "<cmd>DiffviewClose<CR>")
+  nnoremap("dc", "<cmd>DiffviewClose<CR>")
 end
 
 function M.highlight(group, options)
@@ -140,7 +151,7 @@ end
 function M.setup()
   M.config()
   M.keymappings()
-  -- M.sanediffdefaults()
+  M.sanediffdefaults()
 end
 
 return M

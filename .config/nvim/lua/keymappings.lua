@@ -1,4 +1,6 @@
 -- Disable arrow keys
+vim.g.mapleader = JM.leader
+
 local nmap = JM.mapper("n", false)
 
 local nnoremap = JM.mapper "n"
@@ -66,4 +68,7 @@ xnoremap("<A-k>", "<cmd>m '<-2<CR>gv-gv")
 
 nnoremap("s", "<cmd>lua require('hop').hint_char1()<CR>")
 
-nnoremap("<leader>nu", "<cmd>lua require('package-info').update()<CR>")
+nnoremap("<leader>np", "<cmd>lua require('package-info').change_version()<CR>")
+nnoremap("<leader>nd", "<cmd>lua require('package-info').delete()<CR>")
+
+nnoremap("rn", "<cmd>lua require('renamer').rename()<CR>")

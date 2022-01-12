@@ -49,4 +49,6 @@ wget ${release_list}go${release}.linux-amd64.tar.gz
 
 rm -rf /usr/local/go && tar -C /usr/local -xzf go${release}.linux-amd64.tar.gz
 
+rm -rf go${release}.linux-amd64.tar.gz
+
 echo "=>> Go update to ${release}"

@@ -40,6 +40,13 @@ return require("packer").startup(function(use)
     end,
   }
   use { "williamboman/nvim-lsp-installer" }
+  use {
+    "filipdutescu/renamer.nvim",
+    branch = "master",
+    config = function()
+      require("renamer").setup {}
+    end,
+  }
 
   -- TREESITTER
   use {
@@ -87,6 +94,7 @@ return require("packer").startup(function(use)
       require("project_nvim").setup()
     end,
   }
+  use { "nvim-telescope/telescope-file-browser.nvim" }
 
   -- TROUBE
   use {
@@ -125,6 +133,7 @@ return require("packer").startup(function(use)
       require("jm.gitsigns").setup()
     end,
   }
+  use { "ThePrimeagen/git-worktree.nvim" }
 
   -- TERMINAL
   use {
@@ -175,6 +184,7 @@ return require("packer").startup(function(use)
       require("go").setup()
     end,
   }
+  use { "b0o/schemastore.nvim" }
 
   -- THEMES & UI
   use { "Shadorain/shadotheme" }

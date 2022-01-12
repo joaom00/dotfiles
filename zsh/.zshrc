@@ -61,6 +61,9 @@ alias dots='cd $DOTFILES'
 __new_branch() {git checkout -b $1}
 alias gbn=__new_branch
 
+__del_branch() {git branch -d $1}
+alias gbd=__del_branch
+
 alias ai='sudo apt install'
 alias au='sudo apt update && sudo apt-get upgrade'
 
@@ -69,7 +72,7 @@ alias yad='yarn add -D'
 alias ni='npm install'
 alias nid='npm install -D'
 
-alias upgo='sh update-golang.sh'
+alias upgo='sh ~/update-golang.sh'
 
 source ~/.zsh-nvm/zsh-nvm.plugin.zsh
 

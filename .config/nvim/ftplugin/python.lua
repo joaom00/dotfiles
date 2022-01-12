@@ -1,1 +1,1 @@
-require("lsp").setup "python"
+require("lsp").setup "pyright"
