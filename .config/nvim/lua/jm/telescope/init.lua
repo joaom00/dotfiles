@@ -16,6 +16,7 @@ local actions = require "telescope.actions"
 local actions_state = require "telescope.actions.state"
 local themes = require "telescope.themes"
 local previewers = require "telescope.previewers"
+local fb_actions = require("telescope").extensions.file_browser.actions
 
 local delta = previewers.new_termopen_previewer {
   get_command = function(entry)
@@ -58,6 +59,16 @@ require("telescope").setup {
     },
   },
   extensions = {
+    file_browser = {
+      mappings = {
+        ["i"] = {
+          ["<C-e>"] = fb_actions.create,
+        },
+        ["n"] = {
+          ["<C-e>"] = fb_actions.create,
+        },
+      },
+    },
     frecency = {
       workspaces = {
         ["conf"] = vim.env.DOTFILES,
