@@ -52,7 +52,7 @@ alias gc='git commit'
 alias gpush='git push'
 alias gpull='git pull'
 alias gd='git diff'
-alias gl='git log'
+alias gl='git lg'
 alias gadd='git add .'
 alias gweb='gh repo view --web'
 

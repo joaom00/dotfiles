@@ -14,9 +14,14 @@ end
 
 local actions = require "telescope.actions"
 local actions_state = require "telescope.actions.state"
+local utils = require "telescope.utils"
 local themes = require "telescope.themes"
 local previewers = require "telescope.previewers"
-local fb_actions = require("telescope").extensions.file_browser.actions
+-- local fb_actions = require("telescope").extensions.file_browser.actions
+local fb_utils = require "telescope._extensions.file_browser.utils"
+local Path = require "plenary.path"
+
+local os_sep = Path.path.sep
 
 local delta = previewers.new_termopen_previewer {
   get_command = function(entry)
@@ -27,6 +32,15 @@ local delta = previewers.new_termopen_previewer {
     return { "git", "-c", "core.pager=delta", "-c", "delta.side-by-side=false", "diff", entry.value .. "^!" }
   end,
 }
+
+local get_target_dir = function(finder)
+  local entry_path
+  if finder.files == false then
+    local entry = actions_state.get_selected_entry()
+    entry_path = entry and entry.value -- absolute path
+  end
+  return finder.files and finder.path or entry_path
+end
 
 require("telescope").setup {
   defaults = {
@@ -62,10 +76,38 @@ require("telescope").setup {
     file_browser = {
       mappings = {
         ["i"] = {
-          ["<C-e>"] = fb_actions.create,
-        },
-        ["n"] = {
-          ["<C-e>"] = fb_actions.create,
+          ["<C-e>"] = function(prompt_bufnr)
+            local current_picker = actions_state.get_current_picker(prompt_bufnr)
+            local finder = current_picker.finder
+            local default = get_target_dir(finder) .. os_sep
+
+            local file = actions_state.get_current_line()
+            if not file then
+              return
+            end
+            if file == "" then
+              print "Please enter valid filename!"
+              return
+            end
+
+            file = default .. file
+            if file == finder.path .. os_sep then
+              print "Please enter valid file or folder name!"
+              return
+            end
+            file = Path:new(file)
+
+            if file:exists() then
+              error "File or folder already exists."
+              return
+            end
+            if not fb_utils.is_dir(file.filename) then
+              file:touch { parents = true }
+            else
+              Path:new(file.filename:sub(1, -2)):mkdir { parents = true }
+            end
+            current_picker:refresh(finder, { reset_prompt = true, multi = current_picker._multi })
+          end,
         },
       },
     },
@@ -87,9 +129,62 @@ require("telescope").setup {
     find_files = {
       hidden = true,
     },
+    live_grep = {
+      file_ignore_patterns = { ".git/" },
+    },
     git_branches = {
       previewer = false,
       theme = "dropdown",
+      mappings = {
+        i = {
+          ["<CR>"] = function(prompt_bufnr)
+            local cwd = actions_state.get_current_picker(prompt_bufnr).cwd
+            local selection = actions_state.get_selected_entry()
+            if selection == nil then
+              print "[telescope] Nothing currently selected"
+              return
+            end
+            actions.close(prompt_bufnr)
+            local _, ret, stderr = utils.get_os_command_output({ "git", "checkout", selection.value }, cwd)
+            if ret == 0 then
+              print("Checked out: " .. selection.value)
+              vim.cmd ":e"
+            else
+              print(
+                string.format(
+                  'Error when checking out: %s. Git returned: "%s"',
+                  selection.value,
+                  table.concat(stderr, "  ")
+                )
+              )
+            end
+          end,
+        },
+        n = {
+          ["<CR>"] = function(prompt_bufnr)
+            local cwd = actions_state.get_current_picker(prompt_bufnr).cwd
+            local selection = actions_state.get_selected_entry()
+            if selection == nil then
+              print "[telescope] Nothing currently selected"
+              return
+            end
+            actions.close(prompt_bufnr)
+            local _, ret, stderr = utils.get_os_command_output({ "git", "checkout", selection.value }, cwd)
+            if ret == 0 then
+              print("Checked out: " .. selection.value)
+              vim.cmd ":e"
+            else
+              print(
+                string.format(
+                  'Error when checking out: %s. Git returned: "%s"',
+                  selection.value,
+                  table.concat(stderr, "  ")
+                )
+              )
+            end
+          end,
+        },
+      },
     },
     git_commits = {
       previewer = false,
@@ -121,7 +216,7 @@ require("telescope").setup {
       enable_preview = true,
     },
     lsp_code_actions = {
-      theme = "cursor",
+      theme = "dropdown",
     },
     projects = {
       theme = "dropdown",
@@ -146,11 +241,13 @@ end
 
 function M.git_files()
   local path = vim.fn.expand "%:h"
+  local opts = themes.get_ivy { sorting_strategy = "ascending", cwd = path }
+  require("telescope.builtin").git_files(opts)
+end
 
-  require("telescope.builtin").git_files {
-    cwd = path,
-    hidden = true,
-  }
+function M.fd()
+  local opts = themes.get_ivy { hidden = false, sorting_strategy = "ascending" }
+  require("telescope.builtin").fd(opts)
 end
 
 function M.live_grep()
@@ -203,7 +300,7 @@ function M.search_all_files()
 end
 
 function M.code_actions()
-  require("telescope.builtin").lsp_code_actions { layout_config = { width = 0.3, height = 0.2 } }
+  require("telescope.builtin").lsp_code_actions {}
 end
 
 function M.git_notification()

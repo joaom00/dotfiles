@@ -11,7 +11,7 @@ function M.config()
       [[███████ ██   ██ ██   ██ ███████ ███████      ███ ███  ███████     ██      ███████ ██   ██    ██        ██   ██      ██████  ██   ██ ██      ██ ███████   ██    ]],
     },
     custom_section = {
-      a = { description = { "  Find File     " }, command = "lua require('jm.telescope').search_all_files()" },
+      a = { description = { "  Find File     " }, command = "lua require('jm.telescope').fd()" },
       b = { description = { "  Recents       " }, command = "Telescope oldfiles" },
       c = { description = { "  Projects      " }, command = "lua require('jm.telescope').project()" },
       d = { description = { "  Find Word     " }, command = "lua require('jm.telescope').live_grep()" },
