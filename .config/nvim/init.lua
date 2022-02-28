@@ -4,10 +4,11 @@ require "settings"
 require "keymappings"
 require "theme"
 
-vim.g.omni_dev = true
-vim.g.purpledaze_dev = true
-vim.g.purpledaze_dark_sidebar = true
+-- vim.g.omni_dev = true
+-- vim.g.purpledaze_dev = true
+-- vim.g.purpledaze_dark_sidebar = true
 vim.cmd("colorscheme " .. JM.colorscheme)
+-- require("colorbuddy").colorscheme "gruvbuddy"
 
 vim.g.lightline = { coloscheme = "purpledaze" }
 
@@ -43,17 +44,23 @@ require("lsp.null-ls.formatters").setup {
   {
     exe = "prettier",
     extra_args = {
-      "--tab-width 2",
+      "--print-width 100",
     },
   },
   {
     exe = "stylua",
   },
   {
-    exe = "gofmt",
+    exe = "gofumpt",
+  },
+  {
+    exe = "golines",
   },
   {
     exe = "black",
+  },
+  {
+    exe = "rustfmt",
   },
 }
 
@@ -64,6 +71,9 @@ require("lsp.null-ls.linters").setup {
   {
     exe = "pylint",
   },
+  -- {
+  --   exe = "golangci_lint",
+  -- },
 }
 
 require("lsp.null-ls.code_actions").setup {

@@ -9,7 +9,7 @@ P = function(v)
   return v
 end
 
-JM = { leader = "-", colorscheme = "purpledaze", line_wrap_cursor_movement = true, format_on_save = true }
+JM = { leader = "-", colorscheme = "xcodedarkhc", line_wrap_cursor_movement = true, format_on_save = true }
 
 JM.lsp = {
   completion = {

@@ -33,6 +33,13 @@ local opts = {
   capabilities = require("lsp").common_capabilities(),
 }
 
+local servers = require "nvim-lsp-installer.servers"
+local server_available, requested_server = servers.get_server "gopls"
+
+if server_available then
+  opts.cmd_env = requested_server:get_default_options().cmd_env
+end
+
 require("lsp").setup("gopls", opts)
 
 vim.cmd "setl ts=4 sw=4"

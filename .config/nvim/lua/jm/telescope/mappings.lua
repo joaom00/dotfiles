@@ -48,6 +48,7 @@ map_tele("<space>fi", "search_all_files")
 
 -- LSP
 map_tele("<space>ca", "code_actions")
+map_tele("<space>dl", "diagnostics")
 
 map_tele("<space>fc", "colorscheme")
 

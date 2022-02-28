@@ -1,5 +1,6 @@
 export ZSH="/home/joaom/.oh-my-zsh"
 export PATH=$HOME/.local/bin:$PATH
+source /usr/share/autojump/autojump.sh
 # export PATH="$HOME/.miniconda/bin:$PATH"  # commented out by conda initialize
 
 setopt autocd extendedglob nomatch menucomplete
