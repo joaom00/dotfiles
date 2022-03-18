@@ -16,6 +16,13 @@ local tnoremap = JM.mapper "t"
 
 local Terminal = toggleterm_terminal.Terminal
 
+local float_handler = function(term)
+  if vim.fn.mapcheck("jk", "t") ~= "" then
+    vim.api.nvim_buf_del_keymap(term.bufnr, "t", "jk")
+    vim.api.nvim_buf_del_keymap(term.bufnr, "t", "<esc>")
+  end
+end
+
 local gcommit = Terminal:new {
   cmd = "git commit",
   hidden = true,
@@ -23,10 +30,7 @@ local gcommit = Terminal:new {
   start_in_insert = true,
   close_on_exit = true,
   float_opts = { border = "curved" },
-  on_close = function()
-    vim.fn.histadd("cmd", "DiffviewRefresh")
-    vim.cmd "DiffviewRefresh"
-  end,
+  on_open = float_handler,
 }
 
 local lazygit = Terminal:new {
@@ -34,6 +38,7 @@ local lazygit = Terminal:new {
   hidden = true,
   direction = "float",
   float_opts = { border = "curved" },
+  on_open = float_handler,
 }
 
 local lazydocker = Terminal:new {
@@ -41,6 +46,7 @@ local lazydocker = Terminal:new {
   hidden = true,
   direction = "float",
   float_opts = { border = "curved" },
+  on_open = float_handler,
 }
 
 function M.config()
@@ -76,11 +82,30 @@ function M.lazydocker_toggle()
   lazydocker:toggle()
 end
 
+local tw_channels = {}
+
+function M.twitch_chat_toggle(channel)
+  channel = channel or vim.fn.input "Twitch Channel > "
+
+  if not tw_channels[channel] then
+    tw_channels[channel] = Terminal:new {
+      hidden = true,
+      cmd = "twt -c " .. channel,
+      start_in_insert = false,
+      direction = "float",
+      float_opts = { border = "curved" },
+    }
+  end
+
+  tw_channels[channel]:toggle()
+end
+
 function M.keymappings()
   nnoremap("<F9>", "<cmd>ToggleTermOpenAll<CR>")
   nnoremap("<leader>gc", "<cmd>lua require('jm.toggleterm').gcommit_toggle()<CR>")
   nnoremap("<space>l", "<cmd>lua require('jm.toggleterm').lazygit_toggle()<CR>")
   nnoremap("<space>d", "<cmd>lua require('jm.toggleterm').lazydocker_toggle()<CR>")
+  nnoremap("<space>t", "<cmd>lua require('jm.toggleterm').twitch_chat_toggle()<CR>")
   tnoremap("<F10>", "<C-\\><C-n>:ToggleTermCloseAll<CR>")
   tnoremap("<Esc><Esc>", "<C-\\><C-n>")
 end

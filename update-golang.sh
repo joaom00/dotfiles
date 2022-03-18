@@ -2,6 +2,8 @@
 
 # Thanks udhos https://github.com/udhos/update-golang
 
+set -e
+
 release_list=https://golang.org/dl/
 source=https://storage.googleapis.com/golang
 release=1.16.4 # just the default. the script detects the latest available release.

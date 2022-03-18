@@ -1,7 +1,7 @@
 [user]
   name = João Pedro
   email = joaopsilvamagalhaes@gmail.com
-	signingkey = 10C8FF11D3F97E01
+  signingkey = 10C8FF11D3F97E01
 
 [include]
   path = ~/themes.gitconfig
@@ -15,7 +15,7 @@
 
 [commit]
   template = ~/.gitmessage
-	gpgSign = true
+  gpgSign = true
 
 [pager]
   diff = delta
@@ -32,7 +32,6 @@
   c = commit -m
 
 [delta]
-  features = coracias-caudatus
   navigate = true
  
 [interactive]

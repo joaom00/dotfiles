@@ -7,13 +7,22 @@ require "theme"
 -- vim.g.omni_dev = true
 -- vim.g.purpledaze_dev = true
 -- vim.g.purpledaze_dark_sidebar = true
-vim.cmd("colorscheme " .. JM.colorscheme)
--- require("colorbuddy").colorscheme "gruvbuddy"
+-- vim.cmd("colorscheme " .. JM.colorscheme)
+require "jm.gruvbuddy"
 
 vim.g.lightline = { coloscheme = "purpledaze" }
 
 require("jm.autocmds").define_augroups {
-  autoformat = { { "BufWritePre", "*", ":silent lua vim.lsp.buf.formatting_sync({}, 1000)" } },
+  autoformat = {
+    { "BufWritePre", "*", ":silent lua vim.lsp.buf.formatting_sync({}, 1000)" },
+  },
+  terminal = {
+    { "TermOpen", "*", "startinsert" },
+    { "TermOpen", "*", "setlocal listchars= nonumber norelativenumber" },
+  },
+  autolsp = {
+    { "Filetype", "*", "lua require('utils.ft').do_filetype(vim.fn.expand(\"<amatch>\"))" },
+  },
 }
 
 require("lsp").config()
@@ -24,10 +33,6 @@ if lsp_settings_status_ok then
 end
 
 local lspconfig_util = require "lspconfig.util"
-
-require("jm.autocmds").define_augroups {
-  autolsp = { { "Filetype", "*", "lua require('utils.ft').do_filetype(vim.fn.expand(\"<amatch>\"))" } },
-}
 
 require("lspconfig").tailwindcss.setup {
   cmd = { DATA_PATH .. "/lsp_servers/tailwindcss_npm/node_modules/.bin/tailwindcss-language-server", "--stdio" },
@@ -45,6 +50,7 @@ require("lsp.null-ls.formatters").setup {
     exe = "prettier",
     extra_args = {
       "--print-width 100",
+      "--tab-width 2",
     },
   },
   {
@@ -79,5 +85,39 @@ require("lsp.null-ls.linters").setup {
 require("lsp.null-ls.code_actions").setup {
   {
     name = "eslint",
+  },
+}
+
+local dap = require "dap"
+
+dap.adapters.chrome = {
+  type = "executable",
+  command = "node",
+  args = { os.getenv "HOME" .. "/dev/vscode-chrome-debug/out/src/chromeDebug.js" }, -- TODO adjust
+}
+
+dap.configurations.javascriptreact = { -- change this to javascript if needed
+  {
+    type = "chrome",
+    request = "attach",
+    program = "${file}",
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = "inspector",
+    port = 9222,
+    webRoot = "${workspaceFolder}",
+  },
+}
+
+dap.configurations.typescriptreact = { -- change to typescript if needed
+  {
+    type = "chrome",
+    request = "attach",
+    program = "${file}",
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = "inspector",
+    port = 9222,
+    webRoot = "${workspaceFolder}",
   },
 }

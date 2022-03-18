@@ -17,6 +17,7 @@ _comp_options+=(globdots)
 
 autoload -Uz colors && colors
 
+
 export GO111MODULE='on'
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
@@ -44,8 +45,11 @@ export GPG_TTY=$(tty)
 
 ZSH_THEME="spaceship"
 
+alias rank='sort | uniq -c | sort -nr | head'
+
 alias vi='nvim'
 alias vim='nvim'
+# alias tmux='TERM=screen-256color-bce tmux'
 
 # GIT ALIAS
 alias gs='git status'
@@ -54,6 +58,7 @@ alias gpush='git push'
 alias gpull='git pull'
 alias gd='git diff'
 alias gl='git lg'
+alias ga='git add'
 alias gadd='git add .'
 alias gweb='gh repo view --web'
 
@@ -95,6 +100,7 @@ SPACESHIP_PROMPT_ORDER=(
   hg            # Mercurial section (hg_branch  + hg_status)
 #  package       # Package version
   node          # Node.js section
+  rust          # Rust section
   golang        # Go section
   docker        # Docker section
   conda         # conda virtualenv section
@@ -126,3 +132,5 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+bindkey "^K" end-of-line
+bindkey -s '^F' 'cd ~/dev/$(ls -p ~/dev | fzf)\n'

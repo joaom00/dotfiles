@@ -9,6 +9,11 @@ P = function(v)
   return v
 end
 
+R = function(name)
+  require("plenary.reload").reload_module(name)
+  return require(name)
+end
+
 JM = { leader = "-", colorscheme = "xcodedarkhc", line_wrap_cursor_movement = true, format_on_save = true }
 
 JM.lsp = {
@@ -49,13 +54,13 @@ JM.lsp = {
         -- { name = "DiagnosticsSignWarn", text = "" },
         -- { name = "DiagnosticsSignHint", text = "" },
         -- { name = "DiagnosticsSignInfo", text = "" },
-        { name = "DiagnosticsSignError", text = " " },
-        { name = "DiagnosticsSignWarn", text = "" },
-        { name = "DiagnosticsSignHint", text = "" },
+        { name = "DiagnosticSignError", text = " " },
+        { name = "DiagnosticSignWarn", text = "" },
+        { name = "DiagnosticSignHint", text = "" },
         { name = "DiagnosticsSignInfo", text = "" },
       },
     },
-    virtual_text = false,
+    virtual_text = true,
     underline = true,
     severity_sort = true,
   },
@@ -67,8 +72,6 @@ JM.lsp = {
   on_init_callback = nil,
   null_ls = { setup = {} },
 }
-
-JM.lang = { emmet = { active = true } }
 
 function JM.mapper(mode, is_noremap)
   is_noremap = is_noremap or true
@@ -88,37 +91,3 @@ function JM.notify(message, level, title)
 
   notify(message, level, { title = title or "Dependecy Error" })
 end
-
-local function load_lang(lang)
-  local lang_path = string.format("lsp.languages.%s", lang)
-  require(lang_path).setup()
-end
-
-local langs = {
-  "c",
-  "css",
-  "dockerfile",
-  "elm",
-  "go",
-  "graphql",
-  "html",
-  "javascript",
-  "javascriptreact",
-  "json",
-  "lua",
-  "python",
-  "sh",
-  "typescript",
-  "typescriptreact",
-  "tailwindcss",
-  "vim",
-  "vue",
-  "yaml",
-}
-
--- LSP
-for _, lang in pairs(langs) do
-  load_lang(lang)
-end
-
-require("jm.json_schemas").setup()

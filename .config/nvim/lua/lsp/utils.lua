@@ -9,18 +9,16 @@ function M.is_client_active(name)
   end)
 end
 
-function M.get_active_client_by_ft(filetype)
-  if not JM.lang[filetype] or not JM.lang[filetype].lsp then
-    return nil
-  end
-
-  local clients = vim.lsp.get_active_clients()
-  for _, client in pairs(clients) do
-    if client.name == JM.lang[filetype].lsp.provider then
-      return client
-    end
-  end
-  return nil
-end
+-- function M.get_active_client_by_ft(filetype)
+--   local matches = {}
+--   local clients = vim.lsp.get_active_clients()
+--   for _, client in pairs(clients) do
+--     local supported_filetypes = client.config.filetypes or {}
+--     if client.name ~= "null-ls" and vim.tbl_contains(supported_filetypes, filetype) then
+--       table.insert(matches, client)
+--     end
+--   end
+--   return matches
+-- end
 
 return M

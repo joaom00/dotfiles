@@ -40,13 +40,6 @@ return require("packer").startup(function(use)
     end,
   }
   use { "williamboman/nvim-lsp-installer" }
-  use {
-    "filipdutescu/renamer.nvim",
-    branch = "master",
-    config = function()
-      require("renamer").setup {}
-    end,
-  }
 
   -- TREESITTER
   use {
@@ -65,14 +58,30 @@ return require("packer").startup(function(use)
       require("jm.cmp").setup()
     end,
     requires = {
-      { "L3MON4D3/LuaSnip" },
-      { "saadparwaiz1/cmp_luasnip" },
       { "hrsh7th/cmp-buffer" },
-      { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/cmp-path" },
+      { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/cmp-nvim-lua" },
-      { "petertriho/cmp-git" },
+      { "saadparwaiz1/cmp_luasnip" },
+      { "hrsh7th/cmp-cmdline" },
     },
+  }
+  use {
+    "petertriho/cmp-git",
+    after = "nvim-cmp",
+    config = function()
+      require("cmp_git").setup {
+        filetypes = { "gitcommit", "COMMIT_EDITMSG" },
+      }
+    end,
+  }
+  use { "onsails/lspkind-nvim" }
+
+  use {
+    "L3MON4D3/LuaSnip",
+    config = function()
+      require "jm.luasnip"
+    end,
   }
 
   -- FORMATTER & LINTER
@@ -120,6 +129,7 @@ return require("packer").startup(function(use)
   }
 
   -- GIT
+  use { "TimUntersberger/neogit" }
   use {
     "pwntester/octo.nvim",
     event = "BufRead",
@@ -141,6 +151,23 @@ return require("packer").startup(function(use)
     end,
   }
   use { "ThePrimeagen/git-worktree.nvim" }
+
+  -- DEBUGGING
+  use { "mfussenegger/nvim-dap" }
+  use {
+    "leoluz/nvim-dap-go",
+    config = function()
+      require("dap-go").setup()
+    end,
+  }
+  use {
+    "rcarriga/nvim-dap-ui",
+    config = function()
+      require("dapui").setup()
+    end,
+  }
+  use { "theHamsta/nvim-dap-virtual-text" }
+  use { "nvim-telescope/telescope-dap.nvim" }
 
   -- TERMINAL
   use {
@@ -198,6 +225,10 @@ return require("packer").startup(function(use)
   use { "folke/tokyonight.nvim" }
   use { "arzg/vim-colors-xcode" }
   use { "pwntester/nautilus.nvim" }
+  use {
+    "catppuccin/nvim",
+    as = "catppuccin",
+  }
   use { "tjdevries/gruvbuddy.nvim", requires = {
     { "tjdevries/colorbuddy.vim" },
   } }
@@ -269,7 +300,8 @@ return require("packer").startup(function(use)
     branch = "v1", -- optional but strongly recommended
     config = function()
       -- you can configure Hop the way you like here; see :h hop-config
-      require("hop").setup { keys = "etovxqpdygfblzhckisuran" }
+      -- require("hop").setup { keys = "etovxqpdygfblzhckisuran" }
+      require "jm.hop"
     end,
   }
   use {
@@ -326,12 +358,15 @@ return require("packer").startup(function(use)
           },
         },
       }
-      require("rust-tools").setup(opts)
+      require("rust-tools").setup()
     end,
   }
 
+  use { "tpope/vim-surround" }
+
   use { "~/dev/omni.nvim" }
   use { "~/dev/404.nvim" }
+  use { "~/dev/telescope-twitch.nvim" }
 
   if packer_bootstrap then
     require("packer").sync()

@@ -1,262 +1,191 @@
 local M = {}
 
-local check_backspace = function()
-  local col = vim.fn.col "." - 1
-  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
-end
-
-local function T(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local is_emmet_active = function()
-  local clients = vim.lsp.buf_get_clients()
-
-  for _, client in pairs(clients) do
-    if client.name == "emmet_ls" then
-      return true
-    end
-  end
-  return false
+local ok, cmp = pcall(require, "cmp")
+if not ok then
+  JM.notify "Missing nvim-cmp dependency"
+  return
 end
 
 function M.config()
-  local status_cmp_ok, cmp = pcall(require, "cmp")
-  if not status_cmp_ok then
-    JM.notify "Missing cmp dependency"
-    return
-  end
-
-  local status_luasnip_ok, luasnip = pcall(require, "luasnip")
-  if not status_luasnip_ok then
+  local ls_ok, luasnip = pcall(require, "luasnip")
+  if not ls_ok then
     JM.notify "Missing luasnip dependency"
     return
   end
 
-  local win_get_cursor = vim.api.nvim_win_get_cursor
-  local get_current_buf = vim.api.nvim_get_current_buf
-
-  local function inside_snippet()
-    -- for outdated versions of luasnip
-    if not luasnip.session.current_nodes then
-      return false
-    end
-
-    local node = luasnip.session.current_nodes[get_current_buf()]
-    if not node then
-      return false
-    end
-
-    local snip_begin_pos, snip_end_pos = node.parent.snippet.mark:pos_begin_end()
-    local pos = win_get_cursor(0)
-    pos[1] = pos[1] - 1 -- LuaSnip is 0-based not 1-based like nvim for rows
-    return pos[1] >= snip_begin_pos[1] and pos[1] <= snip_end_pos[1]
+  local lk_ok, lspkind = pcall(require, "lspkind")
+  if not lk_ok then
+    JM.notify "Missing luasnip dependency"
+    return
   end
 
-  ---sets the current buffer's luasnip to the one nearest the cursor
-  ---@return boolean true if a node is found, false otherwise
-  local function seek_luasnip_cursor_node()
-    -- for outdated versions of luasnip
-    if not luasnip.session.current_nodes then
-      return false
-    end
-
-    local pos = win_get_cursor(0)
-    pos[1] = pos[1] - 1
-    local node = luasnip.session.current_nodes[get_current_buf()]
-    if not node then
-      return false
-    end
-
-    local snippet = node.parent.snippet
-    local exit_node = snippet.insert_nodes[0]
-
-    -- exit early if we're past the exit node
-    if exit_node then
-      local exit_pos_end = exit_node.mark:pos_end()
-      if (pos[1] > exit_pos_end[1]) or (pos[1] == exit_pos_end[1] and pos[2] > exit_pos_end[2]) then
-        snippet:remove_from_jumplist()
-        luasnip.session.current_nodes[get_current_buf()] = nil
-
-        return false
-      end
-    end
-
-    node = snippet.inner_first:jump_into(1, true)
-    while node ~= nil and node.next ~= nil and node ~= snippet do
-      local n_next = node.next
-      local next_pos = n_next and n_next.mark:pos_begin()
-      local candidate = n_next ~= snippet and next_pos and (pos[1] < next_pos[1])
-        or (pos[1] == next_pos[1] and pos[2] < next_pos[2])
-
-      -- Past unmarked exit node, exit early
-      if n_next == nil or n_next == snippet.next then
-        snippet:remove_from_jumplist()
-        luasnip.session.current_nodes[get_current_buf()] = nil
-
-        return false
-      end
-
-      if candidate then
-        luasnip.session.current_nodes[get_current_buf()] = node
-        return true
-      end
-
-      local ok
-      ok, node = pcall(node.jump_from, node, 1, true) -- no_move until last stop
-      if not ok then
-        snippet:remove_from_jumplist()
-        luasnip.session.current_nodes[get_current_buf()] = nil
-
-        return false
-      end
-    end
-
-    -- No candidate, but have an exit node
-    if exit_node then
-      -- to jump to the exit node, seek to snippet
-      luasnip.session.current_nodes[get_current_buf()] = snippet
-      return true
-    end
-
-    -- No exit node, exit from snippet
-    snippet:remove_from_jumplist()
-    luasnip.session.current_nodes[get_current_buf()] = nil
-    return false
-  end
+  lspkind.init()
 
   JM.cmp = {
-    confirm_opts = {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
+    experimental = {
+      ghost_text = true,
+    },
+    view = {
+      entries = "custom",
     },
     formatting = {
-      kind_icons = {
-        Class = " ",
-        Color = " ",
-        Constant = "ﲀ ",
-        Constructor = " ",
-        Enum = "練",
-        EnumMember = " ",
-        Event = " ",
-        Field = " ",
-        File = "",
-        Folder = " ",
-        Function = " ",
-        Interface = "ﰮ ",
-        Keyword = " ",
-        Method = " ",
-        Module = " ",
-        Operator = "",
-        Property = " ",
-        Reference = " ",
-        Snippet = " ",
-        Struct = " ",
-        Text = " ",
-        TypeParameter = " ",
-        Unit = "塞",
-        Value = " ",
-        Variable = " ",
+      format = lspkind.cmp_format {
+        with_text = true,
+        menu = {
+          buffer = "[buf]",
+          nvim_lsp = "[LSP]",
+          nvim_lua = "[api]",
+          path = "[path]",
+          luasnip = "[snip]",
+          gh_issues = "[issues]",
+        },
       },
-      source_names = {
-        nvim_lsp = "(LSP)",
-        emoji = "(Emoji)",
-        path = "(Path)",
-        calc = "(Calc)",
-        cmp_tabnine = "(Tabnine)",
-        vsnip = "(Snippet)",
-        luasnip = "(Snippet)",
-        buffer = "(Buffer)",
-      },
-      duplicates = {
-        buffer = 1,
-        path = 1,
-        nvim_lsp = 0,
-        luasnip = 1,
-      },
-      duplicates_default = 0,
-      format = function(entry, vim_item)
-        vim_item.kind = JM.cmp.formatting.kind_icons[vim_item.kind]
-        vim_item.menu = JM.cmp.formatting.source_names[entry.source.name]
-        vim_item.dup = JM.cmp.formatting.duplicates[entry.source.name] or JM.cmp.formatting.duplicates_default
-        return vim_item
-      end,
     },
     snippet = {
       expand = function(args)
         luasnip.lsp_expand(args.body)
       end,
     },
-    documentation = {
-      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-    },
+    -- documentation = {
+    --   border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+    -- },
     sources = {
+      { name = "cmp_git" },
+      { name = "nvim_lua" },
+      { name = "luasnip" },
       { name = "nvim_lsp" },
       { name = "path" },
-      { name = "luasnip" },
-      { name = "nvim_lua" },
-      { name = "buffer" },
-      { name = "calc" },
-      { name = "emoji" },
-      { name = "treesitter" },
-      { name = "crates" },
+      { name = "buffer", keyword_length = 5 },
     },
     mapping = {
-      ["<C-k>"] = cmp.mapping.select_prev_item(),
-      ["<C-j>"] = cmp.mapping.select_next_item(),
-      ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-      ["<C-f>"] = cmp.mapping.scroll_docs(4),
-      ["<Tab>"] = cmp.mapping(function()
-        -- if cmp.visible() then
-        -- cmp.select_next_item()
-        if luasnip.expand_or_jumpable() then
-          vim.fn.feedkeys(T "<Plug>luasnip-expand-or-jump", "")
-        elseif check_backspace() then
-          vim.fn.feedkeys(T "<Tab>", "n")
-        elseif is_emmet_active() then
-          return vim.fn["cmp#complete"]()
-        else
-          vim.fn.feedkeys(T "<Tab>", "n")
-        end
-      end, {
-        "i",
-        "s",
-      }),
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-        -- if cmp.visible() then
-        --   cmp.select_prev_item()
-        if inside_snippet() and luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        else
-          fallback()
-        end
-      end, {
-        "i",
-        "s",
-      }),
-      ["<C-Space>"] = cmp.mapping.complete(),
-      ["<C-e>"] = cmp.mapping.close(),
-      ["<CR>"] = cmp.mapping(function(fallback)
-        if cmp.visible() and cmp.confirm(JM.cmp.confirm_opts) then
-          return
-        end
+      -- ["<c-k>"] = cmp.mapping.select_prev_item(),
+      -- ["<c-j>"] = cmp.mapping.select_next_item(),
+      ["<c-d>"] = cmp.mapping.scroll_docs(-4),
+      ["<c-f>"] = cmp.mapping.scroll_docs(4),
+      ["<c-q>"] = cmp.mapping(
+        cmp.mapping.confirm {
+          behavior = cmp.ConfirmBehavior.Insert,
+          select = true,
+        },
+        { "i", "c" }
+      ),
+      ["<c-y>"] = cmp.mapping(
+        cmp.mapping.confirm {
+          behavior = cmp.ConfirmBehavior.Insert,
+          select = true,
+        },
+        { "i", "c" }
+      ),
+      ["<tab>"] = cmp.mapping(
+        cmp.mapping.confirm {
+          behavior = cmp.ConfirmBehavior.Insert,
+          select = true,
+        },
+        { "i", "c" }
+      ),
+      -- ["<tab>"] = cmp.config.disable,
+      -- ["<Tab>"] = cmp.mapping(function()
+      --   -- if cmp.visible() then
+      --   -- cmp.select_next_item()
+      --   if luasnip.expand_or_jumpable() then
+      --     vim.fn.feedkeys(T "<Plug>luasnip-expand-or-jump", "")
+      --   elseif check_backspace() then
+      --     vim.fn.feedkeys(T "<Tab>", "n")
+      --   elseif is_emmet_active() then
+      --     return vim.fn["cmp#complete"]()
+      --   else
+      --     vim.fn.feedkeys(T "<Tab>", "n")
+      --   end
+      -- end, {
+      --   "i",
+      --   "s",
+      -- }),
+      -- ["<S-Tab>"] = cmp.mapping(function(fallback)
+      --   -- if cmp.visible() then
+      --   --   cmp.select_prev_item()
+      --   if inside_snippet() and luasnip.jumpable(-1) then
+      --     luasnip.jump(-1)
+      --   else
+      --     fallback()
+      --   end
+      -- end, {
+      --   "i",
+      --   "s",
+      -- }),
+      -- ["<C-Space>"] = cmp.mapping.complete(),
+      -- ["<c-space>"] = cmp.mapping {
+      --   i = cmp.mapping.complete(),
+      --   c = function(
+      --     _ --[[fallback]]
+      --   )
+      --     if cmp.visible() then
+      --       if not cmp.confirm { select = true } then
+      --         return
+      --       end
+      --     else
+      --       cmp.complete()
+      --     end
+      --   end,
+      -- },
+      ["<c-c>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+      ["<c-e>"] = cmp.mapping.close(),
+    },
+    sorting = {
+      comparators = {
+        cmp.config.compare.offset,
+        cmp.config.compare.exact,
+        cmp.config.compare.score,
 
-        if inside_snippet() and seek_luasnip_cursor_node() and luasnip.jumpable() then
-          if not luasnip.jump(1) then
-            fallback()
+        function(entry1, entry2)
+          local _, entry1_under = entry1.completion_item.label:find "^_+"
+          local _, entry2_under = entry2.completion_item.label:find "^_+"
+          entry1_under = entry1_under or 0
+          entry2_under = entry2_under or 0
+          if entry1_under > entry2_under then
+            return false
+          elseif entry1_under < entry2_under then
+            return true
           end
-        else
-          fallback()
-        end
-      end),
+        end,
+
+        cmp.config.compare.kind,
+        cmp.config.compare.sort_text,
+        cmp.config.compare.length,
+        cmp.config.compare.order,
+      },
     },
   }
 end
 
+function M.highlight()
+  local Group = require("colorbuddy.group").Group
+  local g = require("colorbuddy.group").groups
+  local s = require("colorbuddy.style").styles
+
+  Group.new("CmpItemAbbr", g.Comment)
+  Group.new("CmpItemAbbrDeprecated", g.Error)
+  Group.new("CmpItemAbbrMatchFuzzy", g.CmpItemAbbr.fg:dark(), nil, s.italic)
+  Group.new("CmpItemKind", g.Special)
+  Group.new("CmpItemMenu", g.NonText)
+end
+
 function M.setup()
   M.config()
+  M.highlight()
+
   require("luasnip/loaders/from_vscode").load { paths = "./snippets" }
-  require("cmp").setup(JM.cmp)
+
+  cmp.setup(JM.cmp)
+  cmp.setup.cmdline(":", {
+    sources = {
+      { name = "cmdline" },
+    },
+  })
+  cmp.setup.cmdline("/", {
+    sources = {
+      { name = "buffer" },
+    },
+  })
 end
 
 return M

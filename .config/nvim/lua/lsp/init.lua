@@ -14,7 +14,7 @@ end
 
 nnoremap("gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
 nnoremap("gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
-nnoremap("gr", "<cmd>lua vim.lsp.buf.references()<CR>")
+-- nnoremap("gr", "<cmd>lua vim.lsp.buf.references()<CR>")
 nnoremap("gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
 nnoremap("gp", "<cmd>lua require'lsp.peek'.Peek('definition')<CR>")
 nnoremap("K", "<cmd>lua vim.lsp.buf.hover()<CR>")

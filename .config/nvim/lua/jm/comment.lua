@@ -1,10 +1,6 @@
 local M = {}
 
 function M.config()
-  local pre_hook = function(_ctx)
-    return require("ts_context_commentstring.internal").calculate_commentstring()
-  end
-
   JM.comment = {
     ---Add a space b/w comment and the line
     ---@type boolean
@@ -47,7 +43,7 @@ function M.config()
 
     ---Pre-hook, called before commenting the line
     ---@type function|nil
-    pre_hook = pre_hook,
+    pre_hook = nil,
 
     ---Post-hook, called after commenting is done
     ---@type function|nil
@@ -55,15 +51,8 @@ function M.config()
   }
 end
 
-function M.keymappings()
-  local nnoremap = JM.mapper "n"
-
-  nnoremap("/", "<cmd>lua require('Comment').toggle()<CR>")
-end
-
 function M.setup()
   M.config()
-  M.keymappings()
 
   local nvim_comment = require "Comment"
 

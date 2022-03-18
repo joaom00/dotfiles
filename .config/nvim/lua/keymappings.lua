@@ -66,9 +66,12 @@ inoremap("<A-k>", "<Esc><cmd>m .-2<CR>==gi")
 xnoremap("<A-j>", "<cmd>m '>+1<CR>gv-gv")
 xnoremap("<A-k>", "<cmd>m '<-2<CR>gv-gv")
 
-nnoremap("s", "<cmd>lua require('hop').hint_char1()<CR>")
-
 nnoremap("<leader>np", "<cmd>lua require('package-info').change_version()<CR>")
 nnoremap("<leader>nd", "<cmd>lua require('package-info').delete()<CR>")
 
-nnoremap("rn", "<cmd>lua require('renamer').rename()<CR>")
+nmap("rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
+
+vnoremap("<Space>f", "zf")
+
+-- Debugging
+nnoremap("<leader>b", "<cmd>lua require('dap').toggle_breakpoint()<CR>")

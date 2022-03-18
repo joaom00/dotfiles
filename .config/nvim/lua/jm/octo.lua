@@ -137,12 +137,12 @@ end
 
 function M.keymappings()
   -- ISSUES
-  nnoremap("<space>gi", "<cmd>Octo issue list<CR>")
+  nnoremap("<space>il", "<cmd>Octo issue list<CR>")
   nnoremap("<leader>oic", "<cmd>Octo issue list states=CLOSED<CR>")
   nnoremap("<leader>oin", "<cmd>Octo issue create<CR>")
 
   -- PULL REQUESTS
-  nnoremap("<space>gp", "<cmd>Octo pr list<CR>")
+  nnoremap("<space>pl", "<cmd>Octo pr list<CR>")
 end
 
 function M.setup()

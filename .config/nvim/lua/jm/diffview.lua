@@ -31,7 +31,7 @@ function M.config()
       position = "left",
       width = 35,
       height = 10,
-      listing_style = "list",
+      listing_style = "tree",
       tree_options = {
         flatten_dirs = true,
         folder_statuses = "only_folded",
@@ -150,7 +150,7 @@ end
 function M.setup()
   M.config()
   M.keymappings()
-  M.sanediffdefaults()
+  -- M.sanediffdefaults()
 end
 
 return M
