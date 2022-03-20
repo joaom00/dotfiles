@@ -13,6 +13,7 @@
 
 - link:
     ~/.zshrc: zsh/.zshrc
+    ~/.tmux.conf: tmux/.tmux.conf
     ~/.gitconfig: git/.gitconfig
     ~/.gitmessage: git/.gitmessage
     ~/themes.gitconfig: git/themes.gitconfig
