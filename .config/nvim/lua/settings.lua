@@ -26,14 +26,11 @@ vim.opt.ttimeoutlen = 10
 -----------------------------------------------------------------------------//
 -- Window splitting and buffers {{{1
 -----------------------------------------------------------------------------//
---- NOTE: remove this once 0.6 lands as it is now default
-vim.opt.hidden = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.eadirection = "hor"
 vim.opt.switchbuf = "useopen,uselast"
 vim.opt.fillchars = {
-  vert = "▕", -- alternatives │
   fold = " ",
   eob = " ", -- suppress ~ at EndOfBuffer
   diff = "╱", -- alternatives = ⣿ ░ ─
@@ -97,7 +94,8 @@ vim.opt.conceallevel = 2
 vim.opt.breakindentopt = "sbr"
 vim.opt.linebreak = true -- lines wrap at words rather than random characters
 vim.opt.synmaxcol = 1024 -- don't syntax highlight long lines
-vim.opt.signcolumn = "yes"
+-- vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "auto:2-5"
 vim.opt.ruler = false
 vim.opt.cmdheight = 2 -- Set command line height to two lines
 vim.opt.showbreak = [[↪ ]] -- Options include -> '…', '↳ ', '→','↪ '
@@ -142,7 +140,7 @@ vim.opt.completeopt = { "menuone", "noselect" }
 vim.opt.hlsearch = false
 vim.opt.autowriteall = true -- automatically :write before running commands and changing files
 vim.opt.clipboard = { "unnamedplus" }
-vim.opt.laststatus = 2
+vim.opt.laststatus = 3
 vim.opt.termguicolors = true
 vim.opt.guifont = "monospace:h17"
 -----------------------------------------------------------------------------//

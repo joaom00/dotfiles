@@ -77,6 +77,11 @@ require("telescope").setup {
         ["<C-k>"] = actions.move_selection_previous,
         ["<C-v>"] = actions.select_vertical,
       },
+      n = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-v>"] = actions.select_vertical,
+      },
     },
   },
   extensions = {
@@ -258,6 +263,8 @@ load_extension "ghn"
 load_extension "file_browser"
 load_extension "git_worktree"
 load_extension "twitch"
+load_extension "dap"
+-- load_extension "toggleterm"
 
 function M.edit_neovim()
   require("telescope.builtin").find_files {
@@ -265,6 +272,14 @@ function M.edit_neovim()
     previewer = false,
     sorting_strategy = "ascending",
     layout_config = { prompt_position = "top" },
+  }
+end
+
+function M.live_grep_nvim_conf()
+  require("telescope.builtin").live_grep {
+    cwd = "~/.config/nvim",
+    fzf_separator = "|>",
+    previewer = false,
   }
 end
 

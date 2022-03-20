@@ -32,7 +32,6 @@ return require("packer").startup(function(use)
 
   -- LSP
   use { "neovim/nvim-lspconfig" }
-  use { "tamago324/nlsp-settings.nvim" }
   use {
     "ray-x/lsp_signature.nvim",
     config = function()
@@ -40,6 +39,7 @@ return require("packer").startup(function(use)
     end,
   }
   use { "williamboman/nvim-lsp-installer" }
+  use { "tamago324/nlsp-settings.nvim" }
 
   -- TREESITTER
   use {
@@ -55,7 +55,7 @@ return require("packer").startup(function(use)
   use {
     "hrsh7th/nvim-cmp",
     config = function()
-      require("jm.cmp").setup()
+      require("jm.completion").setup()
     end,
     requires = {
       { "hrsh7th/cmp-buffer" },
@@ -87,29 +87,40 @@ return require("packer").startup(function(use)
   -- FORMATTER & LINTER
   use { "jose-elias-alvarez/null-ls.nvim" }
 
+  -- TERMINAL
+  use {
+    "akinsho/nvim-toggleterm.lua",
+    event = "BufWinEnter",
+    config = function()
+      require("jm.toggleterm").setup()
+    end,
+  }
+
   -- TELESCOPE
   use {
     "nvim-telescope/telescope.nvim",
     config = function()
       require "jm.telescope"
     end,
-  }
-  use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
-  use { "nvim-telescope/telescope-fzf-writer.nvim" }
-  use { "nvim-telescope/telescope-frecency.nvim" }
-  use {
-    "ahmedkhalf/project.nvim",
-    config = function()
-      require("project_nvim").setup()
-    end,
-  }
-  use { "nvim-telescope/telescope-file-browser.nvim" }
-  use {
-    "da-moon/telescope-toggleterm.nvim",
-    event = "TermOpen",
-    config = function()
-      require("telescope").load_extension "toggleterm"
-    end,
+    requires = {
+      { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+      { "nvim-telescope/telescope-fzf-writer.nvim" },
+      { "nvim-telescope/telescope-frecency.nvim" },
+      { "nvim-telescope/telescope-file-browser.nvim" },
+      {
+        "da-moon/telescope-toggleterm.nvim",
+        event = "TermOpen",
+        config = function()
+          require("telescope").load_extension "toggleterm"
+        end,
+      },
+      {
+        "ahmedkhalf/project.nvim",
+        config = function()
+          require("project_nvim").setup()
+        end,
+      },
+    },
   }
 
   -- TROUBE
@@ -169,15 +180,6 @@ return require("packer").startup(function(use)
   use { "theHamsta/nvim-dap-virtual-text" }
   use { "nvim-telescope/telescope-dap.nvim" }
 
-  -- TERMINAL
-  use {
-    "akinsho/nvim-toggleterm.lua",
-    event = "BufWinEnter",
-    config = function()
-      require("jm.toggleterm").setup()
-    end,
-  }
-
   -- FILE EXPLORER
   use {
     "kyazdani42/nvim-tree.lua",
@@ -215,7 +217,22 @@ return require("packer").startup(function(use)
     "ray-x/go.nvim",
     ft = "go",
     config = function()
-      require("go").setup()
+      require("go").setup {
+        -- goimport = 'goimports', -- 'gopls'
+        filstruct = "gopls",
+        log_path = vim.fn.expand "$HOME" .. "/tmp/gonvim.log",
+        lsp_codelens = false, -- use navigator
+        dap_debug = true,
+        goimport = "goimports",
+        dap_debug_vt = "true",
+
+        dap_debug_gui = true,
+        test_runner = "go", -- richgo, go test, richgo, dlv, ginkgo
+        -- run_in_floaterm = true, -- set to true to run in float window.
+        lsp_document_formatting = false,
+        -- lsp_on_attach = require("navigator.lspclient.attach").on_attach,
+        -- lsp_cfg = true,
+      }
     end,
   }
   use { "b0o/schemastore.nvim" }
@@ -225,6 +242,7 @@ return require("packer").startup(function(use)
   use { "folke/tokyonight.nvim" }
   use { "arzg/vim-colors-xcode" }
   use { "pwntester/nautilus.nvim" }
+  use { "ray-x/aurora" }
   use {
     "catppuccin/nvim",
     as = "catppuccin",
@@ -363,6 +381,87 @@ return require("packer").startup(function(use)
   }
 
   use { "tpope/vim-surround" }
+  use {
+    "ray-x/navigator.lua",
+    requires = { "ray-x/guihua.lua", run = "cd lua/fzy && make" },
+    config = function()
+      require("lsp").setup()
+      require("navigator").setup {
+        lsp_installer = true,
+        lsp_signature_help = true,
+        default_mapping = false,
+        keymaps = {
+          { key = "gd", func = "require('navigator.definition').definition()" },
+          { key = "gD", func = "declaration({ border = 'rounded', max_width = 80 })" },
+          { key = "gr", func = "require('navigator.reference').async_ref()" },
+          { key = "gi", func = "implementation()" },
+          { key = "gp", func = "require('navigator.definition').definition_preview()" },
+          { key = "<space>ca", func = "require('navigator.codeAction').code_action()" },
+          { key = "K", func = "hover({ popup_opts = { border = single, max_width = 80 }})" },
+          { key = "<c-p>", func = "diagnostic.goto_prev({ border = 'rounded', max_width = 80})" },
+          { key = "<c-n>", func = "diagnostic.goto_next({ border = 'rounded', max_width = 80})" },
+        },
+      }
+    end,
+  }
+
+  use {
+    "rcarriga/vim-ultest",
+    requires = { "vim-test/vim-test" },
+    run = ":UpdateRemotePlugins",
+    config = function()
+      local builders = {
+        python = function(cmd)
+          local non_modules = { "python", "pipenv", "poetry" }
+
+          local module_index
+          if vim.tbl_contains(non_modules, cmd[1]) then
+            module_index = 3
+          else
+            module_index = 1
+          end
+
+          local args = vim.list_slice(cmd, module_index + 1)
+
+          return {
+            dap = {
+              type = "python",
+              name = "Ultest Debugger",
+              request = "launch",
+              module = cmd[module_index],
+              args = args,
+              justMyCode = false,
+            },
+          }
+        end,
+        ["go#gotest"] = function(cmd)
+          local args = {}
+
+          for i = 3, #cmd, 1 do
+            local arg = cmd[i]
+            if vim.startswith(arg, "-") then
+              arg = "-test." .. string.sub(arg, 2)
+            end
+            args[#args + 1] = arg
+          end
+          return {
+            dap = {
+              type = "go",
+              request = "launch",
+              mode = "test",
+              program = "${workspaceFolder}",
+              dlvToolPath = vim.fn.exepath "dlv",
+              args = args,
+            },
+            parse_result = function(lines)
+              return lines[#lines] == "FAIL" and 1 or 0
+            end,
+          }
+        end,
+      }
+      require("ultest").setup { builders = builders }
+    end,
+  }
 
   use { "~/dev/omni.nvim" }
   use { "~/dev/404.nvim" }

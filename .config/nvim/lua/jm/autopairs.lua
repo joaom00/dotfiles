@@ -2,6 +2,7 @@ local M = {}
 
 function M.config()
   JM.autopairs = {
+    disable_filetype = { "TelescopePrompt", "guihua", "guihua_rust", "clap_input" },
     map_cr = true,
     map_complete = vim.bo.filetype ~= "tex",
     check_ts = true,

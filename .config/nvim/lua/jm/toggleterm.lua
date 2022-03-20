@@ -85,7 +85,7 @@ end
 local tw_channels = {}
 
 function M.twitch_chat_toggle(channel)
-  channel = channel or vim.fn.input "Twitch Channel > "
+  channel = channel or tw_channels.last_channel or vim.fn.input "Twitch Channel > "
 
   if not tw_channels[channel] then
     tw_channels[channel] = Terminal:new {
@@ -94,6 +94,9 @@ function M.twitch_chat_toggle(channel)
       start_in_insert = false,
       direction = "float",
       float_opts = { border = "curved" },
+      on_close = function()
+        tw_channels.last_channel = channel
+      end,
     }
   end
 

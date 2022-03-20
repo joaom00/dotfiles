@@ -1,5 +1,5 @@
 -- Disable arrow keys
-vim.g.mapleader = JM.leader
+vim.g.mapleader = "-"
 
 local nmap = JM.mapper("n", false)
 
