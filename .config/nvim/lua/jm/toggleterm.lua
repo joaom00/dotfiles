@@ -25,6 +25,7 @@ end
 
 local gcommit = Terminal:new {
   cmd = "git commit",
+  count = 3,
   hidden = true,
   direction = "window",
   start_in_insert = true,
@@ -33,16 +34,9 @@ local gcommit = Terminal:new {
   on_open = float_handler,
 }
 
-local lazygit = Terminal:new {
-  cmd = "lazygit",
-  hidden = true,
-  direction = "float",
-  float_opts = { border = "curved" },
-  on_open = float_handler,
-}
-
 local lazydocker = Terminal:new {
   cmd = "lazydocker",
+  count = 2,
   hidden = true,
   direction = "float",
   float_opts = { border = "curved" },
@@ -74,10 +68,6 @@ function M.gcommit_toggle()
   gcommit:toggle()
 end
 
-function M.lazygit_toggle()
-  lazygit:toggle()
-end
-
 function M.lazydocker_toggle()
   lazydocker:toggle()
 end
@@ -106,7 +96,6 @@ end
 function M.keymappings()
   nnoremap("<F9>", "<cmd>ToggleTermOpenAll<CR>")
   nnoremap("<leader>gc", "<cmd>lua require('jm.toggleterm').gcommit_toggle()<CR>")
-  nnoremap("<space>l", "<cmd>lua require('jm.toggleterm').lazygit_toggle()<CR>")
   nnoremap("<space>d", "<cmd>lua require('jm.toggleterm').lazydocker_toggle()<CR>")
   nnoremap("<space>t", "<cmd>lua require('jm.toggleterm').twitch_chat_toggle()<CR>")
   tnoremap("<F10>", "<C-\\><C-n>:ToggleTermCloseAll<CR>")

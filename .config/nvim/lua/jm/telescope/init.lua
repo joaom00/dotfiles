@@ -43,11 +43,10 @@ local get_target_dir = function(finder)
   return finder.files and finder.path or entry_path
 end
 
-local borderchars = { " ", " ", " ", " ", " ", " ", " ", " " }
+-- local borderchars = { " ", " ", " ", " ", " ", " ", " ", " " }
 
 require("telescope").setup {
   defaults = {
-    borderchars = borderchars,
     prompt_prefix = " ",
     selection_caret = " ",
 
@@ -91,8 +90,14 @@ require("telescope").setup {
       mappings = {
         ["i"] = {
           ["<C-o>"] = function(prompt_bufnr)
+            local current_picker = actions_state.get_current_picker(prompt_bufnr)
+            local finder = current_picker.finder
             actions.close(prompt_bufnr)
-            ts_utils.get_os_command_output { "explorer.exe", "." }
+
+            local default = get_target_dir(finder) .. os_sep
+            local dir = vim.split(default, "/")
+
+            ts_utils.get_os_command_output { "explorer.exe", dir[#dir - 1] }
           end,
           ["<C-e>"] = function(prompt_bufnr)
             local current_picker = actions_state.get_current_picker(prompt_bufnr)
@@ -264,7 +269,6 @@ load_extension "file_browser"
 load_extension "git_worktree"
 load_extension "twitch"
 load_extension "dap"
--- load_extension "toggleterm"
 
 function M.edit_neovim()
   require("telescope.builtin").find_files {
@@ -288,13 +292,12 @@ function M.git_files()
   local opts = themes.get_ivy {
     sorting_strategy = "ascending",
     cwd = path,
-    borderchars = borderchars,
   }
   require("telescope.builtin").git_files(opts)
 end
 
 function M.fd()
-  local opts = themes.get_ivy { hidden = false, sorting_strategy = "ascending", borderchars = borderchars }
+  local opts = themes.get_ivy { hidden = false, sorting_strategy = "ascending" }
   require("telescope.builtin").fd(opts)
 end
 
@@ -311,7 +314,6 @@ function M.frecency()
     border = true,
     previewer = false,
     path_display = { "shorten" },
-    borderchars = borderchars,
   })
 end
 
@@ -320,9 +322,7 @@ function M.file_browser()
 end
 
 function M.project()
-  require("telescope").extensions.projects.projects(themes.get_dropdown {
-    borderchars = borderchars,
-  })
+  require("telescope").extensions.projects.projects(themes.get_dropdown {})
 end
 
 function M.git_status()
@@ -337,7 +337,6 @@ function M.curbuf()
     border = true,
     previewer = false,
     path_display = { "shorten" },
-    borderchars = borderchars,
   })
 end
 
@@ -377,7 +376,6 @@ function M.lsp_references()
     },
     sorting_strategy = "ascending",
     ignore_filename = false,
-    borderchars = borderchars,
   }
 end
 

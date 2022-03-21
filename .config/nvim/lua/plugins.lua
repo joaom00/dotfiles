@@ -217,8 +217,11 @@ return require("packer").startup(function(use)
     "ray-x/go.nvim",
     ft = "go",
     config = function()
+      local path = require "nvim-lsp-installer.path"
+      local install_root_dir = path.concat { vim.fn.stdpath "data", "lsp_servers" }
       require("go").setup {
         -- goimport = 'goimports', -- 'gopls'
+        gopls_cmd = install_root_dir .. "/go/gopls",
         filstruct = "gopls",
         log_path = vim.fn.expand "$HOME" .. "/tmp/gonvim.log",
         lsp_codelens = false, -- use navigator
@@ -233,6 +236,11 @@ return require("packer").startup(function(use)
         -- lsp_on_attach = require("navigator.lspclient.attach").on_attach,
         -- lsp_cfg = true,
       }
+      vim.cmd "augroup go"
+      vim.cmd "autocmd!"
+      vim.cmd "autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4"
+
+      vim.cmd "augroup END"
     end,
   }
   use { "b0o/schemastore.nvim" }
@@ -347,35 +355,6 @@ return require("packer").startup(function(use)
   use {
     "simrat39/rust-tools.nvim",
     config = function()
-      local opts = {
-        tools = { -- rust-tools options
-          autoSetHints = true,
-          hover_with_actions = true,
-          inlay_hints = {
-            show_parameter_hints = false,
-            parameter_hints_prefix = "",
-            other_hints_prefix = "",
-          },
-        },
-
-        -- all the opts to send to nvim-lspconfig
-        -- these override the defaults set by rust-tools.nvim
-        -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
-        server = {
-          -- on_attach is a callback called when the language server attachs to the buffer
-          -- on_attach = on_attach,
-          settings = {
-            -- to enable rust-analyzer settings visit:
-            -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-            ["rust-analyzer"] = {
-              -- enable clippy on save
-              checkOnSave = {
-                command = "clippy",
-              },
-            },
-          },
-        },
-      }
       require("rust-tools").setup()
     end,
   }
@@ -385,16 +364,26 @@ return require("packer").startup(function(use)
     "ray-x/navigator.lua",
     requires = { "ray-x/guihua.lua", run = "cd lua/fzy && make" },
     config = function()
+      local single = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
+
       require("lsp").setup()
       require("navigator").setup {
         lsp_installer = true,
+        border = single,
         lsp_signature_help = true,
         default_mapping = false,
+        combined_attach = "their",
+        lsp = {
+          format_on_save = true,
+          code_lens = true,
+          disable_format_cap = { "gopls" },
+        },
         keymaps = {
           { key = "gd", func = "require('navigator.definition').definition()" },
           { key = "gD", func = "declaration({ border = 'rounded', max_width = 80 })" },
           { key = "gr", func = "require('navigator.reference').async_ref()" },
           { key = "gi", func = "implementation()" },
+          { key = "rn", func = "require('navigator.rename').rename()" },
           { key = "gp", func = "require('navigator.definition').definition_preview()" },
           { key = "<space>ca", func = "require('navigator.codeAction').code_action()" },
           { key = "K", func = "hover({ popup_opts = { border = single, max_width = 80 }})" },

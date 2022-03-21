@@ -2,7 +2,8 @@ require "globals"
 require "plugins"
 require "settings"
 require "keymappings"
-vim.g.python3_host_prog = "/home/joaom/.asdf/shims/python"
+
+vim.g.python3_host_prog = "/usr/bin/python3"
 vim.g.ultest_use_pty = 1
 
 require("jm.colorscheme").aurora()

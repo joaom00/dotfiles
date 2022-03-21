@@ -1,7 +1,7 @@
 [user]
-  name = João Pedro
+  name = João Pedro Magalhães
   email = joaopsilvamagalhaes@gmail.com
-  signingkey = 10C8FF11D3F97E01
+  signingkey = joaopsilvamagalhaes@gmail.com
 
 [include]
   path = ~/themes.gitconfig

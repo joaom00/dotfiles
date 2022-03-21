@@ -5,15 +5,10 @@ end
 
 local types = require "luasnip.util.types"
 
-local snippet_from_nodes = ls.sn
-local s = ls.snippet
 local i = ls.insert_node
 local t = ls.text_node
-local c = ls.choice_node
--- local l = require("luasnip.extras").lambda
-local d = ls.dynamic_node
-local f = ls.function_node
-local fmt = require("luasnip.extras.fmt").fmt
+
+local snippet = ls.s
 
 ls.config.set_config {
   history = true,
@@ -23,78 +18,45 @@ ls.config.set_config {
   ext_opts = {
     [types.choiceNode] = {
       active = {
-        virt_text = { { "<-", "Error" } },
+        virt_text = { { " <- Current Choice", "Error" } },
       },
     },
   },
 }
 
-local require_var = function(args, _)
-  local text = args[1][1] or ""
+local shortcut = function(val)
+  if type(val) == "string" then
+    return { t { val }, i(0) }
+  end
 
-  text = text:gsub("^%l", string.upper)
+  if type(val) == "table" then
+    for k, v in ipairs(val) do
+      if type(v) == "string" then
+        val[k] = t { v }
+      end
+    end
+  end
 
-  return snippet_from_nodes(nil, {
-    t(text),
-  })
+  return val
 end
 
-ls.snippets = {
-  lua = {
-    s(
-      "req",
-      fmt(
-        [[local {} = require "{}"]],
-        { f(function(import_name)
-          return import_name[1]
-        end, { 1 }), i(1) }
-      )
-    ),
-  },
-  typescriptreact = {
-    s("usestate", {
-      t "const [",
-      i(1),
-      t ", set",
-      d(2, require_var, { 1 }),
-      t "] = ",
-      c(4, {
-        t "React.useState(",
-        t "useState(",
-      }),
-      i(3, "initialState"),
-      t ")",
-      i(0),
-    }),
-    s(
-      "useeffect",
-      fmt(
-        [[
-  useEffect(() => {{
-    {}
-  }}, [])
-  ]],
-        { i(0) }
-      )
-    ),
-  },
-  typescript = {
-    s("sc", {
-      t "export const ",
-      i(1, { "val" }),
-      t " = styled.",
-      i(2, { "el" }),
-      t { "`", "\t" },
-      c(3, {
-        t { "${({ theme }) => css`", "\t" },
-        t "",
-      }),
-      i(0),
-      t { "", "`}" },
-      t { "", "`" },
-    }),
-  },
-}
+local make = function(tbl)
+  local result = {}
+  for k, v in pairs(tbl) do
+    table.insert(result, (snippet({ trig = k, desc = v.desc }, shortcut(v))))
+  end
+
+  return result
+end
+
+local snippets = {}
+
+for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/jm/snips/ft/*.lua", true)) do
+  local ft = vim.fn.fnamemodify(ft_path, ":t:r")
+  snippets[ft] = make(loadfile(ft_path)())
+end
+
+ls.snippets = snippets
 
 vim.keymap.set({ "i", "s" }, "<c-k>", function()
   if ls.expand_or_jumpable() then
