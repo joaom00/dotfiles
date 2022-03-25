@@ -168,7 +168,7 @@ function M.setup()
       end
       for _, client in ipairs(clients) do
         local filetypes = client.config.filetypes
-        if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+        if filetypes and client.name ~= "null-ls" and vim.fn.index(filetypes, buf_ft) ~= -1 then
           return client.name
         end
       end
@@ -179,19 +179,19 @@ function M.setup()
   }
 
   -- Add components to right sections
-  ins_right {
-    "o:encoding", -- option component same as &encoding in viml
-    fmt = string.upper, -- I'm not sure why it's upper case either ;)
-    cond = conditions.hide_in_width,
-    color = { fg = colors.green, gui = "bold" },
-  }
+  -- ins_right {
+  --   "o:encoding", -- option component same as &encoding in viml
+  --   fmt = string.upper, -- I'm not sure why it's upper case either ;)
+  --   cond = conditions.hide_in_width,
+  --   color = { fg = colors.green, gui = "bold" },
+  -- }
 
-  ins_right {
-    "fileformat",
-    fmt = string.upper,
-    icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-    color = { fg = colors.green, gui = "bold" },
-  }
+  -- ins_right {
+  --   "fileformat",
+  --   fmt = string.upper,
+  --   icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
+  --   color = { fg = colors.green, gui = "bold" },
+  -- }
 
   ins_right {
     "branch",

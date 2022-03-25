@@ -69,7 +69,6 @@ require("telescope").setup {
         vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
       end,
     },
-
     mappings = {
       i = {
         ["<C-j>"] = actions.move_selection_next,

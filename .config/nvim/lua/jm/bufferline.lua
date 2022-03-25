@@ -43,7 +43,7 @@ function M.config()
       show_close_icon = true,
       show_tab_indicators = true,
       persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
-      separator_style = "thin", -- 'slant' | 'thick' | 'thin' | {'any', 'any'}
+      separator_style = "thick", -- 'slant' | 'thick' | 'thin' | {'any', 'any'}
       enforce_regular_tabs = false,
       always_show_bufferline = true,
       sort_by = "directory", -- | 'extension' | 'relative_directory' | 'directory' | function(buffer_a, buffer_b)

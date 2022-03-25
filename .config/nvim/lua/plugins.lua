@@ -233,7 +233,7 @@ return require("packer").startup(function(use)
         test_runner = "go", -- richgo, go test, richgo, dlv, ginkgo
         -- run_in_floaterm = true, -- set to true to run in float window.
         lsp_document_formatting = false,
-        -- lsp_on_attach = require("navigator.lspclient.attach").on_attach,
+        lsp_on_attach = require("navigator.lspclient.attach").on_attach,
         -- lsp_cfg = true,
       }
       vim.cmd "augroup go"
@@ -364,33 +364,7 @@ return require("packer").startup(function(use)
     "ray-x/navigator.lua",
     requires = { "ray-x/guihua.lua", run = "cd lua/fzy && make" },
     config = function()
-      local single = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
-
       require("lsp").setup()
-      require("navigator").setup {
-        lsp_installer = true,
-        border = single,
-        lsp_signature_help = true,
-        default_mapping = false,
-        combined_attach = "their",
-        lsp = {
-          format_on_save = true,
-          code_lens = true,
-          disable_format_cap = { "gopls" },
-        },
-        keymaps = {
-          { key = "gd", func = "require('navigator.definition').definition()" },
-          { key = "gD", func = "declaration({ border = 'rounded', max_width = 80 })" },
-          { key = "gr", func = "require('navigator.reference').async_ref()" },
-          { key = "gi", func = "implementation()" },
-          { key = "rn", func = "require('navigator.rename').rename()" },
-          { key = "gp", func = "require('navigator.definition').definition_preview()" },
-          { key = "<space>ca", func = "require('navigator.codeAction').code_action()" },
-          { key = "K", func = "hover({ popup_opts = { border = single, max_width = 80 }})" },
-          { key = "<c-p>", func = "diagnostic.goto_prev({ border = 'rounded', max_width = 80})" },
-          { key = "<c-n>", func = "diagnostic.goto_next({ border = 'rounded', max_width = 80})" },
-        },
-      }
     end,
   }
 
@@ -449,6 +423,14 @@ return require("packer").startup(function(use)
         end,
       }
       require("ultest").setup { builders = builders }
+    end,
+  }
+  use {
+    "liuchengxu/vista.vim",
+    config = function()
+      vim.g.vista_default_executive = "nvim_lsp"
+      vim.g.vista_sidebar_width = 70
+      vim.g.vista_fzf_preview = { "right:50%" }
     end,
   }
 

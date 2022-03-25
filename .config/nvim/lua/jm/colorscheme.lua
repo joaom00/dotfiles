@@ -5,6 +5,8 @@ local M = {}
 -----------------------------------------------------------------------------//
 function M.aurora()
   vim.cmd "colorscheme aurora"
+  vim.cmd "hi Normal guibg=NONE ctermbg=NONE" -- remove background
+  vim.cmd "hi EndOfBuffer guibg=NONE ctermbg=NONE" -- remove background
 end
 
 -----------------------------------------------------------------------------//

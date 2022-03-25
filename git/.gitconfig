@@ -32,7 +32,10 @@
   c = commit -m
 
 [delta]
-  navigate = true
+  line-numbers = true
+  side-by-side = false
+
+  file-modified-label = modified:
  
 [interactive]
   diffFilter = delta --color-only

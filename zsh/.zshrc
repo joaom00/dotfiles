@@ -136,3 +136,5 @@ unset __conda_setup
 
 bindkey "^K" end-of-line
 bindkey -s '^F' 'cd ~/dev/$(ls -p ~/dev | fzf)\n'
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
