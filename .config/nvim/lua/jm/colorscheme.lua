@@ -4,6 +4,9 @@ local M = {}
 -- Aurora Theme {{{1
 -----------------------------------------------------------------------------//
 function M.aurora()
+  if not pcall(require, "aurora") then
+    return
+  end
   vim.cmd "colorscheme aurora"
   vim.cmd "hi Normal guibg=NONE ctermbg=NONE" -- remove background
   vim.cmd "hi EndOfBuffer guibg=NONE ctermbg=NONE" -- remove background
@@ -131,6 +134,51 @@ function M.omni()
   vim.g.lightline = { coloscheme = "omni" }
 
   vim.cmd "colorscheme omni"
+end
+
+-----------------------------------------------------------------------------//
+-- Nautilus Theme {{{1
+-----------------------------------------------------------------------------//
+function M.nautilus()
+  if not pcall(require, "nautilus") then
+    return
+  end
+
+  require("nautilus").load {
+    transparent = true,
+  }
+end
+
+-----------------------------------------------------------------------------//
+-- Shado Theme {{{1
+-----------------------------------------------------------------------------//
+function M.shado()
+  vim.cmd "colorscheme shado"
+end
+
+-----------------------------------------------------------------------------//
+-- Xcode Theme {{{1
+-----------------------------------------------------------------------------//
+function M.xcode(variant)
+  variant = variant or "darkhc"
+  vim.cmd("colorscheme xcode" .. variant)
+end
+
+-----------------------------------------------------------------------------//
+-- Xcode Theme {{{1
+-----------------------------------------------------------------------------//
+function M.xcode2()
+  require("xcode-colors").setup {
+    background = "light",
+  }
+  vim.cmd "colorscheme xcode"
+end
+
+-----------------------------------------------------------------------------//
+-- Catppuccin Theme {{{1
+-----------------------------------------------------------------------------//
+function M.catppuccin()
+  vim.cmd "colorscheme catppuccin"
 end
 
 return M

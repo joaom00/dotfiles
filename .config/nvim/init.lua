@@ -6,7 +6,7 @@ require "keymappings"
 vim.g.python3_host_prog = "/usr/bin/python3"
 vim.g.ultest_use_pty = 1
 
-require("jm.colorscheme").aurora()
+require("jm.colorscheme").xcode()
 require("lsp.null-ls").setup()
 
 require("jm.autocmds").define_augroups {

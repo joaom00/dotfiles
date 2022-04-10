@@ -6,8 +6,8 @@ function M.setup()
     return
   end
 
-  -- local path = require "nvim-lsp-installer.path"
-  -- local install_root_dir = path.concat { vim.fn.stdpath "data", "lsp_servers" }
+  local path = require "nvim-lsp-installer.path"
+  local install_root_dir = path.concat { vim.fn.stdpath "data", "lsp_servers" }
 
   local formatting = null_ls.builtins.formatting
   local diagnostics = null_ls.builtins.diagnostics
@@ -27,20 +27,11 @@ function M.setup()
       },
     },
     formatting.prettierd,
-    -- formatting.prettierd.with {
-    --   prefer_local = true,
-    --   extra_args = {
-    --     "--print-width",
-    --     "100",
-    --     "--tab-width",
-    --     "2",
-    --   },
-    -- },
 
     -- DIAGNOSTICS
-    -- diagnostics.golangci_lint.with {
-    --   command = install_root_dir .. "/golangci_lint_ls/golangci-lint",
-    -- },
+    diagnostics.golangci_lint.with {
+      command = install_root_dir .. "/golangci_lint_ls/golangci-lint",
+    },
     diagnostics.golangci_lint,
     diagnostics.eslint_d,
     diagnostics.pylint,

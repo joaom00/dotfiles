@@ -160,8 +160,6 @@ end
 function M.setup()
   M.config()
 
-  require("luasnip/loaders/from_vscode").load { paths = "./snippets" }
-
   cmp.setup(JM.cmp)
   cmp.setup.cmdline(":", {
     sources = {

@@ -80,7 +80,7 @@ return require("packer").startup(function(use)
   use {
     "L3MON4D3/LuaSnip",
     config = function()
-      require "jm.luasnip"
+      require("jm.snippets").setup()
     end,
   }
 
@@ -135,7 +135,7 @@ return require("packer").startup(function(use)
   use {
     "folke/todo-comments.nvim",
     config = function()
-      require("todo-comments").setup()
+      require("jm.todo").setup()
     end,
   }
 
@@ -236,11 +236,11 @@ return require("packer").startup(function(use)
         lsp_on_attach = require("navigator.lspclient.attach").on_attach,
         -- lsp_cfg = true,
       }
-      vim.cmd "augroup go"
-      vim.cmd "autocmd!"
-      vim.cmd "autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4"
+      -- vim.cmd "augroup go"
+      -- vim.cmd "autocmd!"
+      -- vim.cmd "autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4"
 
-      vim.cmd "augroup END"
+      -- vim.cmd "augroup END"
     end,
   }
   use { "b0o/schemastore.nvim" }

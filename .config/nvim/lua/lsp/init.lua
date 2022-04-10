@@ -66,7 +66,14 @@ function M.lsp_installer_servers()
       options.on_attach = on_attach
     end,
     ["prismals"] = function(options)
-      options.on_attach = on_attach
+      options.on_attach = function(client, bufnr)
+        client.resolved_capabilities.document_formatting = true
+        require("navigator.lspclient.mapping").setup {
+          client = client,
+          bufnr = bufnr,
+          cap = client.resolved_capabilities,
+        }
+      end
     end,
     ["yamlls"] = function(options)
       options.on_attach = on_attach
@@ -113,7 +120,42 @@ function M.setup()
     lsp = {
       format_on_save = true,
       code_lens = false,
-      disable_format_cap = { "gopls", "volar" },
+      disable_format_cap = { "gopls", "volar", "cssls", "jsonls", "html" },
+      disable_lsp = {
+        "angularls",
+        "flow",
+        "julials",
+        "pylsp",
+        "pyright",
+        "jedi_language_server",
+        "jdtls",
+        "vimls",
+        "solargraph",
+        "clangd",
+        "ccls",
+        "sqls",
+        "denols",
+        "graphql",
+        "dartls",
+        "dotls",
+        "kotlin_language_server",
+        "nimls",
+        "intelephense",
+        "vuels",
+        "phpactor",
+        "omnisharp",
+        "r_language_server",
+        "rust_analyzer",
+        "terraformls",
+        "svelte",
+        "texlab",
+        "clojure_lsp",
+        "elixirls",
+        "sourcekit",
+        "fsautocomplete",
+        "vls",
+        "hls",
+      },
       servers = { "volar" },
       volar = {
         cmd = { "vue-language-server", "--stdio" },
@@ -122,13 +164,12 @@ function M.setup()
       },
     },
     keymaps = {
-      { key = "gd", func = "require('navigator.definition').definition()" },
-      { key = "gD", func = "declaration({ border = 'rounded', max_width = 80 })" },
-      { key = "gr", func = "require('navigator.reference').async_ref()" },
-      { key = "gi", func = "implementation()" },
-      { key = "rn", func = "require('navigator.rename').rename()" },
+      { key = "gd", func = "vim.lsp.buf.definition()" },
+      { key = "gD", func = "vim.lsp.buf.declaration()" },
+      { key = "gi", func = "vim.lsp.buf.implementation()" },
+      { key = "rn", func = "vim.lsp.buf.rename()" },
       { key = "gp", func = "require('navigator.definition').definition_preview()" },
-      { key = "<space>ca", func = "require('navigator.codeAction').code_action()" },
+      -- { key = "<space>ca", func = "require('navigator.codeAction').code_action()" },
       { key = "K", func = "hover({ popup_opts = { border = single, max_width = 80 }})" },
       { key = "<c-p>", func = "diagnostic.goto_prev({ border = 'rounded', max_width = 80})" },
       { key = "<c-n>", func = "diagnostic.goto_next({ border = 'rounded', max_width = 80})" },
