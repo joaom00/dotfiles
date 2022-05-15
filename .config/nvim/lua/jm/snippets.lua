@@ -78,15 +78,18 @@ local js_snippets = {
     t ")",
     i(0),
   }),
-  s(
-    "useeffect",
-    fmt(
-      [[useEffect(() => {{
-          {}
-      }}, [])]],
-      { i(0) }
-    )
-  ),
+  s("useeffect", {
+    c(3, {
+      t "React.useEffect(() => {",
+      t "useEffect(() => {",
+    }),
+    t { "", "\t" },
+    i(1),
+    t { "", "}, [" },
+    i(2),
+    t "])",
+    i(0),
+  }),
   s("sc", {
     t "export const ",
     i(1, { "val" }),
@@ -100,6 +103,24 @@ local js_snippets = {
     i(0),
     t { "", "`}" },
     t { "", "`" },
+  }),
+  s("describe", {
+    t "describe('",
+    i(1),
+    t "', () => {",
+    t { "", "\t" },
+    i(2),
+    t { "", "})" },
+    i(0),
+  }),
+  s("it", {
+    t "it('should ",
+    i(1),
+    t "', () => {",
+    t { "", "\t" },
+    i(2),
+    t { "", "})" },
+    i(0),
   }),
 }
 

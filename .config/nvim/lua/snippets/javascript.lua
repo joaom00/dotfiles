@@ -39,15 +39,16 @@ return {
       t ")",
       i(0),
     }),
-    s(
-      "useeffect",
-      fmt(
-        [[useEffect(() => {{
-          {}
-      }}, [])]],
-        { i(0) }
-      )
-    ),
+    s("useeffect", {
+      c(1, {
+        t "React.useEffect(() => {",
+        t "useEffect(() => {",
+      }),
+      t { "", "\t" },
+      i(2),
+      t { "", "}, [])" },
+      i(0),
+    }),
     s("sc", {
       t "export const ",
       i(1, { "val" }),

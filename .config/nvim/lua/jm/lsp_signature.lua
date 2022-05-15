@@ -18,7 +18,7 @@ function M.config()
     -- floating_window_above_first = true,
     log_path = vim.fn.expand "$HOME" .. "/tmp/sig.log",
     -- hi_parameter = "Search",
-    zindex = 1002,
+    -- zindex = 1002,
     timer_interval = 100,
     extra_trigger_chars = {},
     handler_opts = {

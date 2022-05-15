@@ -33,12 +33,12 @@ function M.setup()
       command = install_root_dir .. "/golangci_lint_ls/golangci-lint",
     },
     diagnostics.golangci_lint,
-    diagnostics.eslint_d,
-    diagnostics.pylint,
+    diagnostics.eslint,
+    -- diagnostics.pylint,
     diagnostics.yamllint,
 
     -- CODE ACTIONS
-    actions.eslint_d,
+    actions.eslint,
     actions.proselint,
   }
 

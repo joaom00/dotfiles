@@ -65,13 +65,16 @@ function M.lsp_installer_servers()
     ["cssmodules_ls"] = function(options)
       options.on_attach = on_attach
     end,
+    ["rust_analyzer"] = function(options)
+      options.on_attach = on_attach
+    end,
     ["prismals"] = function(options)
       options.on_attach = function(client, bufnr)
         client.resolved_capabilities.document_formatting = true
         require("navigator.lspclient.mapping").setup {
           client = client,
           bufnr = bufnr,
-          cap = client.resolved_capabilities,
+          cap = client.ser,
         }
       end
     end,
@@ -120,7 +123,7 @@ function M.setup()
     lsp = {
       format_on_save = true,
       code_lens = false,
-      disable_format_cap = { "gopls", "volar", "cssls", "jsonls", "html" },
+      disable_format_cap = { "gopls", "volar", "cssls", "jsonls", "rust_analyzer", "html" },
       disable_lsp = {
         "angularls",
         "flow",
@@ -145,7 +148,6 @@ function M.setup()
         "phpactor",
         "omnisharp",
         "r_language_server",
-        "rust_analyzer",
         "terraformls",
         "svelte",
         "texlab",
