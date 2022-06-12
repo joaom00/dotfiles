@@ -15,7 +15,7 @@
 
 [commit]
   template = ~/.gitmessage
-  gpgSign = true
+  #gpgSign = true
 
 [pager]
   diff = delta

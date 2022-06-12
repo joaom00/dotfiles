@@ -6,9 +6,6 @@ function M.setup()
     return
   end
 
-  local path = require "nvim-lsp-installer.path"
-  local install_root_dir = path.concat { vim.fn.stdpath "data", "lsp_servers" }
-
   local formatting = null_ls.builtins.formatting
   local diagnostics = null_ls.builtins.diagnostics
   local actions = null_ls.builtins.code_actions
@@ -29,9 +26,9 @@ function M.setup()
     formatting.prettierd,
 
     -- DIAGNOSTICS
-    diagnostics.golangci_lint.with {
-      command = install_root_dir .. "/golangci_lint_ls/golangci-lint",
-    },
+    --   diagnostics.golangci_lint.with {
+    --     command = install_root_dir .. "/golangci_lint_ls/golangci-lint",
+    -- },
     diagnostics.golangci_lint,
     diagnostics.eslint,
     -- diagnostics.pylint,
@@ -48,7 +45,7 @@ function M.setup()
     default_timeout = 3000,
     fallback_severity = vim.diagnostic.severity.WARN,
     on_attach = function(client)
-      if client.resolved_capabilities.document_formatting then
+      if client.server_capabilities.document_formatting then
         vim.cmd "autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()"
       end
     end,

@@ -57,7 +57,7 @@ function M.config()
       { name = "path" },
       { name = "buffer", keyword_length = 5 },
     },
-    mapping = {
+    mapping = cmp.mapping.preset.insert({
       -- ["<c-k>"] = cmp.mapping.select_prev_item(),
       -- ["<c-j>"] = cmp.mapping.select_next_item(),
       ["<c-d>"] = cmp.mapping.scroll_docs(-4),
@@ -129,7 +129,7 @@ function M.config()
       -- },
       ["<c-c>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
       ["<c-e>"] = cmp.mapping.close(),
-    },
+    }),
     sorting = {
       comparators = {
         cmp.config.compare.offset,
@@ -165,11 +165,13 @@ function M.setup()
     sources = {
       { name = "cmdline" },
     },
+    mapping = cmp.mapping.preset.cmdline()
   })
   cmp.setup.cmdline("/", {
     sources = {
       { name = "buffer" },
     },
+    mapping = cmp.mapping.preset.cmdline()
   })
 end
 

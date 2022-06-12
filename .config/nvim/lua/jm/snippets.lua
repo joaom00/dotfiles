@@ -127,27 +127,26 @@ local js_snippets = {
 function M.setup()
   ls.config.set_config {
     history = true,
-    updateevents = "TextChanged, TextChangedI",
+    updateevents = "TextChanged,TextChangedI",
     enable_autosnippets = true,
 
     ext_opts = {
       [types.choiceNode] = {
         active = {
-          virt_text = { { " <- Current Choice", "Error" } },
+          virt_text = { { " <- Current Choice", "NonTest" } },
         },
       },
     },
   }
 
-  ls.snippets = {
-    javascript = js_snippets,
-    javascriptreact = js_snippets,
-    typescript = js_snippets,
-    typescriptreact = js_snippets,
-    go = {
-      s("iferr", fmt("if err != nil {{\n\t{}\n}}\n{}", { i(1), i(0) })),
-    },
-  }
+
+  ls.add_snippets('go', {
+    s("iferr", fmt("if err != nil {{\n\t{}\n}}\n{}", { i(1), i(0) })),
+  })
+  ls.add_snippets('javascript', js_snippets)
+  ls.add_snippets('javascriptreact', js_snippets)
+  ls.add_snippets('typescript', js_snippets)
+  ls.add_snippets('typescriptreact', js_snippets)
 
   vim.keymap.set({ "i", "s" }, "<c-k>", function()
     if ls.expand_or_jumpable() then
@@ -172,6 +171,9 @@ function M.setup()
   end, {
     silent = true,
   })
+
+  vim.keymap.set("i", "<c-u>", require "luasnip.extras.select_choice")
 end
+
 
 return M

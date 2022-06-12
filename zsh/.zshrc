@@ -92,7 +92,7 @@ __take() {
 alias take=__take
 
 
-plugins=(ssh-agent gpg-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions)
+plugins=(ssh-agent gpg-agent F-Sy-H zsh-autosuggestions zsh-completions)
 
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
@@ -120,7 +120,8 @@ SPACESHIP_PROMPT_ADD_NEWLINE=false
 SPACESHIP_CHAR_SYMBOL="❯"
 SPACESHIP_CHAR_SUFFIX=" "
 
-export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0
+# export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0
+export DISPLAY=172.22.192.1:0.0
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!

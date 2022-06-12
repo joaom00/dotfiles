@@ -1,106 +1,68 @@
 local M = {}
 
-local function on_attach(client, bufnr)
-  client.resolved_capabilities.document_formatting = false
-  require("navigator.lspclient.mapping").setup {
-    client = client,
-    bufnr = bufnr,
-    cap = client.resolved_capabilities,
-  }
-end
+-- local function on_attach(client, bufnr)
+--   client.resolved_capabilities.document_formatting = false
+--   require("navigator.lspclient.mapping").setup {
+--     client = client,
+--     bufnr = bufnr,
+--     cap = client.resolved_capabilities,
+--   }
+-- end
 
-function M.lsp_installer_servers()
-  local ok, lsp_installer = pcall(require, "nvim-lsp-installer")
-  if not ok then
-    JM.notify "Missing nvim-lsp-installer dependency"
-    return
-  end
-
-  local lspconfig_util = require "lspconfig.util"
-  local path = require "nvim-lsp-installer.path"
-  local install_root_dir = path.concat { vim.fn.stdpath "data", "lsp_servers" }
-
-  local enhance_server_opts = {
-    ["sumneko_lua"] = function(options)
-      options.on_attach = on_attach
-      options.settings = {
-        Lua = {
-          runtime = {
-            version = "LuaJIT",
-            path = vim.split(package.path, ";"),
-          },
-          diagnostics = {
-            globals = { "vim", "JM" },
-          },
-          workspace = {
-            library = {
-              [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-              [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-            },
-            maxPreload = 100000,
-            preloadFileSize = 1000,
-          },
-        },
-      }
-    end,
-    ["gopls"] = function(options)
-      options.on_attach = on_attach
-    end,
-    ["tsserver"] = function(options)
-      options.on_attach = on_attach
-    end,
-    ["tailwindcss"] = function(options)
-      options.on_attach = on_attach
-      options.cmd = { install_root_dir .. "/tailwindcss_npm/node_modules/.bin/tailwindcss-language-server" }
-      options.root_dir = function(fname)
-        return lspconfig_util.root_pattern("tailwind.config.js", "tailwind.config.ts")(fname)
-      end
-    end,
-    ["html"] = function(options)
-      options.on_attach = on_attach
-    end,
-    ["cssls"] = function(options)
-      options.on_attach = on_attach
-    end,
-    ["cssmodules_ls"] = function(options)
-      options.on_attach = on_attach
-    end,
-    ["rust_analyzer"] = function(options)
-      options.on_attach = on_attach
-    end,
-    ["prismals"] = function(options)
-      options.on_attach = function(client, bufnr)
-        client.resolved_capabilities.document_formatting = true
-        require("navigator.lspclient.mapping").setup {
-          client = client,
-          bufnr = bufnr,
-          cap = client.ser,
-        }
-      end
-    end,
-    ["yamlls"] = function(options)
-      options.on_attach = on_attach
-      options.settings = {
-        yaml = {
-          schemas = {
-            ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-            ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose.yaml",
-          },
-        },
-      }
-    end,
-  }
-
-  lsp_installer.on_server_ready(function(server)
-    local options = {}
-
-    if enhance_server_opts[server.name] then
-      enhance_server_opts[server.name](options)
-    end
-
-    server:setup(options)
-  end)
-end
+-- function M.lsp_installer_servers()
+--   local enhance_server_opts = {
+--     ["sumneko_lua"] = function(options)
+--       options.on_attach = on_attach
+--       options.settings = {
+--         Lua = {
+--           runtime = {
+--             version = "LuaJIT",
+--             path = vim.split(package.path, ";"),
+--           },
+--           diagnostics = {
+--             globals = { "vim", "JM" },
+--           },
+--           workspace = {
+--             library = {
+--               [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+--               [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+--             },
+--             maxPreload = 100000,
+--             preloadFileSize = 1000,
+--           },
+--         },
+--       }
+--     end,
+--     -- ["tailwindcss"] = function(options)
+--     --   options.on_attach = on_attach
+--     --   options.cmd = { install_root_dir .. "/tailwindcss_npm/node_modules/.bin/tailwindcss-language-server" }
+--     --   options.root_dir = function(fname)
+--     --     return lspconfig_util.root_pattern("tailwind.config.js", "tailwind.config.ts")(fname)
+--     --   end
+--     -- end,
+--     ["prismals"] = function(options)
+--       options.on_attach = function(client, bufnr)
+--         client.resolved_capabilities.document_formatting = true
+--         require("navigator.lspclient.mapping").setup {
+--           client = client,
+--           bufnr = bufnr,
+--           cap = client.ser,
+--         }
+--       end
+--     end,
+--     ["yamlls"] = function(options)
+--       options.on_attach = on_attach
+--       options.settings = {
+--         yaml = {
+--           schemas = {
+--             ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+--             ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose.yaml",
+--           },
+--         },
+--       }
+--     end,
+--   }
+-- end
 
 function M.setup()
   local ok, navigator = pcall(require, "navigator")
@@ -109,61 +71,13 @@ function M.setup()
     return
   end
 
-  M.lsp_installer_servers()
-
-  local single = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
-  local lspconfig_util = require "lspconfig.util"
-
   navigator.setup {
-    lsp_installer = true,
+    lsp_installer = false,
     border = single,
     lsp_signature_help = true,
     default_mapping = false,
-    combined_attach = "their",
     lsp = {
-      format_on_save = true,
-      code_lens = false,
-      disable_format_cap = { "gopls", "volar", "cssls", "jsonls", "rust_analyzer", "html" },
-      disable_lsp = {
-        "angularls",
-        "flow",
-        "julials",
-        "pylsp",
-        "pyright",
-        "jedi_language_server",
-        "jdtls",
-        "vimls",
-        "solargraph",
-        "clangd",
-        "ccls",
-        "sqls",
-        "denols",
-        "graphql",
-        "dartls",
-        "dotls",
-        "kotlin_language_server",
-        "nimls",
-        "intelephense",
-        "vuels",
-        "phpactor",
-        "omnisharp",
-        "r_language_server",
-        "terraformls",
-        "svelte",
-        "texlab",
-        "clojure_lsp",
-        "elixirls",
-        "sourcekit",
-        "fsautocomplete",
-        "vls",
-        "hls",
-      },
-      servers = { "volar" },
-      volar = {
-        cmd = { "vue-language-server", "--stdio" },
-        filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
-        root_dir = lspconfig_util.root_pattern(".git", "yarn.lock", "package.json", "vite.config.ts"),
-      },
+      disable_format_cap = { "rust_analyzer" },
     },
     keymaps = {
       { key = "gd", func = "vim.lsp.buf.definition()" },

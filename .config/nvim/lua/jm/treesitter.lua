@@ -8,7 +8,7 @@ local M = {}
 
 function M.config()
   treesitter_configs.setup {
-    ensure_installed = "maintained",
+    ensure_installed = "all",
     highlight = { enable = true },
     indent = { enable = true },
     autotag = { enable = true },

@@ -6,7 +6,7 @@ require "keymappings"
 vim.g.python3_host_prog = "/usr/bin/python3"
 vim.g.ultest_use_pty = 1
 
-require("jm.colorscheme").purpledaze()
+require("jm.colorscheme").xcode()
 require("lsp.null-ls").setup()
 
 require("jm.autocmds").define_augroups {
@@ -15,6 +15,9 @@ require("jm.autocmds").define_augroups {
     { "TermOpen", "*", "setlocal listchars= nonumber norelativenumber" },
   },
 }
+
+vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, { buffer = 0 })
+vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action)
 
 local dap = require "dap"
 
@@ -53,4 +56,22 @@ dap.configurations.typescript = {
     request = "attach",
     processId = require("dap.utils").pick_process,
   },
+}
+
+local lspconfig_util = require "lspconfig.util"
+
+local function on_attach(client, bufnr)
+  client.server_capabilities.document_formatting = false
+  require("navigator.lspclient.mapping").setup {
+    client = client,
+    bufnr = bufnr,
+    cap = client.resolved_capabilities,
+  }
+end
+
+require("lspconfig").tailwindcss.setup {
+  on_attach = on_attach,
+  root_dir = function(fname)
+    return lspconfig_util.root_pattern("tailwind.config.js", "tailwind.config.ts")(fname)
+  end,
 }

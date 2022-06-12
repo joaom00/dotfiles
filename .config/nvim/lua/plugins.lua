@@ -1,6 +1,5 @@
 local fn = vim.fn
 local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-local packer_bootstrap
 if fn.empty(fn.glob(install_path)) > 0 then
   packer_bootstrap = fn.system {
     "git",
@@ -38,7 +37,6 @@ return require("packer").startup(function(use)
       require("jm.lsp_signature").setup()
     end,
   }
-  use { "williamboman/nvim-lsp-installer" }
   use { "tamago324/nlsp-settings.nvim" }
 
   -- TREESITTER
@@ -217,11 +215,8 @@ return require("packer").startup(function(use)
     "ray-x/go.nvim",
     ft = "go",
     config = function()
-      local path = require "nvim-lsp-installer.path"
-      local install_root_dir = path.concat { vim.fn.stdpath "data", "lsp_servers" }
       require("go").setup {
         -- goimport = 'goimports', -- 'gopls'
-        gopls_cmd = install_root_dir .. "/go/gopls",
         filstruct = "gopls",
         log_path = vim.fn.expand "$HOME" .. "/tmp/gonvim.log",
         lsp_codelens = false, -- use navigator
@@ -234,9 +229,9 @@ return require("packer").startup(function(use)
         -- run_in_floaterm = true, -- set to true to run in float window.
         lsp_document_formatting = false,
         lsp_on_attach = require("navigator.lspclient.attach").on_attach,
-        -- lsp_cfg = true,
+        lsp_cfg = true,
       }
-      -- vim.cmd "augroup go"
+        -- vim.cmd "augroup go"
       -- vim.cmd "autocmd!"
       -- vim.cmd "autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4"
 
@@ -434,9 +429,9 @@ return require("packer").startup(function(use)
     end,
   }
 
-  use { "~/dev/omni.nvim" }
-  use { "~/dev/404.nvim" }
-  use { "~/dev/telescope-twitch.nvim" }
+  -- use { "~/dev/omni.nvim" }
+  -- use { "~/dev/404.nvim" }
+  -- use { "~/dev/telescope-twitch.nvim" }
 
   if packer_bootstrap then
     require("packer").sync()

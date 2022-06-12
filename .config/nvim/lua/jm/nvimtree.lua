@@ -4,6 +4,12 @@ local nnoremap = JM.mapper "n"
 function M.config()
   JM.nvimtree = {
     setup = {
+      show_icons = {
+        git = 1,
+        folders = 1,
+        files = 1,
+        folder_arrows = 1,
+      },
       respect_buf_cwd = true,
       disable_netrw = true,
       hijack_netrw = true,
@@ -88,12 +94,6 @@ function M.config()
       },
     },
     indent_markers = 1,
-    show_icons = {
-      git = 1,
-      folders = 1,
-      files = 1,
-      folder_arrows = 1,
-    },
     git_hl = 1,
     root_folder_modifier = ":t",
     icons = {
