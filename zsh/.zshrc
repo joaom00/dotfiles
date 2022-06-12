@@ -120,8 +120,8 @@ SPACESHIP_PROMPT_ADD_NEWLINE=false
 SPACESHIP_CHAR_SYMBOL="❯"
 SPACESHIP_CHAR_SUFFIX=" "
 
-# export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0
-export DISPLAY=172.22.192.1:0.0
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0
+# export DISPLAY=172.26.192.1:0.0
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
