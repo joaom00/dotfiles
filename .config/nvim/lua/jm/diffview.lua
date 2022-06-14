@@ -28,26 +28,14 @@ function M.config()
       fold_open = "",
     },
     file_panel = {
-      position = "left",
-      width = 35,
-      height = 10,
       listing_style = "tree",
+      win_config = {
+        position = "left",
+        width = 35,
+      },
       tree_options = {
         flatten_dirs = true,
         folder_statuses = "only_folded",
-      },
-    },
-    file_history_panel = {
-      position = "bottom",
-      width = 35,
-      height = 16,
-      log_options = {
-        max_count = 256,
-        follow = false,
-        all = false,
-        merges = false,
-        no_merges = false,
-        reverse = false,
       },
     },
     key_bindings = {

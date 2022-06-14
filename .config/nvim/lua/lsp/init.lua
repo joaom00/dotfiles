@@ -72,12 +72,11 @@ function M.setup()
   end
 
   navigator.setup {
-    lsp_installer = false,
-    border = single,
     lsp_signature_help = true,
     default_mapping = false,
     lsp = {
-      disable_format_cap = { "rust_analyzer" },
+      format_on_save = true,
+      disable_format_cap = { "rust_analyzer", "gopls" },
     },
     keymaps = {
       { key = "gd", func = "vim.lsp.buf.definition()" },

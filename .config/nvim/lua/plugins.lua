@@ -148,7 +148,7 @@ return require("packer").startup(function(use)
   }
   use {
     "sindrets/diffview.nvim",
-    event = "BufRead",
+    -- event = "BufRead",
     config = function()
       require("jm.diffview").setup()
     end,
@@ -221,15 +221,15 @@ return require("packer").startup(function(use)
         log_path = vim.fn.expand "$HOME" .. "/tmp/gonvim.log",
         lsp_codelens = false, -- use navigator
         dap_debug = true,
-        goimport = "goimports",
+        goimport = "gopls",
         dap_debug_vt = "true",
 
         dap_debug_gui = true,
         test_runner = "go", -- richgo, go test, richgo, dlv, ginkgo
         -- run_in_floaterm = true, -- set to true to run in float window.
-        lsp_document_formatting = false,
-        lsp_on_attach = require("navigator.lspclient.attach").on_attach,
-        lsp_cfg = true,
+        lsp_document_formatting = true,
+        -- lsp_on_attach = require("navigator.lspclient.attach").on_attach,
+        -- lsp_cfg = true,
       }
         -- vim.cmd "augroup go"
       -- vim.cmd "autocmd!"
