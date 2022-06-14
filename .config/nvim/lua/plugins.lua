@@ -231,7 +231,7 @@ return require("packer").startup(function(use)
         -- lsp_on_attach = require("navigator.lspclient.attach").on_attach,
         -- lsp_cfg = true,
       }
-        -- vim.cmd "augroup go"
+      -- vim.cmd "augroup go"
       -- vim.cmd "autocmd!"
       -- vim.cmd "autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4"
 
@@ -249,6 +249,11 @@ return require("packer").startup(function(use)
   use {
     "catppuccin/nvim",
     as = "catppuccin",
+  }
+  use {
+    'rose-pine/neovim',
+    as = 'rose-pine',
+    tag = 'v1.*',
   }
   use { "tjdevries/gruvbuddy.nvim", requires = {
     { "tjdevries/colorbuddy.vim" },
@@ -363,6 +368,20 @@ return require("packer").startup(function(use)
     end,
   }
 
+  use {
+    "nvim-neotest/neotest",
+    requires = {
+      "antoinemadec/FixCursorHold.nvim",
+      "haydenmeade/neotest-jest"
+    },
+    config = function()
+      require('neotest').setup({
+        adapters = {
+          require('neotest-jest'),
+        }
+      })
+    end
+  }
   use {
     "rcarriga/vim-ultest",
     requires = { "vim-test/vim-test" },
