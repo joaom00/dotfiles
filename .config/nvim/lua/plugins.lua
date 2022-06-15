@@ -251,9 +251,9 @@ return require("packer").startup(function(use)
     as = "catppuccin",
   }
   use {
-    'rose-pine/neovim',
-    as = 'rose-pine',
-    tag = 'v1.*',
+    "rose-pine/neovim",
+    as = "rose-pine",
+    tag = "v1.*",
   }
   use { "tjdevries/gruvbuddy.nvim", requires = {
     { "tjdevries/colorbuddy.vim" },
@@ -368,85 +368,85 @@ return require("packer").startup(function(use)
     end,
   }
 
-  use {
-    "nvim-neotest/neotest",
-    requires = {
-      "antoinemadec/FixCursorHold.nvim",
-      "haydenmeade/neotest-jest"
-    },
-    config = function()
-      require('neotest').setup({
-        adapters = {
-          require('neotest-jest'),
-        }
-      })
-    end
-  }
-  use {
-    "rcarriga/vim-ultest",
-    requires = { "vim-test/vim-test" },
-    run = ":UpdateRemotePlugins",
-    config = function()
-      local builders = {
-        python = function(cmd)
-          local non_modules = { "python", "pipenv", "poetry" }
+  -- use {
+  --   "nvim-neotest/neotest",
+  --   requires = {
+  --     "antoinemadec/FixCursorHold.nvim",
+  --     "haydenmeade/neotest-jest",
+  --   },
+  --   config = function()
+  --     require("neotest").setup {
+  --       adapters = {
+  --         require "neotest-jest",
+  --       },
+  --     }
+  --   end,
+  -- }
+  -- use {
+  --   "rcarriga/vim-ultest",
+  --   requires = { "vim-test/vim-test" },
+  --   run = ":UpdateRemotePlugins",
+  --   config = function()
+  --     local builders = {
+  --       python = function(cmd)
+  --         local non_modules = { "python", "pipenv", "poetry" }
 
-          local module_index
-          if vim.tbl_contains(non_modules, cmd[1]) then
-            module_index = 3
-          else
-            module_index = 1
-          end
+  --         local module_index
+  --         if vim.tbl_contains(non_modules, cmd[1]) then
+  --           module_index = 3
+  --         else
+  --           module_index = 1
+  --         end
 
-          local args = vim.list_slice(cmd, module_index + 1)
+  --         local args = vim.list_slice(cmd, module_index + 1)
 
-          return {
-            dap = {
-              type = "python",
-              name = "Ultest Debugger",
-              request = "launch",
-              module = cmd[module_index],
-              args = args,
-              justMyCode = false,
-            },
-          }
-        end,
-        ["go#gotest"] = function(cmd)
-          local args = {}
+  --         return {
+  --           dap = {
+  --             type = "python",
+  --             name = "Ultest Debugger",
+  --             request = "launch",
+  --             module = cmd[module_index],
+  --             args = args,
+  --             justMyCode = false,
+  --           },
+  --         }
+  --       end,
+  --       ["go#gotest"] = function(cmd)
+  --         local args = {}
 
-          for i = 3, #cmd, 1 do
-            local arg = cmd[i]
-            if vim.startswith(arg, "-") then
-              arg = "-test." .. string.sub(arg, 2)
-            end
-            args[#args + 1] = arg
-          end
-          return {
-            dap = {
-              type = "go",
-              request = "launch",
-              mode = "test",
-              program = "${workspaceFolder}",
-              dlvToolPath = vim.fn.exepath "dlv",
-              args = args,
-            },
-            parse_result = function(lines)
-              return lines[#lines] == "FAIL" and 1 or 0
-            end,
-          }
-        end,
-      }
-      require("ultest").setup { builders = builders }
-    end,
-  }
-  use {
-    "liuchengxu/vista.vim",
-    config = function()
-      vim.g.vista_default_executive = "nvim_lsp"
-      vim.g.vista_sidebar_width = 70
-      vim.g.vista_fzf_preview = { "right:50%" }
-    end,
-  }
+  --         for i = 3, #cmd, 1 do
+  --           local arg = cmd[i]
+  --           if vim.startswith(arg, "-") then
+  --             arg = "-test." .. string.sub(arg, 2)
+  --           end
+  --           args[#args + 1] = arg
+  --         end
+  --         return {
+  --           dap = {
+  --             type = "go",
+  --             request = "launch",
+  --             mode = "test",
+  --             program = "${workspaceFolder}",
+  --             dlvToolPath = vim.fn.exepath "dlv",
+  --             args = args,
+  --           },
+  --           parse_result = function(lines)
+  --             return lines[#lines] == "FAIL" and 1 or 0
+  --           end,
+  --         }
+  --       end,
+  --     }
+  --     require("ultest").setup { builders = builders }
+  --   end,
+  -- }
+  -- use {
+  --   "liuchengxu/vista.vim",
+  --   config = function()
+  --     vim.g.vista_default_executive = "nvim_lsp"
+  --     vim.g.vista_sidebar_width = 70
+  --     vim.g.vista_fzf_preview = { "right:50%" }
+  --   end,
+  -- }
 
   -- use { "~/dev/omni.nvim" }
   -- use { "~/dev/404.nvim" }

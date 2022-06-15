@@ -16,8 +16,8 @@ require("jm.autocmds").define_augroups {
   },
 }
 
-vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, { buffer = 0 })
-vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action)
+vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
+vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action)
 
 local dap = require "dap"
 
@@ -65,7 +65,7 @@ local function on_attach(client, bufnr)
   require("navigator.lspclient.mapping").setup {
     client = client,
     bufnr = bufnr,
-    cap = client.resolved_capabilities,
+    cap = client.server_capabilities,
   }
 end
 

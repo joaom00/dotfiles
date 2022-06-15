@@ -2,11 +2,11 @@ local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protoco
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local function on_attach(client, bufnr)
-  client.resolved_capabilities.document_formatting = false
+  client.server_capabilities.document_formatting = false
   require("navigator.lspclient.mapping").setup {
     client = client,
     bufnr = bufnr,
-    cap = client.resolved_capabilities,
+    cap = client.server_capabilities,
   }
 end
 
