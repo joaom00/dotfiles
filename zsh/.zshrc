@@ -3,6 +3,8 @@ export PATH=$HOME/.local/bin:$PATH
 # source /usr/share/autojump/autojump.sh
 # export PATH="$HOME/.miniconda/bin:$PATH"  # commented out by conda initialize
 
+export GREENLIGHT_DB_DSN='postgres://greenlight:pa55word@localhost/greenlight'
+
 setopt autocd extendedglob nomatch menucomplete
 setopt interactive_comments
 stty stop undef

@@ -18,6 +18,7 @@ require("jm.autocmds").define_augroups {
 
 vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
 vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action)
+vim.keymap.set("i", "<c-c>", "<esc>")
 
 local dap = require "dap"
 

@@ -50,9 +50,9 @@ vnoremap("<", "<gv")
 vnoremap(">", ">gv")
 
 -- I hate escape
-inoremap("jk", "<ESC>")
-inoremap("kj", "<ESC>")
-inoremap("jj", "<ESC>")
+-- inoremap("jk", "<ESC>")
+-- inoremap("kj", "<ESC>")
+-- inoremap("jj", "<ESC>")
 
 -- Move selected line / block of text in visual mode
 xnoremap("J", "<cmd>move '>+1<CR>gv-gv")

@@ -77,6 +77,7 @@ function M.setup()
     lsp = {
       format_on_save = true,
       disable_format_cap = { "rust_analyzer", "gopls" },
+      code_lens_action = { enable = true, sign = true, sign_priority = 40, virtual_text = false },
     },
     keymaps = {
       { key = "gd", func = "vim.lsp.buf.definition()" },

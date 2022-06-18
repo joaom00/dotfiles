@@ -185,7 +185,7 @@ end
 -- Rose Pine Theme {{{1
 -----------------------------------------------------------------------------//
 function M.rosepine()
-  -- vim.o.background = 'light'
+  -- vim.o.background = "light"
   vim.cmd "colorscheme rose-pine"
 end
 
