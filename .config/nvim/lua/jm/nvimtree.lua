@@ -4,12 +4,6 @@ local nnoremap = JM.mapper "n"
 function M.config()
   JM.nvimtree = {
     setup = {
-      show_icons = {
-        git = 1,
-        folders = 1,
-        files = 1,
-        folder_arrows = 1,
-      },
       respect_buf_cwd = true,
       disable_netrw = true,
       hijack_netrw = true,
@@ -30,7 +24,6 @@ function M.config()
         enable = true,
         auto_open = true,
       },
-      auto_close = false,
       open_on_tab = false,
       hijack_cursor = false,
       update_cwd = true,
@@ -86,34 +79,45 @@ function M.config()
         open_file = {
           quit_on_open = false,
         },
-        window_picker = {
-          enable = false,
-          chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-          exclude = {},
+        -- window_picker = {
+        --   enable = false,
+        --   chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+        --   exclude = {},
+        -- },
+      },
+      renderer = {
+        root_folder_modifier = ":t",
+        indent_markers = {
+          enable = true,
         },
-      },
-    },
-    indent_markers = 1,
-    git_hl = 1,
-    root_folder_modifier = ":t",
-    icons = {
-      default = "",
-      symlink = "",
-      git = {
-        unstaged = "",
-        staged = "S",
-        unmerged = "",
-        renamed = "➜",
-        deleted = "",
-        untracked = "U",
-        ignored = "◌",
-      },
-      folder = {
-        default = "",
-        open = "",
-        empty = "",
-        empty_open = "",
-        symlink = "",
+        icons = {
+          show = {
+            git = true,
+            file = true,
+            folder = true,
+            folder_arrow = true,
+          },
+          glyphs = {
+            default = "",
+            symlink = "",
+            git = {
+              unstaged = "",
+              staged = "S",
+              unmerged = "",
+              renamed = "➜",
+              deleted = "",
+              untracked = "U",
+              ignored = "◌",
+            },
+            folder = {
+              default = "",
+              open = "",
+              empty = "",
+              empty_open = "",
+              symlink = "",
+            },
+          },
+        },
       },
     },
   }
@@ -127,35 +131,37 @@ function M.setup()
   M.config()
   M.keymappings()
 
-  local ok = pcall(require, "nvim-tree.config")
-  if not ok then
-    JM.notify "Failed to load NvimTree Config"
-    return
-  end
+  -- local ok = pcall(require, "nvim-tree.config")
+  -- if not ok then
+  --   JM.notify "Failed to load NvimTree Config"
+  --   return
+  -- end
 
-  for opt, val in pairs(JM.nvimtree) do
-    vim.g["nvim_tree_" .. opt] = val
-  end
+  -- for opt, val in pairs(JM.nvimtree) do
+  --   vim.g["nvim_tree_" .. opt] = val
+  -- end
 
-  local function telescope_find_files(_)
-    require("jm.nvimtree").start_telescope "find_files"
-  end
-  local function telescope_live_grep(_)
-    require("jm.nvimtree").start_telescope "live_grep"
-  end
+  -- local function telescope_find_files(_)
+  --   require("jm.nvimtree").start_telescope "find_files"
+  -- end
 
-  if #JM.nvimtree.setup.view.mappings.list == 0 then
-    JM.nvimtree.setup.view.mappings.list = {
-      { key = { "l", "<CR>", "o" }, action = "edit", mode = "n" },
-      { key = "h", action = "close_node" },
-      { key = "v", action = "vsplit" },
-      { key = "C", action = "cd" },
-      { key = "gtf", action = "telescope_find_files", action_cb = telescope_find_files },
-      { key = "gtg", action = "telescope_live_grep", action_cb = telescope_live_grep },
-    }
-  end
+  -- local function telescope_live_grep(_)
+  --   require("jm.nvimtree").start_telescope "live_grep"
+  -- end
+
+  -- if #JM.nvimtree.setup.view.mappings.list == 0 then
+  --   JM.nvimtree.setup.view.mappings.list = {
+  --     { key = { "l", "<CR>", "o" }, action = "edit", mode = "n" },
+  --     { key = "h", action = "close_node" },
+  --     { key = "v", action = "vsplit" },
+  --     { key = "C", action = "cd" },
+  --     { key = "gtf", action = "telescope_find_files", action_cb = telescope_find_files },
+  --     { key = "gtg", action = "telescope_live_grep", action_cb = telescope_live_grep },
+  --   }
+  -- end
 
   require("nvim-tree").setup(JM.nvimtree.setup)
+  -- require("nvim-tree").setup()
 end
 
 function M.start_telescope(telescope_mode)
