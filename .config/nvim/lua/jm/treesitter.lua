@@ -8,9 +8,33 @@ local M = {}
 
 function M.config()
   treesitter_configs.setup {
-    ensure_installed = "all",
+    ensure_installed = {
+      "lua",
+      "javascript",
+      "typescript",
+      "go",
+      "rust",
+      "yaml",
+      "vim",
+      "prisma",
+      "markdown",
+      "json",
+      "html",
+      "gomod",
+      "dockerfile",
+      "css",
+    },
     highlight = { enable = true },
     indent = { enable = true },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "<c-space>",
+        node_incremental = "<c-space>",
+        scope_incremental = "<c-a>",
+        node_decremental = "<c-backspace>",
+      },
+    },
     autotag = { enable = true },
     autopairs = { enable = true },
     context_commentstring = { enable = true, config = { css = "// %s" } },

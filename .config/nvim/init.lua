@@ -8,6 +8,7 @@ vim.g.ultest_use_pty = 1
 
 require("jm.colorscheme").tokyonight()
 require("lsp.null-ls").setup()
+require "lsp"
 
 require("jm.autocmds").define_augroups {
   terminal = {
@@ -16,8 +17,15 @@ require("jm.autocmds").define_augroups {
   },
 }
 
-vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
-vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action)
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = "*",
+})
+
 vim.keymap.set("i", "<c-c>", "<esc>")
 
 local dap = require "dap"
@@ -57,22 +65,4 @@ dap.configurations.typescript = {
     request = "attach",
     processId = require("dap.utils").pick_process,
   },
-}
-
-local lspconfig_util = require "lspconfig.util"
-
-local function on_attach(client, bufnr)
-  client.server_capabilities.document_formatting = false
-  require("navigator.lspclient.mapping").setup {
-    client = client,
-    bufnr = bufnr,
-    cap = client.server_capabilities,
-  }
-end
-
-require("lspconfig").tailwindcss.setup {
-  on_attach = on_attach,
-  root_dir = function(fname)
-    return lspconfig_util.root_pattern("tailwind.config.js", "tailwind.config.ts")(fname)
-  end,
 }

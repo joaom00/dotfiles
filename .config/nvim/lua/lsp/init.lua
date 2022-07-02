@@ -1,45 +1,7 @@
 local M = {}
+local lspconfig = require "lspconfig"
+local lspconfig_util = require "lspconfig.util"
 
--- local function on_attach(client, bufnr)
---   client.resolved_capabilities.document_formatting = false
---   require("navigator.lspclient.mapping").setup {
---     client = client,
---     bufnr = bufnr,
---     cap = client.resolved_capabilities,
---   }
--- end
-
--- function M.lsp_installer_servers()
---   local enhance_server_opts = {
---     ["sumneko_lua"] = function(options)
---       options.on_attach = on_attach
---       options.settings = {
---         Lua = {
---           runtime = {
---             version = "LuaJIT",
---             path = vim.split(package.path, ";"),
---           },
---           diagnostics = {
---             globals = { "vim", "JM" },
---           },
---           workspace = {
---             library = {
---               [vim.fn.expand "$VIMRUNTIME/lua"] = true,
---               [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
---             },
---             maxPreload = 100000,
---             preloadFileSize = 1000,
---           },
---         },
---       }
---     end,
---     -- ["tailwindcss"] = function(options)
---     --   options.on_attach = on_attach
---     --   options.cmd = { install_root_dir .. "/tailwindcss_npm/node_modules/.bin/tailwindcss-language-server" }
---     --   options.root_dir = function(fname)
---     --     return lspconfig_util.root_pattern("tailwind.config.js", "tailwind.config.ts")(fname)
---     --   end
---     -- end,
 --     ["prismals"] = function(options)
 --       options.on_attach = function(client, bufnr)
 --         client.resolved_capabilities.document_formatting = true
@@ -63,41 +25,94 @@ local M = {}
 --     end,
 --   }
 -- end
+vim.keymap.set("n", "<c-p>", vim.diagnostic.goto_prev)
+vim.keymap.set("n", "<c-n>", vim.diagnostic.goto_next)
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
-function M.setup()
-  local ok, navigator = pcall(require, "navigator")
-  if not ok then
-    JM.notify "Missing navigator dependency"
+local on_attach = function(_, bufnr)
+  local nmap = function(keys, func, desc)
+    if desc then
+      desc = "LSP: " .. desc
+    end
+    vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+  end
+
+  nmap("<leader>rn", vim.lsp.buf.rename, "Rename")
+  nmap("<space>ca", vim.lsp.buf.code_action, "Code Action")
+  nmap("gd", vim.lsp.buf.definition, "Goto definition")
+  nmap("gi", vim.lsp.buf.implementation, "Goto Implementation")
+  nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "Document Symbols")
+  nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Workspace Symbols")
+  nmap("K", vim.lsp.buf.hover, "Hover documentation")
+  nmap("<c-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+  nmap("gD", vim.lsp.buf.declaration, "Goto Declaration")
+  nmap("<leader>D", vim.lsp.buf.type_definition, "Type Definition")
+end
+
+local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local runtime_path = vim.split(package.path, ";")
+table.insert(runtime_path, "lua/?.lua")
+table.insert(runtime_path, "lua/?/init.lua")
+
+local servers = {
+  rust_analyzer = true,
+  tsserver = true,
+  gopls = true,
+  sumneko_lua = {
+    settings = {
+      Lua = {
+        runtime = {
+          version = "LuaJIT",
+          path = runtime_path,
+        },
+        diagnostics = {
+          globals = { "vim", "JM" },
+        },
+        workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+      },
+    },
+  },
+  jsonls = {
+    settings = {
+      json = {
+        schemas = require("schemastore").json.schemas(),
+      },
+    },
+  },
+  tailwindcss = {
+    root_dir = function(fname)
+      return lspconfig_util.root_pattern("tailwind.config.js", "tailwind.config.ts")(fname)
+    end,
+  },
+}
+
+local setup_server = function(server, config)
+  if not config then
     return
   end
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.foldingRange = {
-    dynamicRegistration = false,
-    lineFoldingOnly = true,
-  }
-  navigator.setup {
-    lsp_signature_help = true,
-    default_mapping = false,
-    lsp = {
-      capabilities = capabilities,
-      format_on_save = true,
-      disable_format_cap = { "rust_analyzer", "gopls" },
-      code_lens_action = { enable = true, sign = true, sign_priority = 40, virtual_text = false },
+
+  if type(config) ~= "table" then
+    config = {}
+  end
+
+  if server == "jsonls" then
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
+  end
+
+  config = vim.tbl_deep_extend("force", {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = {
+      debounce_text_changes = nil,
     },
-    keymaps = {
-      { key = "gd", func = "vim.lsp.buf.definition()" },
-      { key = "gD", func = "vim.lsp.buf.declaration()" },
-      { key = "gi", func = "vim.lsp.buf.implementation()" },
-      { key = "rn", func = "vim.lsp.buf.rename()" },
-      { key = "gp", func = "require('navigator.definition').definition_preview()" },
-      -- { key = "<space>ca", func = "require('navigator.codeAction').code_action()" },
-      { key = "K", func = "hover({ popup_opts = { border = single, max_width = 80 }})" },
-      { key = "<c-p>", func = "diagnostic.goto_prev({ border = 'rounded', max_width = 80})" },
-      { key = "<c-n>", func = "diagnostic.goto_next({ border = 'rounded', max_width = 80})" },
-    },
-  }
-  vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
-  vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
+  }, config)
+
+  lspconfig[server].setup(config)
+end
+
+for server, config in pairs(servers) do
+  setup_server(server, config)
 end
 
 return M

@@ -20,10 +20,6 @@ function M.config()
         enable = true,
         auto_open = true,
       },
-      update_to_buf_dir = {
-        enable = true,
-        auto_open = true,
-      },
       open_on_tab = false,
       hijack_cursor = false,
       update_cwd = true,
@@ -55,7 +51,6 @@ function M.config()
         height = 30,
         hide_root_folder = false,
         side = "right",
-        auto_resize = false,
         mappings = {
           custom_only = false,
           list = {},
