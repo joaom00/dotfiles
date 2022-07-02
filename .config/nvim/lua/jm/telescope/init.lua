@@ -83,6 +83,9 @@ require("telescope").setup {
     },
   },
   extensions = {
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown {},
+    },
     file_browser = {
       grouped = true,
       default_selection_index = 2,
@@ -266,6 +269,7 @@ load_extension "projects"
 load_extension "ghn"
 load_extension "file_browser"
 load_extension "git_worktree"
+load_extension "ui-select"
 load_extension "twitch"
 load_extension "dap"
 
@@ -341,7 +345,11 @@ end
 
 function M.grep_prompt()
   require("telescope.builtin").grep_string {
-    path_display = { "shorten" },
+    layout_strategy = "vertical",
+    layout_config = {
+      prompt_position = "top",
+    },
+    sorting_strategy = "ascending",
     search = vim.fn.input "Grep String > ",
   }
 end

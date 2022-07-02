@@ -1,14 +1,13 @@
--- Disable arrow keys
 vim.g.mapleader = "-"
 
 local nmap = JM.mapper("n", false)
-
 local nnoremap = JM.mapper "n"
 local inoremap = JM.mapper "i"
 local tnoremap = JM.mapper "t"
 local vnoremap = JM.mapper "v"
 local xnoremap = JM.mapper "x"
 
+-- Disable arrow keys
 vim.cmd [[
 map <up> :echoerr "Pq você ta fazendo isso?"<CR>
 map <down> :echoerr "Pq você ta fazendo isso?"<CR>

@@ -144,3 +144,8 @@ bindkey "^K" end-of-line
 bindkey -s '^F' 'cd ~/dev/$(ls -p ~/dev | fzf)\n'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# pnpm
+export PNPM_HOME="/home/joaom/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end

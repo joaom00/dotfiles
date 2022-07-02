@@ -70,11 +70,16 @@ function M.setup()
     JM.notify "Missing navigator dependency"
     return
   end
-
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true,
+  }
   navigator.setup {
     lsp_signature_help = true,
     default_mapping = false,
     lsp = {
+      capabilities = capabilities,
       format_on_save = true,
       disable_format_cap = { "rust_analyzer", "gopls" },
       code_lens_action = { enable = true, sign = true, sign_priority = 40, virtual_text = false },
@@ -91,6 +96,8 @@ function M.setup()
       { key = "<c-n>", func = "diagnostic.goto_next({ border = 'rounded', max_width = 80})" },
     },
   }
+  vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+  vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 end
 
 return M

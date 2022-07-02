@@ -44,15 +44,15 @@ vim.opt.fillchars = {
 -----------------------------------------------------------------------------//
 -- Use in vertical diff mode, blank lines to keep sides aligned, Ignore whitespace changes
 vim.opt.diffopt = vim.opt.diffopt
-  + {
-    "vertical",
-    "iwhite",
-    "hiddenoff",
-    "foldcolumn:0",
-    "context:4",
-    "algorithm:histogram",
-    "indent-heuristic",
-  }
+    + {
+      "vertical",
+      "iwhite",
+      "hiddenoff",
+      "foldcolumn:0",
+      "context:4",
+      "algorithm:histogram",
+      "indent-heuristic",
+    }
 -----------------------------------------------------------------------------//
 -- Format Options {{{1
 -----------------------------------------------------------------------------//
@@ -74,6 +74,9 @@ vim.opt.formatoptions = {
 -----------------------------------------------------------------------------//
 -- Folds {{{1
 -----------------------------------------------------------------------------//
+vim.wo.foldcolumn = "1"
+vim.wo.foldlevel = 99
+vim.wo.foldenable = true
 -- vim.opt.foldtext = "v:lua.JM.folds()"
 -- vim.opt.foldopen = vim.opt.foldopen + "search"
 -- vim.opt.foldlevelstart = 3

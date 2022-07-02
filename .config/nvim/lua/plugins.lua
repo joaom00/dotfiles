@@ -105,6 +105,7 @@ return require("packer").startup(function(use)
       { "nvim-telescope/telescope-fzf-writer.nvim" },
       { "nvim-telescope/telescope-frecency.nvim" },
       { "nvim-telescope/telescope-file-browser.nvim" },
+      { "nvim-telescope/telescope-ui-select.nvim" },
       {
         "da-moon/telescope-toggleterm.nvim",
         event = "TermOpen",
@@ -366,6 +367,13 @@ return require("packer").startup(function(use)
     config = function()
       require("lsp").setup()
     end,
+  }
+  use {
+    "kevinhwang91/nvim-ufo",
+    config = function()
+      require("ufo").setup()
+    end,
+    requires = "kevinhwang91/promise-async",
   }
 
   -- use {
