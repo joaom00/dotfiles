@@ -189,4 +189,20 @@ function M.rosepine()
   vim.cmd "colorscheme rose-pine"
 end
 
+-----------------------------------------------------------------------------//
+-- Gruvbox Theme {{{1
+-----------------------------------------------------------------------------//
+function M.gruvbox()
+  -- vim.o.background = "light"
+  vim.cmd "colorscheme gruvbox"
+end
+
+-----------------------------------------------------------------------------//
+-- Gruvbox Baby Theme {{{1
+-----------------------------------------------------------------------------//
+function M.gruvboxbaby()
+  -- vim.o.background = "light"
+  vim.cmd "colorscheme gruvbox-baby"
+end
+
 return M

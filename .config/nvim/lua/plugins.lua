@@ -246,6 +246,8 @@ return require("packer").startup(function(use)
   use { "folke/tokyonight.nvim" }
   use { "arzg/vim-colors-xcode" }
   use { "pwntester/nautilus.nvim" }
+  use { "ellisonleao/gruvbox.nvim" }
+  use { "luisiacc/gruvbox-baby" }
   use { "ray-x/aurora" }
   use {
     "catppuccin/nvim",
