@@ -1,5 +1,9 @@
 local M = {}
 
+local function exist(bin)
+  return vim.fn.exepath(bin) ~= ""
+end
+
 local lsp_formatting = function(bufnr)
   vim.lsp.buf.format {
     filter = function(client)
@@ -36,7 +40,6 @@ function M.setup()
       },
     },
     formatting.prettierd,
-    formatting.sql_formatter,
 
     -- DIAGNOSTICS
     --   diagnostics.golangci_lint.with {
@@ -51,6 +54,10 @@ function M.setup()
     actions.eslint,
     actions.proselint,
   }
+
+  if exist "sql-formatter" then
+    table.insert(sources, formatting.sql_formatter)
+  end
 
   local cfg = {
     sources = sources,

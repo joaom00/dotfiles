@@ -1,6 +1,6 @@
 vim.opt.pumblend = 3 -- Make popup window translucent
 vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 -----------------------------------------------------------------------------//
 -- Message output on vim actions {{{1
 -----------------------------------------------------------------------------//
@@ -44,15 +44,15 @@ vim.opt.fillchars = {
 -----------------------------------------------------------------------------//
 -- Use in vertical diff mode, blank lines to keep sides aligned, Ignore whitespace changes
 vim.opt.diffopt = vim.opt.diffopt
-    + {
-      "vertical",
-      "iwhite",
-      "hiddenoff",
-      "foldcolumn:0",
-      "context:4",
-      "algorithm:histogram",
-      "indent-heuristic",
-    }
+  + {
+    "vertical",
+    "iwhite",
+    "hiddenoff",
+    "foldcolumn:0",
+    "context:4",
+    "algorithm:histogram",
+    "indent-heuristic",
+  }
 -----------------------------------------------------------------------------//
 -- Format Options {{{1
 -----------------------------------------------------------------------------//
@@ -115,13 +115,13 @@ vim.g.markdown_fenced_languages = {
 -- List chars {{{1
 -----------------------------------------------------------------------------//
 vim.opt.list = true -- invisible chars
-vim.opt.listchars = {
-  eol = "↲",
-  tab = "│ ",
-  extends = "»", -- Alternatives: … » ›
-  precedes = "«", -- Alternatives: … « ‹
-  trail = "•", -- BULLET (U+2022, UTF-8: E2 80 A2)
-}
+-- vim.opt.listchars = {
+--   eol = "↲",
+--   tab = "│ ",
+--   extends = "»", -- Alternatives: … » ›
+--   precedes = "«", -- Alternatives: … « ‹
+--   trail = "•", -- BULLET (U+2022, UTF-8: E2 80 A2)
+-- }
 -----------------------------------------------------------------------------//
 -- Indentation
 -----------------------------------------------------------------------------//
