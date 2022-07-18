@@ -116,7 +116,11 @@ return require("packer").startup(function(use)
       {
         "ahmedkhalf/project.nvim",
         config = function()
-          require("project_nvim").setup()
+          require("project_nvim").setup {
+            ignore_lsp = { "null-ls" },
+            silent_chdir = false,
+            patterns = { ".git" },
+          }
         end,
       },
     },
