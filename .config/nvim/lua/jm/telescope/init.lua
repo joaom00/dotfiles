@@ -270,7 +270,7 @@ load_extension "ghn"
 load_extension "file_browser"
 load_extension "git_worktree"
 load_extension "ui-select"
-load_extension "twitch"
+-- load_extension "twitch"
 load_extension "dap"
 
 function M.edit_neovim()
