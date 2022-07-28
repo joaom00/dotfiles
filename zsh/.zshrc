@@ -82,8 +82,6 @@ alias nid='npm install -D'
 
 alias upgo='sh ~/update-golang.sh'
 
-alias agenda='sh ~/growsocial.sh'
-
 source ~/.zsh-nvm/zsh-nvm.plugin.zsh
 
 __take() {

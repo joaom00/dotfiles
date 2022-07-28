@@ -97,7 +97,6 @@ vim.opt.conceallevel = 2
 vim.opt.breakindentopt = "sbr"
 vim.opt.linebreak = true -- lines wrap at words rather than random characters
 vim.opt.synmaxcol = 1024 -- don't syntax highlight long lines
--- vim.opt.signcolumn = "yes"
 vim.opt.signcolumn = "auto:2-5"
 vim.opt.ruler = false
 vim.opt.cmdheight = 2 -- Set command line height to two lines
@@ -127,20 +126,18 @@ vim.opt.list = true -- invisible chars
 -----------------------------------------------------------------------------//
 vim.opt.wrap = true
 vim.opt.wrapmargin = 2
-vim.opt.textwidth = 80
+vim.opt.textwidth = 100
 vim.opt.autoindent = true
 vim.opt.shiftround = true
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 -----------------------------------------------------------------------------//
 -- vim.o.debug = "msg"
---- NOTE: remove this once 0.6 lands, it is now default
-vim.opt.joinspaces = false
 vim.opt.gdefault = true
 vim.opt.pumheight = 15
 vim.opt.confirm = true -- make vim prompt me to save before doing destructive things
 vim.opt.completeopt = { "menuone", "noselect" }
-vim.opt.hlsearch = false
+vim.opt.hlsearch = true
 vim.opt.autowriteall = true -- automatically :write before running commands and changing files
 vim.opt.clipboard = { "unnamedplus" }
 vim.opt.laststatus = 3
@@ -154,12 +151,15 @@ vim.opt.guifont = "monospace:h17"
 -- CREDIT: https://www.youtube.com/watch?v=F91VWOelFNE
 vim.opt.emoji = false
 -----------------------------------------------------------------------------//
---- NOTE: remove this once 0.6 lands, it is now default
-vim.opt.inccommand = "nosplit"
------------------------------------------------------------------------------//
 -- Cursor {{{1
 -----------------------------------------------------------------------------//
 vim.opt.cursorline = true
+-- vim.opt.guicursor = {
+--   [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
+--   [[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
+--   [[sm:block-blinkwait175-blinkoff150-blinkon175]],
+-- }
+vim.opt.cursorlineopt = "screenline,number"
 -----------------------------------------------------------------------------//
 -- Title {{{1
 -----------------------------------------------------------------------------//

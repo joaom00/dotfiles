@@ -21,13 +21,13 @@ return require("packer").startup(function(use)
   use { "rktjmp/lush.nvim" }
 
   -- DASHBOARD
-  use {
-    "glepnir/dashboard-nvim",
-    event = "BufWinEnter",
-    config = function()
-      require("jm.dashboard").setup()
-    end,
-  }
+  -- use {
+  --   "glepnir/dashboard-nvim",
+  --   event = "BufWinEnter",
+  --   config = function()
+  --     require("jm.dashboard").setup()
+  --   end,
+  -- }
 
   -- LSP
   use { "neovim/nvim-lspconfig" }
