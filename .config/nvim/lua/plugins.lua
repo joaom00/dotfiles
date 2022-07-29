@@ -133,16 +133,15 @@ return require("packer").startup(function(use)
   use {
     "folke/trouble.nvim",
     cmd = { "TroubleToggle" },
-    config = conf("trouble").config,
     setup = conf("trouble").setup,
+    config = conf("trouble").config,
   }
 
   -- TODO
   use {
     "folke/todo-comments.nvim",
-    config = function()
-      require("jm.todo").setup()
-    end,
+    setup = conf("todo").setup,
+    config = conf("todo").config,
   }
 
   -- GIT

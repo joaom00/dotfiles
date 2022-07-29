@@ -1,12 +1,12 @@
 local M = {}
 
 function M.setup()
-  local ok, todo_comments = pcall(require, "todo-comments")
-  if not ok then
-    return
-  end
+  JM.nnoremap("<leader>lt", "<Cmd>TodoTrouble<CR>", "trouble: todos")
+end
 
-  todo_comments.setup {
+function M.config()
+  local todo = require "todo-comments"
+  todo.setup {
     search = {
       command = "rg",
       args = {
