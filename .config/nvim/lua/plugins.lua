@@ -1,3 +1,6 @@
+local utils = require "utils"
+local conf = utils.conf
+
 local fn = vim.fn
 local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -34,7 +37,7 @@ return require("packer").startup(function(use)
   use {
     "ray-x/lsp_signature.nvim",
     config = function()
-      require("jm.lsp_signature").setup()
+      conf("lsp_signature").setup()
     end,
   }
   use { "tamago324/nlsp-settings.nvim" }
@@ -129,9 +132,9 @@ return require("packer").startup(function(use)
   -- TROUBE
   use {
     "folke/trouble.nvim",
-    config = function()
-      require("trouble").setup()
-    end,
+    cmd = { "TroubleToggle" },
+    config = conf("trouble").config,
+    setup = conf("trouble").setup,
   }
 
   -- TODO
@@ -252,6 +255,7 @@ return require("packer").startup(function(use)
   use { "pwntester/nautilus.nvim" }
   use { "ellisonleao/gruvbox.nvim" }
   use { "luisiacc/gruvbox-baby" }
+  use { "Yazeed1s/minimal.nvim" }
   use { "ray-x/aurora" }
   use {
     "catppuccin/nvim",

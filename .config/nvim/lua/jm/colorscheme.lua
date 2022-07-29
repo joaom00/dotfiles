@@ -204,4 +204,11 @@ function M.gruvboxbaby()
   vim.cmd "colorscheme gruvbox-baby"
 end
 
+-----------------------------------------------------------------------------//
+-- Minimal Theme {{{1
+-----------------------------------------------------------------------------//
+function M.minimal()
+  vim.cmd "colorscheme minimal"
+end
+
 return M

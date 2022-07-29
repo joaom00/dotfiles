@@ -1,11 +1,11 @@
 vim.g.mapleader = "-"
 
-local nmap = JM.mapper("n", false)
-local nnoremap = JM.mapper "n"
-local inoremap = JM.mapper "i"
-local tnoremap = JM.mapper "t"
-local vnoremap = JM.mapper "v"
-local xnoremap = JM.mapper "x"
+local nmap = JM.nmap
+local nnoremap = JM.nnoremap
+local inoremap = JM.inoremap
+local tnoremap = JM.tnoremap
+local vnoremap = JM.vnoremap
+local xnoremap = JM.xnoremap
 
 -- Disable arrow keys
 vim.cmd [[

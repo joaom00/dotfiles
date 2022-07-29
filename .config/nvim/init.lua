@@ -1,16 +1,25 @@
-require "globals"
-require "plugins"
-require "settings"
-require "keymappings"
-
 vim.g.python3_host_prog = "/usr/bin/python3"
 vim.g.ultest_use_pty = 1
 
-require("jm.colorscheme").gruvboxbaby()
-require("lsp.null-ls").setup()
-require "lsp"
+local ok, reload = pcall(require, "plenary.reload")
+RELOAD = ok and reload.reload_module or function(...)
+  return ...
+end
+function R(name)
+  RELOAD(name)
+  return require(name)
+end
 
-require("jm.autocmds").define_augroups {
+R "globals"
+R "plugins"
+R "settings"
+R "keymappings"
+
+R("jm.colorscheme").gruvboxbaby()
+R("lsp.null-ls").setup()
+R "lsp"
+
+R("jm.autocmds").define_augroups {
   terminal = {
     -- { "TermOpen", "*", "startinsert" },
     { "TermOpen", "*", "setlocal listchars= nonumber norelativenumber" },

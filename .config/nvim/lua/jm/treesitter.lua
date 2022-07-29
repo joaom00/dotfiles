@@ -24,6 +24,7 @@ function M.config()
       "dockerfile",
       "css",
     },
+    auto_install = false,
     highlight = { enable = true },
     indent = { enable = true },
     incremental_selection = {
