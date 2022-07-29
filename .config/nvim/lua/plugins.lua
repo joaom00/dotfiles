@@ -296,9 +296,7 @@ return require("packer").startup(function(use)
   use {
     "windwp/nvim-autopairs",
     after = "nvim-cmp",
-    config = function()
-      require("jm.autopairs").setup()
-    end,
+    config = conf("autopairs").config,
   }
   use {
     "norcalli/nvim-colorizer.lua",
