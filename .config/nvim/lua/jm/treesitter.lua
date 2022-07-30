@@ -41,6 +41,7 @@ function M.config()
     context_commentstring = { enable = true, config = { css = "// %s" } },
     rainbow = {
       enable = true,
+      extended_mode = false,
       colors = {
         "royalblue3",
         "darkorange3",
