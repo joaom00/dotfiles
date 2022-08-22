@@ -59,6 +59,7 @@ local servers = {
   rust_analyzer = true,
   tsserver = true,
   gopls = true,
+  cssls = true,
   sumneko_lua = {
     settings = {
       Lua = {

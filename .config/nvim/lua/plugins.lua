@@ -37,7 +37,16 @@ return require("packer").startup(function(use)
   use {
     "ray-x/lsp_signature.nvim",
     config = function()
-      conf("lsp_signature").setup()
+      require("lsp_signature").setup {
+        bind = true,
+        toggle_key = "<C-x>",
+        floating_window = true,
+        floating_window_above_cur_line = true,
+        hint_enable = true,
+        fix_pos = false,
+        max_height = 4,
+      }
+      -- conf("lsp_signature").setup()
     end,
   }
   use { "tamago324/nlsp-settings.nvim" }
