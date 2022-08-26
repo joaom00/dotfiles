@@ -377,13 +377,13 @@ return require("packer").startup(function(use)
   }
 
   use { "tpope/vim-surround" }
-  use {
-    "kevinhwang91/nvim-ufo",
-    config = function()
-      require("ufo").setup()
-    end,
-    requires = "kevinhwang91/promise-async",
-  }
+  -- use {
+  --   "kevinhwang91/nvim-ufo",
+  --   config = function()
+  --     require("ufo").setup()
+  --   end,
+  --   requires = "kevinhwang91/promise-async",
+  -- }
 
   -- use { "~/dev/omni.nvim" }
   -- use { "~/dev/404.nvim" }

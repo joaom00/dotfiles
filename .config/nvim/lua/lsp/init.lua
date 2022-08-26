@@ -2,16 +2,6 @@ local M = {}
 local lspconfig = require "lspconfig"
 local lspconfig_util = require "lspconfig.util"
 
---     ["prismals"] = function(options)
---       options.on_attach = function(client, bufnr)
---         client.resolved_capabilities.document_formatting = true
---         require("navigator.lspclient.mapping").setup {
---           client = client,
---           bufnr = bufnr,
---           cap = client.ser,
---         }
---       end
---     end,
 --     ["yamlls"] = function(options)
 --       options.on_attach = on_attach
 --       options.settings = {
@@ -22,9 +12,6 @@ local lspconfig_util = require "lspconfig.util"
 --           },
 --         },
 --       }
---     end,
---   }
--- end
 vim.keymap.set("n", "<c-p>", vim.diagnostic.goto_prev)
 vim.keymap.set("n", "<c-n>", vim.diagnostic.goto_next)
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
@@ -59,6 +46,8 @@ local servers = {
   rust_analyzer = true,
   tsserver = true,
   gopls = true,
+  yamlls = true,
+  prismals = true,
   cssls = true,
   sumneko_lua = {
     settings = {

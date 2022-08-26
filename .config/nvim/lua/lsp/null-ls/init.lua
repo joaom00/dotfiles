@@ -32,6 +32,7 @@ function M.setup()
     formatting.stylua,
     formatting.black,
     formatting.rustfmt,
+    formatting.prismaFmt,
     formatting.gofumpt,
     formatting.golines.with {
       extra_args = {

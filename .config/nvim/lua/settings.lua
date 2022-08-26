@@ -74,7 +74,7 @@ vim.opt.formatoptions = {
 -----------------------------------------------------------------------------//
 -- Folds {{{1
 -----------------------------------------------------------------------------//
-vim.wo.foldcolumn = "5"
+vim.wo.foldcolumn = "1"
 vim.wo.foldlevel = 99
 vim.wo.foldenable = true
 -- vim.opt.foldtext = "v:lua.JM.folds()"
@@ -97,8 +97,8 @@ vim.opt.conceallevel = 2
 vim.opt.breakindentopt = "sbr"
 vim.opt.linebreak = true -- lines wrap at words rather than random characters
 vim.opt.synmaxcol = 1024 -- don't syntax highlight long lines
-vim.opt.signcolumn = "number"
--- vim.opt.signcolumn = "auto:1-5"
+-- vim.opt.signcolumn = "number"
+vim.opt.signcolumn = "auto:2-5"
 -- vim.opt.signcolumn = "yes"
 vim.opt.ruler = false
 vim.opt.cmdheight = 2 -- Set command line height to two lines
