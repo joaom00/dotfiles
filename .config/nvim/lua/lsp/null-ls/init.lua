@@ -40,7 +40,9 @@ function M.setup()
         "--base-formatter=gofumpt",
       },
     },
-    formatting.prettierd,
+    formatting.prettierd.with {
+      disabled_filetypes = { "markdown" },
+    },
 
     -- DIAGNOSTICS
     --   diagnostics.golangci_lint.with {
@@ -56,9 +58,9 @@ function M.setup()
     actions.proselint,
   }
 
-  if exist "sql-formatter" then
-    table.insert(sources, formatting.sql_formatter)
-  end
+  -- if exist "sql-formatter" then
+  --   table.insert(sources, formatting.sql_formatter)
+  -- end
 
   local cfg = {
     sources = sources,
@@ -68,7 +70,7 @@ function M.setup()
     on_attach = function(client)
       if client.supports_method "textDocument/formatting" then
         vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
-        vim.api.nvim_create_autocmd("BufWritePre", {
+        vim.api.nvim_create_autocmd("BufWritePost", {
           group = augroup,
           buffer = bufnr,
           callback = function()

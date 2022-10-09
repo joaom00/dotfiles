@@ -49,6 +49,7 @@ local servers = {
   yamlls = true,
   prismals = true,
   cssls = true,
+  tailwindcss = true,
   sumneko_lua = {
     settings = {
       Lua = {
@@ -70,11 +71,14 @@ local servers = {
       },
     },
   },
-  tailwindcss = {
-    root_dir = function(fname)
-      return lspconfig_util.root_pattern("tailwind.config.js", "tailwind.config.ts")(fname)
-    end,
-  },
+  -- tailwindcss = {
+  --   settings = {
+  --     classAttributes = { "class", "className", "classList", "ngClass" },
+  --   },
+  --   root_dir = function(fname)
+  --     return lspconfig_util.root_pattern("tailwind.config.js", "tailwind.config.ts")(fname)
+  --   end,
+  -- },
 }
 
 local setup_server = function(server, config)

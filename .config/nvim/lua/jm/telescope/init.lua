@@ -295,6 +295,7 @@ function M.git_files()
   local opts = themes.get_ivy {
     sorting_strategy = "ascending",
     cwd = path,
+    show_untracked = true,
   }
   require("telescope.builtin").git_files(opts)
 end

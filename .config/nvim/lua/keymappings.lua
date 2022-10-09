@@ -13,6 +13,10 @@ map <up> :echoerr "Pq você ta fazendo isso?"<CR>
 map <down> :echoerr "Pq você ta fazendo isso?"<CR>
 map <left> :echoerr "Pq você ta fazendo isso?"<CR>
 map <right> :echoerr "Pq você ta fazendo isso?"<CR>
+imap <up> :echoerr "Pq você ta fazendo isso?"<CR>
+imap <down> :echoerr "Pq você ta fazendo isso?"<CR>
+imap <left> :echoerr "Pq você ta fazendo isso?"<CR>
+imap <right> :echoerr "Pq você ta fazendo isso?"<CR>
 ]]
 
 require "jm.telescope.mappings"

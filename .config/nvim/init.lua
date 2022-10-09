@@ -15,7 +15,7 @@ R "plugins"
 R "settings"
 R "keymappings"
 
-R("jm.colorscheme").gruvboxbaby()
+R("jm.colorscheme").purpledaze()
 R("lsp.null-ls").setup()
 R "lsp"
 
