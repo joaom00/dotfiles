@@ -378,7 +378,7 @@ return require("packer").startup(function(use)
 
   use { "tpope/vim-surround" }
 
-  use {"404-theme/neovim"}
+  use { "404-theme/neovim" }
   -- use {
   --   "kevinhwang91/nvim-ufo",
   --   config = function()
