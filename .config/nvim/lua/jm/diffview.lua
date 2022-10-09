@@ -1,144 +1,72 @@
-local diffview_ok, diffview = pcall(require, "diffview")
-if not diffview_ok then
-  JM.notify "Missing diffview dependency"
-  return
-end
-
-local diffview_config_ok, diffview_config = pcall(require, "diffview.config")
-if not diffview_config_ok then
-  JM.notify "Failed to load diffview.config"
-  return
-end
+-- local diffview_ok, diffview = pcall(require, "diffview")
+-- if not diffview_ok then
+--   JM.notify "Missing diffview dependency"
+--   return
+-- end
 
 local M = {}
-local nnoremap = JM.mapper "n"
-local cb = diffview_config.diffview_callback
 
 function M.config()
-  diffview.setup {
-    diff_binaries = false,
+  require("diffview").setup {
+    default_args = {
+      DiffviewFileHistory = { "%" },
+    },
+    hooks = {
+      diff_buf_read = function()
+        vim.wo.wrap = false
+        vim.wo.list = false
+        vim.wo.colorcolumn = ""
+      end,
+    },
     enhanced_diff_hl = true,
-    use_icons = true,
-    icons = {
-      folder_closed = "",
-      folder_open = "",
-    },
-    signs = {
-      fold_closed = "",
-      fold_open = "",
-    },
-    file_panel = {
-      listing_style = "tree",
-      win_config = {
-        position = "left",
-        width = 35,
-      },
-      tree_options = {
-        flatten_dirs = true,
-        folder_statuses = "only_folded",
-      },
-    },
-    key_bindings = {
-      disable_defaults = false,
-      view = {
-        ["<tab>"] = cb "select_next_entry",
-        ["<s-tab>"] = cb "select_prev_entry",
-        ["<C-w>gf"] = cb "goto_file",
-        ["<C-w><C-f>"] = cb "goto_file_split",
-        ["gf"] = cb "goto_file_tab",
-        ["<leader>e"] = cb "focus_files",
-        ["<leader>b"] = cb "toggle_files",
-      },
-      file_panel = {
-        ["j"] = cb "next_entry",
-        ["<down>"] = cb "next_entry",
-        ["k"] = cb "prev_entry",
-        ["<up>"] = cb "prev_entry",
-        ["<cr>"] = cb "select_entry",
-        ["o"] = cb "select_entry",
-        ["<2-LeftMouse>"] = cb "select_entry",
-        ["i"] = cb "toggle_stage_entry",
-        ["S"] = cb "stage_all",
-        ["U"] = cb "unstage_all",
-        ["X"] = cb "restore_entry",
-        ["R"] = cb "refresh_files",
-        ["<tab>"] = cb "select_next_entry",
-        ["<s-tab>"] = cb "select_prev_entry",
-        ["gf"] = cb "goto_file",
-        ["<C-w><C-f>"] = cb "goto_file_split",
-        ["<C-w>gf"] = cb "goto_file_tab",
-        ["<leader>e"] = cb "focus_files",
-        ["<leader>b"] = cb "toggle_files",
-      },
-      file_history_panel = {
-        ["g!"] = cb "options",
-        ["<C-d>"] = cb "open_in_diffview",
-        ["zR"] = cb "open_all_folds",
-        ["zM"] = cb "close_all_folds",
-        ["j"] = cb "next_entry",
-        ["<down>"] = cb "next_entry",
-        ["k"] = cb "prev_entry",
-        ["<up>"] = cb "prev_entry",
-        ["<cr>"] = cb "select_entry",
-        ["o"] = cb "select_entry",
-        ["<2-LeftMouse>"] = cb "select_entry",
-        ["<tab>"] = cb "select_next_entry",
-        ["<s-tab>"] = cb "select_prev_entry",
-        ["<C-w>gf"] = cb "goto_file",
-        ["<C-w><C-f>"] = cb "goto_file_split",
-        ["gf"] = cb "goto_file_tab",
-        ["<leader>e"] = cb "focus_files",
-        ["<leader>b"] = cb "toggle_files",
-      },
-      option_panel = { ["<tab>"] = cb "select", ["q"] = cb "close" },
+    keymaps = {
+      view = { ["q"] = "<Cmd>DiffviewClose<CR>" },
+      file_panel = { ["q"] = "<Cmd>DiffviewClose<CR>" },
+      file_history_panel = { ["q"] = "<Cmd>DiffviewClose<CR>" },
     },
   }
 end
 
-function M.keymappings()
-  nnoremap("<leader>d", "<cmd>DiffviewOpen<CR>")
-  nnoremap("<leader>df", "<cmd>DiffviewFileHistory<CR>")
-  nnoremap("dc", "<cmd>DiffviewClose<CR>")
-end
+-- local highlight = function(group, options)
+--   local guibg = options.bg or "NONE"
+--   local guifg = options.fg or "NONE"
 
-function M.highlight(group, options)
-  local guibg = options.bg or "NONE"
-  local guifg = options.fg or "NONE"
+--   vim.cmd(string.format("highlight %s guibg=%s guifg=%s", group, guibg, guifg))
+-- end
 
-  vim.cmd(string.format("highlight %s guibg=%s guifg=%s", group, guibg, guifg))
-end
+-- local link = function(groupa, groupb)
+--   vim.cmd(string.format("highlight link %s %s", groupa, groupb))
+-- end
 
-function M.link(groupa, groupb)
-  vim.cmd(string.format("highlight link %s %s", groupa, groupb))
-end
+-- local sanediffdefaults = function()
+--   highlight("DiffAdd", { bg = "#283B4D" })
+--   highlight("DiffDelete", { bg = "#3C2C3C" })
+--   highlight("DiffChange", { bg = "#28304D" })
+--   highlight("DiffText", { bg = "#36426B" })
+--   highlight("DiffAddAsDelete", { bg = "#3C2C3C" })
 
-function M.sanediffdefaults()
-  M.highlight("DiffAdd", { bg = "#283B4D" })
-  M.highlight("DiffDelete", { bg = "#3C2C3C" })
-  M.highlight("DiffChange", { bg = "#28304D" })
-  M.highlight("DiffText", { bg = "#36426B" })
-  M.highlight("DiffAddAsDelete", { bg = "#3C2C3C" })
-
-  M.link("diffAdded", "DiffAdd")
-  M.link("diffChanged", "DiffAdd")
-  M.link("diffRemoved", "DiffAdd")
-  M.link("diffBDiffer", "DiffAdd")
-  M.link("diffCommon", "DiffAdd")
-  M.link("diffDiffer", "DiffAdd")
-  M.link("diffFile", "DiffAdd")
-  M.link("diffIdentical", "DiffAdd")
-  M.link("diffIndexLine", "DiffAdd")
-  M.link("diffIsA", "DiffAdd")
-  M.link("diffNoEOL", "DiffAdd")
-  M.link("diffOnly", "DiffAdd")
-  M.link("GitsignsAdd", "String")
-  M.link("DiffviewNormal", "NormalSB")
-end
+--   link("diffAdded", "DiffAdd")
+--   link("diffChanged", "DiffAdd")
+--   link("diffReved", "DiffAdd")
+--   link("diffBDiffer", "DiffAdd")
+--   link("diffCoon", "DiffAdd")
+--   link("diffDiffer", "DiffAdd")
+--   link("diffFile", "DiffAdd")
+--   link("diffIdentical", "DiffAdd")
+--   link("diffIndexLine", "DiffAdd")
+--   link("diffIsA", "DiffAdd")
+--   link("diffNoEOL", "DiffAdd")
+--   link("diffOnly", "DiffAdd")
+--   link("GitsignsAdd", "String")
+--   link("DiffviewNorl", "NorlSB")
+-- end
 
 function M.setup()
-  M.config()
-  M.keymappings()
-  -- M.sanediffdefaults()
+  JM.nnoremap("<leader>d", "<cmd>DiffviewOpen<CR>", "diffview: open")
+  JM.nnoremap("<leader>df", "<cmd>DiffviewFileHistory<CR>", "diffview: file history")
+  JM.vnoremap("gh", "[[:'<'>DiffviewFileHistory<CR>]]", "diffview: file history")
+  -- nnoremap("dc", "<cmd>DiffviewClose<CR>")
+  -- sanediffdefaults()
 end
 
 return M

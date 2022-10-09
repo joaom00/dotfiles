@@ -164,10 +164,8 @@ return require("packer").startup(function(use)
   }
   use {
     "sindrets/diffview.nvim",
-    -- event = "BufRead",
-    config = function()
-      require("jm.diffview").setup()
-    end,
+    config = conf("diffview").config,
+    setup = conf("diffview").setup,
   }
   use {
     "lewis6991/gitsigns.nvim",
