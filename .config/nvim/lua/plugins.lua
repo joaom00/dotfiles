@@ -162,11 +162,11 @@ return require("packer").startup(function(use)
       require("jm.octo").setup()
     end,
   }
-  use {
-    "sindrets/diffview.nvim",
-    config = conf("diffview").config,
-    setup = conf("diffview").setup,
-  }
+    use {
+     "sindrets/diffview.nvim",
+     config = conf("diffview").config,
+     setup = conf("diffview").setup,
+   }
   use {
     "lewis6991/gitsigns.nvim",
     config = function()

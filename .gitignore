@@ -14,3 +14,4 @@ eclipse.jdt.ls/
 .language-servers/
 .debuggers/
 spell/
+packer_compiled.lua
