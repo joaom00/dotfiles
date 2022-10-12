@@ -1,18 +1,18 @@
 local utils = require "utils"
 local conf = utils.conf
 
-local fn = vim.fn
-local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system {
-    "git",
-    "clone",
-    "--depth",
-    "1",
-    "https://github.com/wbthomason/packer.nvim",
-    install_path,
-  }
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
 end
+
+local packer_bootstrap = ensure_packer()
 
 return require("packer").startup(function(use)
   use { "wbthomason/packer.nvim" }
@@ -162,11 +162,12 @@ return require("packer").startup(function(use)
       require("jm.octo").setup()
     end,
   }
-    use {
-     "sindrets/diffview.nvim",
-     config = conf("diffview").config,
-     setup = conf("diffview").setup,
-   }
+  use {
+    "sindrets/diffview.nvim",
+    event = "BufEnter",
+    config = conf("diffview").config,
+    setup = conf("diffview").setup,
+  }
   use {
     "lewis6991/gitsigns.nvim",
     config = function()
