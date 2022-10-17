@@ -1,26 +1,16 @@
 vim.g.python3_host_prog = "/usr/bin/python3"
 vim.g.ultest_use_pty = 1
 
-local ok, reload = pcall(require, "plenary.reload")
-RELOAD = ok and reload.reload_module or function(...)
-  return ...
-end
+require "jm.globals"
+require "plugins"
+require "settings"
+require "keymappings"
 
-function R(name)
-  RELOAD(name)
-  return require(name)
-end
+require("jm.colorscheme").purpledaze()
+require("lsp.null-ls").setup()
+require "lsp"
 
-R "globals"
-R "plugins"
-R "settings"
-R "keymappings"
-
-R("jm.colorscheme").purpledaze()
-R("lsp.null-ls").setup()
-R "lsp"
-
-R("jm.autocmds").define_augroups {
+require("jm.autocmds").define_augroups {
   terminal = {
     -- { "TermOpen", "*", "startinsert" },
     { "TermOpen", "*", "setlocal listchars= nonumber norelativenumber" },

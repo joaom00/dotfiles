@@ -119,7 +119,10 @@ end
 -- Purpledaze Theme {{{1
 -----------------------------------------------------------------------------//
 function M.purpledaze()
-  vim.g.purpledaze_dev = true
+  if not pcall(vim.cmd, "colorscheme purpledaze") then
+    return
+  end
+  -- vim.g.purpledaze_dev = true
   vim.g.purpledaze_dark_sidebar = true
   vim.g.lightline = { coloscheme = "purpledaze" }
 

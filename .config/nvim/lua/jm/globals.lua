@@ -1,3 +1,10 @@
+local ok, plenary_reload = pcall(require, "plenary.reload")
+if not ok then
+  RELOADER = require
+else
+  RELOADER = plenary_reload.reload_module
+end
+
 CONFIG_PATH = vim.fn.stdpath "config"
 DATA_PATH = vim.fn.stdpath "data"
 CACHE_PATH = vim.fn.stdpath "cache"
@@ -9,8 +16,12 @@ P = function(v)
   return v
 end
 
+RELOAD = function(...)
+  return RELOADER(...)
+end
+
 R = function(name)
-  require("plenary.reload").reload_module(name)
+  RELOAD(name)
   return require(name)
 end
 
