@@ -1,11 +1,5 @@
 local M = {}
 
-local ok, cmp = pcall(require, "cmp")
-if not ok then
-  JM.notify "Missing nvim-cmp dependency"
-  return
-end
-
 function M.config()
   local ls_ok, luasnip = pcall(require, "luasnip")
   if not ls_ok then
@@ -21,7 +15,9 @@ function M.config()
 
   lspkind.init()
 
-  JM.cmp = {
+  local cmp = require "cmp"
+
+  cmp.setup {
     experimental = {
       ghost_text = true,
     },
@@ -114,15 +110,15 @@ function M.config()
 end
 
 function M.setup()
-  M.config()
+  local cmp = require "cmp"
 
-  cmp.setup(JM.cmp)
   cmp.setup.cmdline(":", {
     sources = {
       { name = "cmdline" },
     },
     mapping = cmp.mapping.preset.cmdline(),
   })
+
   cmp.setup.cmdline("/", {
     sources = {
       { name = "buffer" },
