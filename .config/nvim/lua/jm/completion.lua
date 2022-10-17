@@ -54,17 +54,10 @@ function M.config()
       { name = "buffer", keyword_length = 5 },
     },
     mapping = cmp.mapping.preset.insert {
-      -- ["<c-k>"] = cmp.mapping.select_prev_item(),
-      -- ["<c-j>"] = cmp.mapping.select_next_item(),
-      ["<c-d>"] = cmp.mapping.scroll_docs(-4),
-      ["<c-f>"] = cmp.mapping.scroll_docs(4),
-      ["<c-q>"] = cmp.mapping(
-        cmp.mapping.confirm {
-          behavior = cmp.ConfirmBehavior.Insert,
-          select = true,
-        },
-        { "i", "c" }
-      ),
+      ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+      ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+      ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+      ["<C-f>"] = cmp.mapping.scroll_docs(4),
       ["<c-y>"] = cmp.mapping(
         cmp.mapping.confirm {
           behavior = cmp.ConfirmBehavior.Insert,
@@ -72,15 +65,20 @@ function M.config()
         },
         { "i", "c" }
       ),
-      ["<tab>"] = cmp.mapping(
-        cmp.mapping.confirm {
-          behavior = cmp.ConfirmBehavior.Insert,
-          select = true,
-        },
-        { "i", "c" }
-      ),
-      ["<C-e>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-      -- ["<c-e>"] = cmp.mapping.close(),
+      ["<C-e>"] = cmp.mapping {
+        i = cmp.mapping.complete(),
+        c = function(
+          _ --[[fallback]]
+        )
+          if cmp.visible() then
+            if not cmp.confirm { select = true } then
+              return
+            end
+          else
+            cmp.complete()
+          end
+        end,
+      },
     },
     sorting = {
       comparators = {
@@ -107,10 +105,6 @@ function M.config()
       },
     },
   }
-end
-
-function M.setup()
-  local cmp = require "cmp"
 
   cmp.setup.cmdline(":", {
     sources = {

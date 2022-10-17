@@ -53,8 +53,7 @@ return require("packer").startup(function(use)
   -- AUTOCOMPLETE
   use {
     "hrsh7th/nvim-cmp",
-    config = conf('completion').config,
-    setup = conf('completion').setup,
+    config = conf("completion").config,
     requires = {
       { "hrsh7th/cmp-buffer" },
       { "hrsh7th/cmp-path" },
