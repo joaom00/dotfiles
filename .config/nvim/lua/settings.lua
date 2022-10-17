@@ -101,7 +101,7 @@ vim.opt.synmaxcol = 1024 -- don't syntax highlight long lines
 -- vim.opt.signcolumn = "auto:2-5"
 vim.opt.signcolumn = "yes:1"
 vim.opt.ruler = false
-vim.opt.cmdheight = 0 -- Set command line height to two lines
+vim.opt.cmdheight = 1 -- Set command line height to two lines
 vim.opt.showbreak = [[↪ ]] -- Options include -> '…', '↳ ', '→','↪ '
 --- This is used to handle markdown code blocks where the language might
 --- be set to a value that isn't equivalent to a vim filetype
