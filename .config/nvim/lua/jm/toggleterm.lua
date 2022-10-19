@@ -93,7 +93,7 @@ function M.twitch_chat_toggle(channel)
   tw_channels[channel]:toggle()
 end
 
-function M.keymappings()
+function M.setup()
   nnoremap("<F9>", "<cmd>ToggleTermOpenAll<CR>")
   nnoremap("<leader>gc", "<cmd>lua require('jm.toggleterm').gcommit_toggle()<CR>")
   nnoremap("<space>d", "<cmd>lua require('jm.toggleterm').lazydocker_toggle()<CR>")
@@ -102,9 +102,5 @@ function M.keymappings()
   tnoremap("<Esc><Esc>", "<C-\\><C-n>")
 end
 
-function M.setup()
-  M.config()
-  M.keymappings()
-end
 
 return M

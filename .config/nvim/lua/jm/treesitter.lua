@@ -71,8 +71,5 @@ function M.config()
   }
 end
 
-function M.setup()
-  M.config()
-end
 
 return M

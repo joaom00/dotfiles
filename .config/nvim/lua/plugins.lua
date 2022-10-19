@@ -23,15 +23,6 @@ return require("packer").startup(function(use)
   use { "nvim-lua/plenary.nvim" }
   use { "rktjmp/lush.nvim" }
 
-  -- DASHBOARD
-  -- use {
-  --   "glepnir/dashboard-nvim",
-  --   event = "BufWinEnter",
-  --   config = function()
-  --     require("jm.dashboard").setup()
-  --   end,
-  -- }
-
   -- LSP
   use { "neovim/nvim-lspconfig" }
   use {
@@ -44,9 +35,7 @@ return require("packer").startup(function(use)
   use {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
-    config = function()
-      require("jm.treesitter").setup()
-    end,
+    config = conf("treesitter").config,
   }
   use { "nvim-treesitter/playground", event = "BufRead" }
 
@@ -88,9 +77,8 @@ return require("packer").startup(function(use)
   use {
     "akinsho/nvim-toggleterm.lua",
     event = "BufWinEnter",
-    config = function()
-      require("jm.toggleterm").setup()
-    end,
+    config = conf("toggleterm").config,
+    setup = conf("toggleterm").setup,
   }
 
   -- TELESCOPE
