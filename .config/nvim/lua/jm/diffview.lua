@@ -1,4 +1,3 @@
-
 local M = {}
 
 function M.config()
@@ -20,7 +19,13 @@ function M.config()
       file_history_panel = { ["q"] = "<Cmd>DiffviewClose<CR>" },
     },
   }
+
 end
+
+function M.setup()
+  JM.nnoremap("<space>gd", "<cmd>DiffviewOpen<CR>", "diffview: open")
+  JM.nnoremap("<leader>df", "<cmd>DiffviewFileHistory<CR>", "diffview: file history")
+  JM.vnoremap("gh", "[[:'<'>DiffviewFileHistory<CR>]]", "diffview: file history")
 
 local highlight = function(group, options)
   local guibg = options.bg or "NONE"
@@ -56,11 +61,7 @@ local sanediffdefaults = function()
   link("DiffviewNorl", "NorlSB")
 end
 
-function M.setup()
-  JM.nnoremap("<space>gd", "<cmd>DiffviewOpen<CR>", "diffview: open")
-  JM.nnoremap("<leader>df", "<cmd>DiffviewFileHistory<CR>", "diffview: file history")
-  JM.vnoremap("gh", "[[:'<'>DiffviewFileHistory<CR>]]", "diffview: file history")
-  -- sanediffdefaults()
+  sanediffdefaults()
 end
 
 return M

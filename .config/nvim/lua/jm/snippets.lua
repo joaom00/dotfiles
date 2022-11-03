@@ -64,6 +64,17 @@ end
 
 local js_snippets = {
   s("imp", fmt([[import {} from '{}']], { i(0, { "module" }), i(1) })),
+  s(
+    "comme",
+    fmt(
+      [[
+/* -------------------------------------------------------------------------------------------------
+ * {}
+ * -----------------------------------------------------------------------------------------------*/
+  ]],
+      { i(0, { "title" }) }
+    )
+  ),
   s("usestate", {
     t "const [",
     i(1),
@@ -139,14 +150,13 @@ function M.setup()
     },
   }
 
-
-  ls.add_snippets('go', {
+  ls.add_snippets("go", {
     s("iferr", fmt("if err != nil {{\n\t{}\n}}\n{}", { i(1), i(0) })),
   })
-  ls.add_snippets('javascript', js_snippets)
-  ls.add_snippets('javascriptreact', js_snippets)
-  ls.add_snippets('typescript', js_snippets)
-  ls.add_snippets('typescriptreact', js_snippets)
+  ls.add_snippets("javascript", js_snippets)
+  ls.add_snippets("javascriptreact", js_snippets)
+  ls.add_snippets("typescript", js_snippets)
+  ls.add_snippets("typescriptreact", js_snippets)
 
   vim.keymap.set({ "i", "s" }, "<c-k>", function()
     if ls.expand_or_jumpable() then
@@ -174,6 +184,5 @@ function M.setup()
 
   vim.keymap.set("i", "<c-u>", require "luasnip.extras.select_choice")
 end
-
 
 return M

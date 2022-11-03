@@ -214,4 +214,11 @@ function M.minimal()
   vim.cmd "colorscheme minimal"
 end
 
+-----------------------------------------------------------------------------//
+-- Oxocarbon Theme {{{1
+-----------------------------------------------------------------------------//
+function M.oxocarbon()
+  vim.cmd.colorscheme "oxocarbon-lua"
+end
+
 return M

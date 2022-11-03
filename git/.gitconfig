@@ -1,7 +1,7 @@
 [user]
   name = João Pedro Magalhães
   email = joaopsilvamagalhaes@gmail.com
-  signingkey = joaopsilvamagalhaes@gmail.com
+#  signingkey = joaopsilvamagalhaes@gmail.com
 
 [include]
   path = ~/themes.gitconfig
@@ -15,7 +15,7 @@
 
 [commit]
   template = ~/.gitmessage
-  gpgSign = true
+#  gpgSign = true
 
 [pager]
   diff = delta

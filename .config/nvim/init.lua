@@ -6,7 +6,7 @@ require "plugins"
 require "settings"
 require "keymappings"
 
-require("jm.colorscheme").purpledaze()
+require("jm.colorscheme").oxocarbon()
 require("lsp.null-ls").setup()
 require "lsp"
 

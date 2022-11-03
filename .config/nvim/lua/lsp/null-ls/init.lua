@@ -33,7 +33,7 @@ function M.setup()
     formatting.black,
     formatting.rustfmt,
     formatting.prismaFmt,
-    formatting.gofumpt,
+    formatting.gofmt,
     formatting.golines.with {
       extra_args = {
         "--max-len=160",

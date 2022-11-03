@@ -239,6 +239,7 @@ return require("packer").startup(function(use)
   use { "luisiacc/gruvbox-baby" }
   use { "Yazeed1s/minimal.nvim" }
   use { "ray-x/aurora" }
+use {'B4mbus/oxocarbon-lua.nvim'}
   use {
     "catppuccin/nvim",
     as = "catppuccin",
@@ -353,6 +354,8 @@ return require("packer").startup(function(use)
   use { "tpope/vim-surround" }
 
   use { "404-theme/neovim" }
+
+  use { "andweeb/presence.nvim" }
   -- use {
   --   "kevinhwang91/nvim-ufo",
   --   config = function()

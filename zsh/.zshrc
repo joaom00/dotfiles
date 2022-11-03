@@ -1,5 +1,7 @@
-export ZSH="/home/joaom/.oh-my-zsh"
+export ZSH="/home/joao/.oh-my-zsh"
+export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 export PATH=$HOME/.local/bin:$PATH
+export PATH="/usr/bin:$PATH"
 # source /usr/share/autojump/autojump.sh
 # export PATH="$HOME/.miniconda/bin:$PATH"  # commented out by conda initialize
 
@@ -96,7 +98,7 @@ plugins=(ssh-agent gpg-agent F-Sy-H zsh-autosuggestions zsh-completions)
 
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
-source $ZSH/oh-my-zsh.sh
+source ~/.oh-my-zsh/oh-my-zsh.sh
 
 SPACESHIP_PROMPT_ORDER=(
   user          # Username section
@@ -111,7 +113,7 @@ SPACESHIP_PROMPT_ORDER=(
   conda         # conda virtualenv section
   exec_time     # Execution time
   line_sep      # Line break
-  vi_mode       # Vi-mode indicator
+#  vi_mode       # Vi-mode indicator
   exit_code     # Exit code section
   char          # Prompt character
 )
@@ -120,8 +122,8 @@ SPACESHIP_PROMPT_ADD_NEWLINE=false
 SPACESHIP_CHAR_SYMBOL="❯"
 SPACESHIP_CHAR_SUFFIX=" "
 
-export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0
-# export DISPLAY=172.26.192.1:0.0
+# export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0
+# export DISPLAY=:0
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -144,6 +146,6 @@ bindkey -s '^F' 'cd ~/dev/$(ls -p ~/dev | fzf)\n'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # pnpm
-export PNPM_HOME="/home/joaom/.local/share/pnpm"
+export PNPM_HOME="/home/joao/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
