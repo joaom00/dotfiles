@@ -239,7 +239,9 @@ return require("packer").startup(function(use)
   use { "luisiacc/gruvbox-baby" }
   use { "Yazeed1s/minimal.nvim" }
   use { "ray-x/aurora" }
-use {'B4mbus/oxocarbon-lua.nvim'}
+  -- use {'B4mbus/oxocarbon-lua.nvim'}
+  use {'nyoom-engineering/oxocarbon.nvim'}
+use {'wuelnerdotexe/vim-enfocado'}
   use {
     "catppuccin/nvim",
     as = "catppuccin",

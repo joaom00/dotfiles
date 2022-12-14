@@ -218,7 +218,16 @@ end
 -- Oxocarbon Theme {{{1
 -----------------------------------------------------------------------------//
 function M.oxocarbon()
-  vim.cmd.colorscheme "oxocarbon-lua"
+  vim.opt.background = "dark" -- set this to dark or light
+  vim.cmd.colorscheme "oxocarbon"
+end
+
+-----------------------------------------------------------------------------//
+-- Enfocado Theme {{{1
+-----------------------------------------------------------------------------//
+function M.enfocado()
+  vim.opt.background = "dark" -- set this to dark or light
+  vim.cmd.colorscheme "enfocado"
 end
 
 return M
