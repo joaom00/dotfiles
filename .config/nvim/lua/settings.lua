@@ -1,5 +1,5 @@
 vim.opt.pumblend = 3 -- Make popup window translucent
-vim.opt.number = true
+vim.opt.number = false
 vim.opt.relativenumber = false
 -----------------------------------------------------------------------------//
 -- Message output on vim actions {{{1

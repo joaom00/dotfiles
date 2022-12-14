@@ -5,8 +5,6 @@ export PATH="/usr/bin:$PATH"
 # source /usr/share/autojump/autojump.sh
 # export PATH="$HOME/.miniconda/bin:$PATH"  # commented out by conda initialize
 
-export GREENLIGHT_DB_DSN='postgres://greenlight:pa55word@localhost/greenlight'
-
 setopt autocd extendedglob nomatch menucomplete
 setopt interactive_comments
 stty stop undef
@@ -23,6 +21,7 @@ autoload -Uz colors && colors
 
 
 export GO111MODULE='on'
+# export GOPROXY='https://proxy.golang.org'
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
