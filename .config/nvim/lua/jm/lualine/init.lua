@@ -1,5 +1,9 @@
 local M = {}
 
+local status = require("nvim-spotify").status
+
+status:start()
+
 function M.setup()
   if not pcall(require, "lualine") then
     JM.notify "Missing lualine dependency"
@@ -150,6 +154,7 @@ function M.setup()
     },
   }
 
+
   -- Insert mid section. You can make any number of sections in neovim :)
   -- for lualine it's any number greater then 2
   ins_left {
@@ -193,6 +198,10 @@ function M.setup()
   --   icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
   --   color = { fg = colors.green, gui = "bold" },
   -- }
+
+  ins_right {
+    status.listen
+  }
 
   ins_right {
     "branch",

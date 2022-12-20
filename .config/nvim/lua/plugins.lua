@@ -240,8 +240,8 @@ return require("packer").startup(function(use)
   use { "Yazeed1s/minimal.nvim" }
   use { "ray-x/aurora" }
   -- use {'B4mbus/oxocarbon-lua.nvim'}
-  use {'nyoom-engineering/oxocarbon.nvim'}
-use {'wuelnerdotexe/vim-enfocado'}
+  use { "nyoom-engineering/oxocarbon.nvim" }
+  use { "wuelnerdotexe/vim-enfocado" }
   use {
     "catppuccin/nvim",
     as = "catppuccin",
@@ -369,6 +369,22 @@ use {'wuelnerdotexe/vim-enfocado'}
   -- use { "~/dev/omni.nvim" }
   -- use { "~/dev/404.nvim" }
   -- use { "~/dev/telescope-twitch.nvim" }
+  use {
+    "KadoBOT/nvim-spotify",
+    requires = "nvim-telescope/telescope.nvim",
+    config = function()
+        local spotify = require'nvim-spotify'
+
+        spotify.setup {
+            -- default opts
+            status = {
+                update_interval = 10000, -- the interval (ms) to check for what's currently playing
+                format = '%s %t by %a' -- spotify-tui --format argument
+            }
+        }
+    end,
+    run = "make",
+  }
 
   if packer_bootstrap then
     require("packer").sync()
