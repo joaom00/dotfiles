@@ -35,6 +35,44 @@ vim.cmd [[
 
 vim.keymap.set("i", "<c-c>", "<esc>")
 
+-- Telescope hijack_netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+local netrw_bufname
+vim.api.nvim_create_augroup("FileExplorer", { clear = true })
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = "FileExplorer",
+  pattern = "*",
+  callback = function()
+    vim.schedule(function()
+      local bufname = vim.api.nvim_buf_get_name(0)
+      if vim.fn.isdirectory(bufname) == 0 then
+        netrw_bufname = vim.fn.expand "#:p:h"
+        return
+      end
+
+      -- prevents reopening of file-browser if exiting without selecting a file
+      if netrw_bufname == bufname then
+        netrw_bufname = nil
+        return
+      else
+        netrw_bufname = bufname
+      end
+
+      vim.fn.system "git status"
+      local is_not_git = vim.v.shell_error > 0
+      if is_not_git then
+        require("jm.telescope").fd()
+      else
+        -- Find root of git directory and remove trailing newline characters
+        local cwd = string.gsub(vim.fn.system "git rev-parse --show-toplevel", "[\n\r]+", "")
+        require("jm.telescope").git_files(cwd)
+      end
+    end)
+  end,
+  desc = "Telescope replacement for netrw",
+})
+
 --local dap = require "dap"
 
 --dap.adapters.node2 = {

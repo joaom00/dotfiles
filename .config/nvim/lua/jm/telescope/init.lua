@@ -89,7 +89,7 @@ require("telescope").setup {
     file_browser = {
       grouped = true,
       default_selection_index = 2,
-      hijack_netrw = true,
+      hijack_netrw = false,
       mappings = {
         ["i"] = {
           ["<C-o>"] = function(prompt_bufnr)
@@ -291,8 +291,8 @@ function M.live_grep_nvim_conf()
   }
 end
 
-function M.git_files()
-  local path = vim.fn.expand "%:h"
+function M.git_files(cwd)
+  local path = cwd or vim.fn.expand "%:h"
   local opts = themes.get_ivy {
     sorting_strategy = "ascending",
     cwd = path,
