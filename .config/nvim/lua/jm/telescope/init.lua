@@ -89,6 +89,7 @@ require("telescope").setup {
     file_browser = {
       grouped = true,
       default_selection_index = 2,
+      hijack_netrw = true,
       mappings = {
         ["i"] = {
           ["<C-o>"] = function(prompt_bufnr)
