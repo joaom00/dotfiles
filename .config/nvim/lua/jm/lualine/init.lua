@@ -45,7 +45,7 @@ function M.setup()
       -- Disable sections and component separators
       component_separators = "",
       section_separators = "",
-      -- theme = "tokyonight",
+      theme = "gruvbox-baby",
       -- theme = {
       --   -- We are going to use lualine_c an lualine_x as left and
       --   -- right section. Both are highlighted by c theme .  So we

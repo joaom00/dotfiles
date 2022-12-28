@@ -204,6 +204,10 @@ end
 -- Gruvbox Baby Theme {{{1
 -----------------------------------------------------------------------------//
 function M.gruvboxbaby()
+  -- vim.g.gruvbox_baby_function_style = "NONE"
+  vim.g.gruvbox_baby_keyword_style = "italic"
+  vim.g.gruvbox_baby_telescope_theme = 1
+  -- vim.cmd.colorscheme = "gruvbox-baby"
   vim.cmd "colorscheme gruvbox-baby"
 end
 

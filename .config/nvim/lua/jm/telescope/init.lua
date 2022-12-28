@@ -49,6 +49,11 @@ require("telescope").setup {
   defaults = {
     prompt_prefix = " ",
     selection_caret = " ",
+    borderchars = {
+      prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
+      results = { " " },
+      preview = { " " },
+    },
 
     selection_strategy = "reset",
     sorting_strategy = "descending",
@@ -292,7 +297,7 @@ function M.live_grep_nvim_conf()
 end
 
 function M.git_files(cwd)
-  local path = cwd or vim.fn.expand "%:h"
+  local path = vim.fn.expand "%:h"
   local opts = themes.get_ivy {
     sorting_strategy = "ascending",
     cwd = path,

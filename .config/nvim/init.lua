@@ -6,7 +6,7 @@ require "plugins"
 require "settings"
 require "keymappings"
 
-require("jm.colorscheme").oxocarbon()
+require("jm.colorscheme").gruvboxbaby()
 require("lsp.null-ls").setup()
 require "lsp"
 
@@ -38,10 +38,20 @@ vim.keymap.set("i", "<c-c>", "<esc>")
 -- Telescope hijack_netrw
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
 local netrw_bufname
-vim.api.nvim_create_augroup("FileExplorer", { clear = true })
+
+pcall(vim.api.nvim_clear_autocmds, { group = "FileExplorer" })
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  pattern = "*",
+  once = true,
+  callback = function()
+    pcall(vim.api.nvim_clear_autocmds, { group = "FileExplorer" })
+  end,
+})
 vim.api.nvim_create_autocmd("BufEnter", {
-  group = "FileExplorer",
+  group = vim.api.nvim_create_augroup("telescope-hijack-netrw", { clear = true }),
   pattern = "*",
   callback = function()
     vim.schedule(function()
@@ -59,14 +69,18 @@ vim.api.nvim_create_autocmd("BufEnter", {
         netrw_bufname = bufname
       end
 
+-- ensure no buffers remain with the directory name
+        vim.api.nvim_buf_set_option(0, "bufhidden", "wipe")
+
       vim.fn.system "git status"
       local is_not_git = vim.v.shell_error > 0
       if is_not_git then
         require("jm.telescope").fd()
       else
+        require("jm.telescope").fd()
         -- Find root of git directory and remove trailing newline characters
-        local cwd = string.gsub(vim.fn.system "git rev-parse --show-toplevel", "[\n\r]+", "")
-        require("jm.telescope").git_files(cwd)
+        -- local cwd = string.gsub(vim.fn.system "git rev-parse --show-toplevel", "[\n\r]+", "")
+        -- require("jm.telescope").git_files(cwd)
       end
     end)
   end,
