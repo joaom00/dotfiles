@@ -28,6 +28,7 @@ map_tele("<space>en", "edit_neovim")
 -- Files
 map_tele("<space>ft", "git_files")
 map_tele("<space>fg", "live_grep")
+map_tele("<space>od", "olddirs")
 map_tele("<space>fgn", "live_grep_nvim_conf")
 map_tele("<space>fd", "fd")
 map_tele("<space>fh", "frecency")

@@ -116,7 +116,6 @@ return require("packer").startup(function(use)
   -- TROUBE
   use {
     "folke/trouble.nvim",
-    cmd = { "TroubleToggle" },
     setup = conf("trouble").setup,
     config = conf("trouble").config,
   }
@@ -209,7 +208,7 @@ return require("packer").startup(function(use)
         -- goimport = 'goimports', -- 'gopls'
         filstruct = "gopls",
         log_path = vim.fn.expand "$HOME" .. "/tmp/gonvim.log",
-        lsp_codelens = false, -- use navigator
+        lsp_codelens = true,
         dap_debug = true,
         goimport = "gopls",
         dap_debug_vt = "true",
@@ -218,8 +217,7 @@ return require("packer").startup(function(use)
         test_runner = "go", -- richgo, go test, richgo, dlv, ginkgo
         -- run_in_floaterm = true, -- set to true to run in float window.
         lsp_document_formatting = true,
-        -- lsp_on_attach = require("navigator.lspclient.attach").on_attach,
-        -- lsp_cfg = true,
+        trouble = true,
       }
       -- vim.cmd "augroup go"
       -- vim.cmd "autocmd!"
@@ -251,9 +249,14 @@ return require("packer").startup(function(use)
     as = "rose-pine",
     tag = "v1.*",
   }
-  use { "tjdevries/gruvbuddy.nvim", requires = {
-    { "tjdevries/colorbuddy.vim" },
-  } }
+  use {
+    "tjdevries/gruvbuddy.nvim",
+    requires = { "tjdevries/colorbuddy.vim" },
+  }
+  use {
+    "jesseleite/nvim-noirbuddy",
+    requires = { "tjdevries/colorbuddy.nvim", branch = "dev" },
+  }
   use {
     "NvChad/nvim-base16.lua",
     config = function()
@@ -385,6 +388,8 @@ return require("packer").startup(function(use)
     end,
     run = "make",
   }
+  use "marcuscaisey/olddirs.nvim"
+  use { "ray-x/guihua.lua", run = "cd lua/fzy && make" }
 
   if packer_bootstrap then
     require("packer").sync()

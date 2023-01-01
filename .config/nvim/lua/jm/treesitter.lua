@@ -39,7 +39,7 @@ end
       },
     },
     autotag = { enable = true },
-    autopairs = { enable = true },
+    -- autopairs = { enable = true },
     context_commentstring = { enable = true, config = { css = "// %s" } },
     rainbow = {
       enable = true,

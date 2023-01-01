@@ -234,4 +234,13 @@ function M.enfocado()
   vim.cmd.colorscheme "enfocado"
 end
 
+-----------------------------------------------------------------------------//
+-- Noirbuddy Theme {{{1
+-----------------------------------------------------------------------------//
+function M.noirbuddy()
+  require("noirbuddy").setup {
+    preset = "minimal", -- 'minimal' | 'miami-nights' | 'kiwi' | 'slate' | 'crt-green' | 'crt-amber'
+  }
+end
+
 return M

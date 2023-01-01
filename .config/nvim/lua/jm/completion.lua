@@ -16,7 +16,6 @@ function M.config()
   lspkind.init()
 
   local cmp = require "cmp"
-
   cmp.setup {
     experimental = {
       ghost_text = true,
@@ -42,9 +41,6 @@ function M.config()
         luasnip.lsp_expand(args.body)
       end,
     },
-    -- documentation = {
-    --   border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-    -- },
     sources = {
       { name = "cmp_git" },
       { name = "nvim_lua" },

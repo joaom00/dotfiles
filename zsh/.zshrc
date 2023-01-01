@@ -2,6 +2,8 @@ export ZSH="/home/joao/.oh-my-zsh"
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 export PATH=$HOME/.local/bin:$PATH
 export PATH="/usr/bin:$PATH"
+export FLYCTL_INSTALL="/home/joao/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
 # source /usr/share/autojump/autojump.sh
 # export PATH="$HOME/.miniconda/bin:$PATH"  # commented out by conda initialize
 

@@ -97,16 +97,6 @@ require("telescope").setup {
       hijack_netrw = false,
       mappings = {
         ["i"] = {
-          ["<C-o>"] = function(prompt_bufnr)
-            local current_picker = actions_state.get_current_picker(prompt_bufnr)
-            local finder = current_picker.finder
-            actions.close(prompt_bufnr)
-
-            local default = get_target_dir(finder) .. os_sep
-            local dir = vim.split(default, "/")
-
-            ts_utils.get_os_command_output { "explorer.exe", dir[#dir - 1] }
-          end,
           ["<C-e>"] = function(prompt_bufnr)
             local current_picker = actions_state.get_current_picker(prompt_bufnr)
             local finder = current_picker.finder
@@ -278,6 +268,7 @@ load_extension "git_worktree"
 load_extension "ui-select"
 -- load_extension "twitch"
 load_extension "dap"
+load_extension "olddirs"
 
 function M.edit_neovim()
   require("telescope.builtin").find_files {
@@ -296,7 +287,7 @@ function M.live_grep_nvim_conf()
   }
 end
 
-function M.git_files(cwd)
+function M.git_files()
   local path = vim.fn.expand "%:h"
   local opts = themes.get_ivy {
     sorting_strategy = "ascending",
@@ -329,6 +320,10 @@ end
 
 function M.file_browser()
   require("telescope").extensions.file_browser.file_browser()
+end
+
+function M.olddirs()
+  require("telescope").extensions.olddirs.picker()
 end
 
 function M.project()

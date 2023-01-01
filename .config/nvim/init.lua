@@ -12,7 +12,6 @@ require "lsp"
 
 require("jm.autocmds").define_augroups {
   terminal = {
-    -- { "TermOpen", "*", "startinsert" },
     { "TermOpen", "*", "setlocal listchars= nonumber norelativenumber" },
   },
 }
@@ -69,19 +68,22 @@ vim.api.nvim_create_autocmd("BufEnter", {
         netrw_bufname = bufname
       end
 
--- ensure no buffers remain with the directory name
-        vim.api.nvim_buf_set_option(0, "bufhidden", "wipe")
+      -- ensure no buffers remain with the directory name
+      vim.api.nvim_buf_set_option(0, "bufhidden", "wipe")
 
-      vim.fn.system "git status"
-      local is_not_git = vim.v.shell_error > 0
-      if is_not_git then
         require("jm.telescope").fd()
-      else
-        require("jm.telescope").fd()
-        -- Find root of git directory and remove trailing newline characters
-        -- local cwd = string.gsub(vim.fn.system "git rev-parse --show-toplevel", "[\n\r]+", "")
-        -- require("jm.telescope").git_files(cwd)
-      end
+
+      -- vim.fn.system "git rev-parse --is-inside-work-tree"
+      -- local is_git = vim.v.shell_error == 0
+
+      -- if is_git then
+      --   -- Find root of git directory and remove trailing newline characters
+      --   local cwd = string.gsub(vim.fn.system "git rev-parse --show-toplevel", "[\n\r]+", "")
+      --   require("jm.telescope").git_files(cwd)
+      -- else
+      --   require("jm.telescope").fd()
+      --   -- require("jm.telescope").git_files(cwd)
+      -- end
     end)
   end,
   desc = "Telescope replacement for netrw",
