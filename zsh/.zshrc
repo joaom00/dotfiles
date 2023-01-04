@@ -1,8 +1,8 @@
-export ZSH="/home/joao/.oh-my-zsh"
+export ZSH="/home/$USER/.oh-my-zsh"
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 export PATH=$HOME/.local/bin:$PATH
 export PATH="/usr/bin:$PATH"
-export FLYCTL_INSTALL="/home/joao/.fly"
+export FLYCTL_INSTALL="/home/$USER/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
 # source /usr/share/autojump/autojump.sh
 # export PATH="$HOME/.miniconda/bin:$PATH"  # commented out by conda initialize
@@ -95,7 +95,7 @@ __take() {
 alias take=__take
 
 
-plugins=(ssh-agent gpg-agent F-Sy-H zsh-autosuggestions zsh-completions)
+plugins=(ssh-agent gpg-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions)
 
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
@@ -147,6 +147,6 @@ bindkey -s '^F' 'cd ~/dev/$(ls -p ~/dev | fzf)\n'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # pnpm
-export PNPM_HOME="/home/joao/.local/share/pnpm"
+export PNPM_HOME="/home/$USER/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
