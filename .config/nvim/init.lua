@@ -6,6 +6,15 @@ require "plugins"
 require "settings"
 require "keymappings"
 
+require("colorizer").setup {
+  user_default_options = {
+    rgb_fn = true,
+    hsl_fn = true,
+    css = true,
+    css_fn = true,
+    tailwind = "both",
+  },
+}
 require("jm.colorscheme").gruvboxbaby()
 require("lsp.null-ls").setup()
 require "lsp"
@@ -71,7 +80,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
       -- ensure no buffers remain with the directory name
       vim.api.nvim_buf_set_option(0, "bufhidden", "wipe")
 
-        require("jm.telescope").fd()
+      require("jm.telescope").fd()
 
       -- vim.fn.system "git rev-parse --is-inside-work-tree"
       -- local is_git = vim.v.shell_error == 0

@@ -23,7 +23,7 @@ autoload -Uz colors && colors
 
 
 export GO111MODULE='on'
-# export GOPROXY='https://proxy.golang.org'
+export GOPROXY='https://proxy.golang.org'
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
@@ -95,7 +95,7 @@ __take() {
 alias take=__take
 
 
-plugins=(ssh-agent gpg-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions)
+plugins=(ssh-agent gpg-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions asdf)
 
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 

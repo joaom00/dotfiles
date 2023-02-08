@@ -95,6 +95,7 @@ require("telescope").setup {
       grouped = true,
       default_selection_index = 2,
       hijack_netrw = false,
+      path = "%:p:h",
       mappings = {
         ["i"] = {
           ["<C-e>"] = function(prompt_bufnr)
@@ -338,7 +339,7 @@ function M.git_status()
 end
 
 function M.curbuf()
-  require("telescope.builtin").current_buffer_fuzzy_find(themes.get_dropdown {
+  require("telescope.builtin").current_buffer_fuzzy_find({
     border = true,
     previewer = false,
     path_display = { "shorten" },

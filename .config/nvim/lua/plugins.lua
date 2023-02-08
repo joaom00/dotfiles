@@ -197,7 +197,14 @@ return require("packer").startup(function(use)
   }
 
   -- MARKDOWN PREVIEW
-  use { "iamcco/markdown-preview.nvim", run = "cd app && npm install", ft = "markdown" }
+  use {
+    "iamcco/markdown-preview.nvim",
+    run = "cd app && npm install",
+    setup = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+  }
 
   -- GO
   use {
@@ -287,12 +294,13 @@ return require("packer").startup(function(use)
     after = "nvim-cmp",
     config = conf("autopairs").config,
   }
-  use {
-    "norcalli/nvim-colorizer.lua",
-    config = function()
-      require("jm.colorizer").setup()
-    end,
-  }
+  -- use {
+  --   "norcalli/nvim-colorizer.lua",
+  --   config = function()
+  --     require("jm.colorizer").setup()
+  --   end,
+  -- }
+  use "NvChad/nvim-colorizer.lua"
   use {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
@@ -390,6 +398,24 @@ return require("packer").startup(function(use)
   }
   use "marcuscaisey/olddirs.nvim"
   use { "ray-x/guihua.lua", run = "cd lua/fzy && make" }
+  use {
+    "roobert/tailwindcss-colorizer-cmp.nvim",
+    -- optionally, override the default options:
+    config = function()
+      require("tailwindcss-colorizer-cmp").setup {
+        color_square_width = 2,
+      }
+    end,
+  }
+  use "savq/melange-nvim"
+  use {
+    "mhanberg/elixir.nvim",
+    config = function()
+      require("elixir").setup {
+        cmd = vim.fn.expand "~/elixir-ls/language_server.sh",
+      }
+    end,
+  }
 
   if packer_bootstrap then
     require("packer").sync()

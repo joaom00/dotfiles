@@ -115,6 +115,9 @@ function M.config()
     },
     mapping = cmp.mapping.preset.cmdline(),
   })
+  cmp.config.formatting = {
+    format = require("tailwindcss-colorizer-cmp").formatter,
+  }
 end
 
 return M

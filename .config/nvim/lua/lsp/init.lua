@@ -50,6 +50,10 @@ local servers = {
   prismals = true,
   cssls = true,
   tailwindcss = true,
+  -- emmet_ls = true,
+  elixirls = {
+    cmd = { vim.fn.expand("~/elixir-ls/language_server.sh") },
+  },
   sumneko_lua = {
     settings = {
       Lua = {
