@@ -32,7 +32,7 @@ local on_attach = function(_, bufnr)
   nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "Document Symbols")
   nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Workspace Symbols")
   nmap("K", vim.lsp.buf.hover, "Hover documentation")
-  nmap("<c-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+  nmap("<s-k>", vim.lsp.buf.signature_help, "Signature Documentation")
   nmap("gD", vim.lsp.buf.declaration, "Goto Declaration")
   nmap("<leader>D", vim.lsp.buf.type_definition, "Type Definition")
 end
