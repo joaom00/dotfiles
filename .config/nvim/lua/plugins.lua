@@ -30,6 +30,12 @@ return require("packer").startup(function(use)
     config = conf("lsp_signature").config,
   }
   use { "tamago324/nlsp-settings.nvim" }
+  use {
+    "jose-elias-alvarez/typescript.nvim",
+    config = function()
+      require("typescript").setup{}
+    end,
+  }
 
   -- TREESITTER
   use {

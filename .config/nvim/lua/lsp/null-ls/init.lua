@@ -33,6 +33,7 @@ function M.setup()
     formatting.black,
     formatting.rustfmt,
     formatting.prismaFmt,
+    formatting.goimports,
     formatting.gofmt,
     formatting.golines.with {
       extra_args = {
@@ -56,6 +57,8 @@ function M.setup()
     -- CODE ACTIONS
     actions.eslint,
     actions.proselint,
+
+require("typescript.extensions.null-ls.code-actions"),
   }
 
   -- if exist "sql-formatter" then
