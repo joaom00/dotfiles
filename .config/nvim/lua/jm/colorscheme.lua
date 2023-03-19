@@ -250,4 +250,11 @@ function M.melange()
   vim.cmd.colorscheme "melange"
 end
 
+-----------------------------------------------------------------------------//
+-- Darcula Theme {{{1
+-----------------------------------------------------------------------------//
+function M.darcula()
+  vim.cmd.colorscheme "darcula-solid"
+end
+
 return M

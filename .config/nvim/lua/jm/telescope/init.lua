@@ -339,11 +339,11 @@ function M.git_status()
 end
 
 function M.curbuf()
-  require("telescope.builtin").current_buffer_fuzzy_find({
+  require("telescope.builtin").current_buffer_fuzzy_find {
     border = true,
     previewer = false,
     path_display = { "shorten" },
-  })
+  }
 end
 
 function M.grep_prompt()
@@ -395,6 +395,14 @@ end
 
 function M.twitch()
   require("telescope").extensions.twitch.twitch()
+end
+
+function M.git_worktrees()
+  require("telescope").extensions.git_worktree.git_worktrees()
+end
+
+function M.git_worktrees_create()
+  require("telescope").extensions.git_worktree.create_git_worktree()
 end
 
 return setmetatable({}, {

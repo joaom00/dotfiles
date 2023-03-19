@@ -49,8 +49,8 @@ nmap("<C-Left>", "<cmd>vertical resize -2<CR>")
 nmap("<C-Right>", "<cmd>vertical resize +2<CR>")
 
 -- Better indenting
-vnoremap("<", "<gv")
-vnoremap(">", ">gv")
+-- vnoremap("<", "<gv")
+-- vnoremap(">", ">gv")
 
 -- I hate escape
 -- inoremap("jk", "<ESC>")
@@ -58,16 +58,18 @@ vnoremap(">", ">gv")
 -- inoremap("jj", "<ESC>")
 
 -- Move selected line / block of text in visual mode
-xnoremap("J", "<cmd>move '>+1<CR>gv-gv")
-xnoremap("K", "<cmd>move '<-2<CR>gv-gv")
+-- vim.keymap.set("v", "J", ":m '>+1<CR>gv-gv'")
+-- vim.keymap.set("v", "K", ":m '<-2<CR>gv-gv'")
+-- vnoremap("J", "<cmd>move '>+1<CR>gv=gv")
+-- vnoremap("K", "<cmd>move '<-2<CR>gv=gv")
 
 -- Move current line / block with Alt-j/k ala vscode.
 nnoremap("<A-j>", "<cmd>m .+1<CR>==")
 nnoremap("<A-k>", "<cmd>m .-2<CR>==")
 inoremap("<A-j>", "<Esc><cmd>m .+1<CR>==gi")
 inoremap("<A-k>", "<Esc><cmd>m .-2<CR>==gi")
-xnoremap("<A-j>", "<cmd>m '>+1<CR>gv-gv")
-xnoremap("<A-k>", "<cmd>m '<-2<CR>gv-gv")
+xnoremap("<A-j>", "<cmd>m '>+1<CR>gv=gv")
+xnoremap("<A-k>", "<cmd>m '<-2<CR>gv=gv")
 
 nnoremap("<leader>np", "<cmd>lua require('package-info').change_version()<CR>")
 nnoremap("<leader>nd", "<cmd>lua require('package-info').delete()<CR>")
@@ -78,3 +80,5 @@ vnoremap("<Space>f", "zf")
 
 -- Debugging
 nnoremap("<leader>b", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
+
+nnoremap("<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")

@@ -1,15 +1,7 @@
 local M = {}
+
 -- local nnoremap = JM.mapper "n"
 -- local tnoremap = JM.mapper "t"
-
--- local Terminal = toggleterm_terminal.Terminal
-
--- local float_handler = function(term)
---   if vim.fn.mapcheck("jk", "t") ~= "" then
---     vim.api.nvim_buf_del_keymap(term.bufnr, "t", "jk")
---     vim.api.nvim_buf_del_keymap(term.bufnr, "t", "<esc>")
---   end
--- end
 
 -- local gcommit = Terminal:new {
 --   cmd = "git commit",
@@ -32,18 +24,11 @@ local M = {}
 -- }
 
 function M.config()
-local status_ok, toggleterm = pcall(require, "toggleterm")
-if not status_ok then
-  JM.notify "Missing toggleterm dependency"
-  return
-end
-
-local toggleterm_terminal_ok, toggleterm_terminal = pcall(require, "toggleterm.terminal")
-if not toggleterm_terminal_ok then
-  JM.notify "Failed to load terminal module in toggleterm"
-  return
-end
-
+  local status_ok, toggleterm = pcall(require, "toggleterm")
+  if not status_ok then
+    JM.notify "Missing toggleterm dependency"
+    return
+  end
 
   toggleterm.setup {
     size = function(term)
@@ -63,6 +48,42 @@ end
     persist_size = true,
     direction = "vertical", -- 'vertical' | 'horizontal' | 'window' | 'float'
   }
+    local toggleterm_terminal_ok, toggleterm_terminal = pcall(require, "toggleterm.terminal")
+  if not toggleterm_terminal_ok then
+    JM.notify "Failed to load terminal module in toggleterm"
+    return
+  end
+
+  local float_handler = function(term)
+    vim.wo.sidescrolloff = 0
+    if vim.fn.mapcheck("jk", "t") ~= "" then
+      vim.keymap.del("t", "jk", { buffer = term.bufnr })
+      vim.keymap.del("t", "<esc>", { buffer = term.bufnr })
+    end
+  end
+
+  local Terminal = toggleterm_terminal.Terminal
+
+  local gh_dash = Terminal:new {
+    cmd = "gh dash",
+    hidden = true,
+    direction = "float",
+    on_open = float_handler,
+    float_opts = {
+      border = "curved",
+      height = function()
+        return math.floor(vim.o.lines * 0.8)
+      end,
+      width = function()
+        return math.floor(vim.o.columns * 0.95)
+      end,
+    },
+  }
+
+  vim.keymap.set("n", "<leader>gd", function()
+    gh_dash:toggle()
+  end)
+
 end
 
 -- function M.gcommit_toggle()
@@ -95,13 +116,47 @@ end
 -- end
 
 function M.setup()
+  local toggleterm_terminal_ok, toggleterm_terminal = pcall(require, "toggleterm.terminal")
+  if not toggleterm_terminal_ok then
+    JM.notify "Failed to load terminal module in toggleterm"
+    return
+  end
+
+  local float_handler = function(term)
+    vim.wo.sidescrolloff = 0
+    if vim.fn.mapcheck("jk", "t") ~= "" then
+      vim.keymap.del("t", "jk", { buffer = term.bufnr })
+      vim.keymap.del("t", "<esc>", { buffer = term.bufnr })
+    end
+  end
+
+  local Terminal = toggleterm_terminal.Terminal
+
+  local gh_dash = Terminal:new {
+    cmd = "gh dash",
+    hidden = true,
+    direction = "float",
+    on_open = float_handler,
+    float_opts = {
+      border = "curved",
+      height = function()
+        return math.floor(vim.o.lines * 0.8)
+      end,
+      width = function()
+        return math.floor(vim.o.columns * 0.95)
+      end,
+    },
+  }
+
+  vim.keymap.set("n", "<leader>gd", function()
+    gh_dash:toggle()
+  end)
   JM.nnoremap("<F9>", "<cmd>ToggleTermOpenAll<CR>")
-  JM.nnoremap("<leader>gc", "<cmd>lua require('jm.toggleterm').gcommit_toggle()<CR>")
-  JM.nnoremap("<space>d", "<cmd>lua require('jm.toggleterm').lazydocker_toggle()<CR>")
-  JM.nnoremap("<space>t", "<cmd>lua require('jm.toggleterm').twitch_chat_toggle()<CR>")
+  -- JM.nnoremap("<leader>gd", "<cmd>lua require('jm.toggleterm').ghdash()<CR>")
+  -- JM.nnoremap("<space>d", "<cmd>lua require('jm.toggleterm').lazydocker_toggle()<CR>")
+  -- JM.nnoremap("<space>t", "<cmd>lua require('jm.toggleterm').twitch_chat_toggle()<CR>")
   JM.tnoremap("<F10>", "<C-\\><C-n>:ToggleTermCloseAll<CR>")
   JM.tnoremap("<Esc><Esc>", "<C-\\><C-n>")
 end
-
 
 return M

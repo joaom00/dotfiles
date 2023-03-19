@@ -23,6 +23,13 @@ return require("packer").startup(function(use)
   use { "nvim-lua/plenary.nvim" }
   use { "rktjmp/lush.nvim" }
 
+  use {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end,
+  }
+
   -- LSP
   use { "neovim/nvim-lspconfig" }
   use {
@@ -30,12 +37,12 @@ return require("packer").startup(function(use)
     config = conf("lsp_signature").config,
   }
   use { "tamago324/nlsp-settings.nvim" }
-  use {
-    "jose-elias-alvarez/typescript.nvim",
-    config = function()
-      require("typescript").setup{}
-    end,
-  }
+  -- use {
+  --   "jose-elias-alvarez/typescript.nvim",
+  --   config = function()
+  --     require("typescript").setup{}
+  --   end,
+  -- }
 
   -- TREESITTER
   use {
@@ -421,6 +428,24 @@ return require("packer").startup(function(use)
         cmd = vim.fn.expand "~/elixir-ls/language_server.sh",
       }
     end,
+  }
+  use { "briones-gabriel/darcula-solid.nvim", requires = "rktjmp/lush.nvim" }
+
+  use {
+    "nvim-neotest/neotest",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
+      "marilari88/neotest-vitest",
+    },
+    config = function ()
+      require('neotest').setup({
+        adapters = {
+          require('neotest-vitest')
+        }
+      })
+    end
   }
 
   if packer_bootstrap then

@@ -32,7 +32,7 @@ local on_attach = function(_, bufnr)
   nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "Document Symbols")
   nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Workspace Symbols")
   nmap("K", vim.lsp.buf.hover, "Hover documentation")
-  nmap("<S-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+  nmap("<c-m>", vim.lsp.buf.signature_help, "Signature Documentation")
   nmap("gD", vim.lsp.buf.declaration, "Goto Declaration")
   nmap("<leader>D", vim.lsp.buf.type_definition, "Type Definition")
 end
@@ -44,7 +44,7 @@ table.insert(runtime_path, "lua/?/init.lua")
 
 local servers = {
   rust_analyzer = true,
-  -- tsserver = true,
+  tsserver = true,
   gopls = true,
   yamlls = true,
   prismals = true,
@@ -52,9 +52,9 @@ local servers = {
   tailwindcss = true,
   -- emmet_ls = true,
   elixirls = {
-    cmd = { vim.fn.expand("~/elixir-ls/language_server.sh") },
+    cmd = { vim.fn.expand "~/elixir-ls/language_server.sh" },
   },
-  sumneko_lua = {
+  lua_ls = {
     settings = {
       Lua = {
         runtime = {

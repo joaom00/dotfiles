@@ -19,6 +19,8 @@ compinit -i
 zstyle ':completion:*' menu select
 _comp_options+=(globdots)
 
+eval "$(zoxide init zsh)"
+
 autoload -Uz colors && colors
 
 
@@ -85,6 +87,8 @@ alias nid='npm install -D'
 
 alias upgo='sh ~/update-golang.sh'
 
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+
 source ~/.zsh-nvm/zsh-nvm.plugin.zsh
 
 __take() {
@@ -141,8 +145,9 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+bindkey -s '^F' "tmux-sessionizer\n"
 bindkey "^K" end-of-line
-bindkey -s '^F' 'cd ~/dev/$(ls -p ~/dev | fzf)\n'
+# bindkey -s '^F' 'cd ~/dev/$(ls -p ~/dev | fzf)\n'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

@@ -15,7 +15,7 @@ require("colorizer").setup {
     tailwind = "both",
   },
 }
-require("jm.colorscheme").gruvboxbaby()
+require("jm.colorscheme").xcode()
 require("lsp.null-ls").setup()
 require "lsp"
 

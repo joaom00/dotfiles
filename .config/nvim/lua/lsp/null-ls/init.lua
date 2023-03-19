@@ -38,11 +38,11 @@ function M.setup()
     formatting.golines.with {
       extra_args = {
         "--max-len=160",
-        "--base-formatter=gofumpt",
+        "--base-formatter=gofmt",
       },
     },
     formatting.prettierd.with {
-      disabled_filetypes = { "markdown" },
+      -- disabled_filetypes = { "markdown" },
     },
 
     -- DIAGNOSTICS
@@ -58,7 +58,7 @@ function M.setup()
     actions.eslint,
     actions.proselint,
 
-require("typescript.extensions.null-ls.code-actions"),
+    -- require("typescript.extensions.null-ls.code-actions"),
   }
 
   -- if exist "sql-formatter" then
