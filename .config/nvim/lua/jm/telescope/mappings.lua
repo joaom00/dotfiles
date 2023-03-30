@@ -42,8 +42,8 @@ map_tele("<space>gs", "git_status")
 map_tele("<space>gc", "git_commits")
 map_tele("<space>gb", "git_branches")
 map_tele("<space>gn", "git_notification")
-map_tele("<space>gw", "git_worktrees")
-map_tele("<space>gwc", "git_worktrees_create")
+-- map_tele("<space>gw", "git_worktrees")
+-- map_tele("<space>gwc", "git_worktrees_create")
 
 -- Nvim
 map_tele("<space>fb", "buffers")

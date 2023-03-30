@@ -38,15 +38,10 @@ function M.config()
         return vim.o.columns * 0.4
       end
     end,
-    open_mapping = [[<c-t>]],
     hide_numbers = true,
-    shade_filetypes = {},
     shade_terminals = true,
     shading_factor = 1, -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
-    start_in_insert = true,
-    insert_mappings = true,
     persist_size = true,
-    direction = "vertical", -- 'vertical' | 'horizontal' | 'window' | 'float'
   }
     local toggleterm_terminal_ok, toggleterm_terminal = pcall(require, "toggleterm.terminal")
   if not toggleterm_terminal_ok then

@@ -74,9 +74,10 @@ vim.opt.formatoptions = {
 -----------------------------------------------------------------------------//
 -- Folds {{{1
 -----------------------------------------------------------------------------//
-vim.wo.foldcolumn = "1"
-vim.wo.foldlevel = 99
-vim.wo.foldenable = true
+vim.o.foldlevelstart = 10
+-- vim.wo.foldcolumn = "1"
+-- vim.wo.foldlevel = 99
+-- vim.wo.foldenable = true
 -- vim.opt.foldtext = "v:lua.JM.folds()"
 -- vim.opt.foldopen = vim.opt.foldopen + "search"
 -- vim.opt.foldlevelstart = 3

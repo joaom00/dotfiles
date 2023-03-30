@@ -2,16 +2,6 @@ local M = {}
 local lspconfig = require "lspconfig"
 local lspconfig_util = require "lspconfig.util"
 
---     ["yamlls"] = function(options)
---       options.on_attach = on_attach
---       options.settings = {
---         yaml = {
---           schemas = {
---             ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
---             ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose.yaml",
---           },
---         },
---       }
 vim.keymap.set("n", "<c-p>", vim.diagnostic.goto_prev)
 vim.keymap.set("n", "<c-n>", vim.diagnostic.goto_next)
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
@@ -34,7 +24,7 @@ local on_attach = function(_, bufnr)
   nmap("K", vim.lsp.buf.hover, "Hover documentation")
   nmap("<c-m>", vim.lsp.buf.signature_help, "Signature Documentation")
   nmap("gD", vim.lsp.buf.declaration, "Goto Declaration")
-  nmap("<leader>D", vim.lsp.buf.type_definition, "Type Definition")
+  nmap("<leader>gd", vim.lsp.buf.type_definition, "Type Definition")
 end
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())

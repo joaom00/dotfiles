@@ -1,23 +1,84 @@
-vim.g.python3_host_prog = "/usr/bin/python3"
-vim.g.ultest_use_pty = 1
+-- vim.g.python3_host_prog = "/usr/bin/python3"
+-- vim.g.ultest_use_pty = 1
 
+local g = vim.g
+local fn = vim.fn
+local opt = vim.opt
+local loop = vim.loop
+local cmd = vim.cmd
+local data = fn.stdpath "data"
+
+----------------------------------------------------------------------------------------------------
+-- Ensure all autocommands are cleared
+vim.api.nvim_create_augroup("vimrc", {})
+----------------------------------------------------------------------------------------------------
+-- Leader bindings
+----------------------------------------------------------------------------------------------------
+g.mapleader = "-" -- Remap leader key
+g.maplocalleader = " " -- Local leader is <Space>
+----------------------------------------------------------------------------------------------------
+-- Global namespace
+----------------------------------------------------------------------------------------------------
+
+local namespace = {
+  ui = {
+    winbar = { enable = true },
+    foldtext = { enable = false },
+  },
+  -- some vim mappings require a mixture of commandline commands and function calls
+  -- this table is place to store lua functions to be called in those mappings
+  mappings = { enable = true },
+}
+
+_G.jm = jm or namespace
+_G.map = vim.keymap.set
+----------------------------------------------------------------------------------------------------
+-- Settings
+----------------------------------------------------------------------------------------------------
 require "jm.globals"
-require "plugins"
+require "jm.highlights"
+require "jm.ui"
 require "settings"
 require "keymappings"
-
-require("colorizer").setup {
-  user_default_options = {
-    rgb_fn = true,
-    hsl_fn = true,
-    css = true,
-    css_fn = true,
-    tailwind = "both",
+-----------------------------------------------------------------------------//
+-- Plugins
+-----------------------------------------------------------------------------//
+local lazypath = data .. "/lazy/lazy.nvim"
+if not loop.fs_stat(lazypath) then
+  fn.system {
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--single-branch",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
+  }
+end
+opt.runtimepath:prepend(lazypath)
+-----------------------------------------------------------------------------
+require("lazy").setup("jm.plugins", {
+  defaults = { lazy = true },
+  change_detection = { notify = false },
+  checker = {
+    enabled = true,
+    concurrency = 30,
+    notify = false,
+    frequency = 3600, -- check for updates every hour
   },
-}
-require("jm.colorscheme").xcode()
-require("lsp.null-ls").setup()
-require "lsp"
+})
+
+--require("colorizer").setup {
+--  user_default_options = {
+--    rgb_fn = true,
+--    hsl_fn = true,
+--    css = true,
+--    css_fn = true,
+--    tailwind = "both",
+--  },
+-- }
+-- require("jm.colorscheme").xcode()
+-- require("lsp.null-ls").setup()
+-- require "lsp"
 
 require("jm.autocmds").define_augroups {
   terminal = {
@@ -97,42 +158,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
   desc = "Telescope replacement for netrw",
 })
-
---local dap = require "dap"
-
---dap.adapters.node2 = {
--- type = "executable",
--- command = "node",
---args = { os.getenv "HOME" .. "/vscode-node-debug2/out/src/nodeDebug.js" },
---}
-
---dap.configurations.javascript = {
--- {
---   type = "node2",
--- request = "launch",
---  program = "${workspaceFolder}/${file}",
---  cwd = vim.fn.getcwd(),
--- sourceMaps = true,
---  protocol = "inspector",
---  console = "integratedTerminal",
--- },
---}
-
---dap.configurations.typescript = {
--- {
---  name = "Launch",
---   type = "node2",
---   request = "launch",
---   program = "${file}",
---   cwd = vim.fn.getcwd(),
---   sourceMaps = true,
---   protocol = "inspector",
---   console = "integratedTerminal",
--- },
--- {
--- name = "Attach to process",
---   type = "node2",
---   request = "attach",
---   processId = require("dap.utils").pick_process,
--- },
---}
+-----------------------------------------------------------------------------//
+-- Color Scheme {{{1
+-----------------------------------------------------------------------------//
+jm.wrap_err("theme failed to load because", cmd.colorscheme, "horizon")
