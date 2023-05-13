@@ -12,15 +12,15 @@ return {
         -- stylua: ignore
         theme = {
           ['*'] = {
-            { NeoTreeNormal = { link = 'PanelBackground' } },
-            { NeoTreeNormalNC = { link = 'PanelBackground' } },
-            { NeoTreeRootName = { underline = true } },
-            { NeoTreeCursorLine = { link = 'Visual' } },
-            { NeoTreeStatusLine = { link = 'PanelSt' } },
-            { NeoTreeTabActive = { bg = { from = 'PanelBackground' }, bold = true } },
-            { NeoTreeTabInactive = { bg = { from = 'PanelDarkBackground', alter = 15 }, fg = { from = 'Comment' } } },
-            { NeoTreeTabSeparatorInactive = { inherit = 'NeoTreeTabInactive', fg = { from = 'PanelDarkBackground', attr = 'bg' } } },
-            { NeoTreeTabSeparatorActive = { inherit = 'PanelBackground', fg = { from = 'Comment' } } },
+            -- { NeoTreeNormal = { link = 'PanelBackground' } },
+            -- { NeoTreeNormalNC = { link = 'PanelBackground' } },
+            -- { NeoTreeRootName = { underline = true } },
+            -- { NeoTreeCursorLine = { link = 'Visual' } },
+            -- { NeoTreeStatusLine = { link = 'PanelSt' } },
+            -- { NeoTreeTabActive = { bg = { from = 'PanelBackground' }, bold = true } },
+            -- { NeoTreeTabInactive = { bg = { from = 'PanelDarkBackground', alter = 15 }, fg = { from = 'Comment' } } },
+            -- { NeoTreeTabSeparatorInactive = { inherit = 'NeoTreeTabInactive', fg = { from = 'PanelDarkBackground', attr = 'bg' } } },
+            -- { NeoTreeTabSeparatorActive = { inherit = 'PanelBackground', fg = { from = 'Comment' } } },
           },
           horizon = {
             { NeoTreeDirectoryIcon = { fg = '#C09553' } },

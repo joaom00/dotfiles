@@ -29,6 +29,7 @@ return {
       local cmp = require "cmp"
       local luasnip = require "luasnip"
       local kind_hls = jm.ui.lsp.highlights
+      -- local kind_hls = {}
       local ellipsis = jm.ui.icons.misc.ellipsis
 
       local menu_hls = {

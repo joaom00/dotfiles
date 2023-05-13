@@ -162,3 +162,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 -- Color Scheme {{{1
 -----------------------------------------------------------------------------//
 jm.wrap_err("theme failed to load because", cmd.colorscheme, "horizon")
+-- require("noirbuddy").setup {
+--   preset = "miami-nights",
+-- }

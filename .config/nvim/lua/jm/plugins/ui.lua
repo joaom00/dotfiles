@@ -284,23 +284,23 @@ return {
                   return buf.name:match "kubernetes" and buf.name:match "%.yaml"
                 end,
               },
-              {
-                name = "SQL",
-                matcher = function(buf)
-                  return buf.filename:match "%.sql$"
-                end,
-              },
-              {
-                name = "tests",
-                icon = "",
-                matcher = function(buf)
-                  local name = buf.filename
-                  if name:match "%.sql$" == nil then
-                    return false
-                  end
-                  return name:match "_spec" or name:match "_test"
-                end,
-              },
+              -- {
+              --   name = "SQL",
+              --   matcher = function(buf)
+              --     return buf.filename:match "%.sql$"
+              --   end,
+              -- },
+              -- {
+              --   name = "tests",
+              --   icon = "",
+              --   matcher = function(buf)
+              --     local name = buf.filename
+              --     if name:match "%.sql$" == nil then
+              --       return false
+              --     end
+              --     return name:match "_spec" or name:match "_test"
+              --   end,
+              -- },
               {
                 name = "docs",
                 icon = "",
@@ -329,6 +329,7 @@ return {
   },
   {
     "kevinhwang91/nvim-ufo",
+    enabled = false,
     event = "VeryLazy",
     dependencies = { "kevinhwang91/promise-async" },
     keys = {

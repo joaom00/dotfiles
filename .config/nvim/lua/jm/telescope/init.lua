@@ -268,8 +268,8 @@ load_extension "file_browser"
 load_extension "git_worktree"
 load_extension "ui-select"
 -- load_extension "twitch"
-load_extension "dap"
-load_extension "olddirs"
+-- load_extension "dap"
+-- load_extension "olddirs"
 
 function M.edit_neovim()
   require("telescope.builtin").find_files {
