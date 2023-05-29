@@ -110,7 +110,7 @@ return {
       end
     end,
   },
-  { "andweeb/presence.nvim", lazy = false },
+  { "andweeb/presence.nvim", lazy = false, enabled = false },
   {
     "smjonas/inc-rename.nvim",
     opts = { hl_group = "Visual", preview_empty_name = true },
