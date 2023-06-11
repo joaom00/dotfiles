@@ -99,7 +99,7 @@ __take() {
 alias take=__take
 
 
-plugins=(ssh-agent gpg-agent fast-syntax-highlighting zsh-autosuggestions zsh-completions asdf)
+plugins=(ssh-agent gpg-agent F-Sy-H zsh-autosuggestions zsh-completions asdf)
 
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
