@@ -9,36 +9,46 @@ return {
     keys = { { "<space>e", "<cmd>Neotree toggle reveal<CR>", desc = "NeoTree" } },
     config = function()
       highlight.plugin("NeoTree", {
-        -- stylua: ignore
         theme = {
-          ['*'] = {
-            -- { NeoTreeNormal = { link = 'PanelBackground' } },
-            -- { NeoTreeNormalNC = { link = 'PanelBackground' } },
-            -- { NeoTreeRootName = { underline = true } },
-            -- { NeoTreeCursorLine = { link = 'Visual' } },
-            -- { NeoTreeStatusLine = { link = 'PanelSt' } },
-            -- { NeoTreeTabActive = { bg = { from = 'PanelBackground' }, bold = true } },
-            -- { NeoTreeTabInactive = { bg = { from = 'PanelDarkBackground', alter = 15 }, fg = { from = 'Comment' } } },
-            -- { NeoTreeTabSeparatorInactive = { inherit = 'NeoTreeTabInactive', fg = { from = 'PanelDarkBackground', attr = 'bg' } } },
-            -- { NeoTreeTabSeparatorActive = { inherit = 'PanelBackground', fg = { from = 'Comment' } } },
+          ["*"] = {
+            { NeoTreeNormal = { link = "PanelBackground" } },
+            { NeoTreeNormalNC = { link = "PanelBackground" } },
+            { NeoTreeCursorLine = { link = "Visual" } },
+            { NeoTreeRootName = { underline = true } },
+            { NeoTreeStatusLine = { link = "PanelSt" } },
+            { NeoTreeTabActive = { bg = { from = "PanelBackground" }, bold = true } },
+            { NeoTreeTabInactive = { bg = { from = "PanelDarkBackground", alter = 0.15 }, fg = { from = "Comment" } } },
+            { NeoTreeTabSeparatorActive = { inherit = "PanelBackground", fg = { from = "Comment" } } },
+            -- stylua: ignore
+            { NeoTreeTabSeparatorInactive = { inherit = 'NeoTreeTabInactive', fg = { from = 'PanelDarkBackground', attr = 'bg' } } },
           },
+          -- NOTE: panel background colours don't get ignored by tint.nvim so avoid using them for now
           horizon = {
-            { NeoTreeDirectoryIcon = { fg = '#C09553' } },
-            { NeoTreeWinSeparator = { link = 'WinSeparator' } },
-            { NeoTreeTabInactive = { bg = { from = 'PanelBackground' }, fg = { from = 'Comment' } } },
-            { NeoTreeTabActive = { link = 'VisibleTab' } },
-            { NeoTreeTabSeparatorActive = { link = 'VisibleTab' } },
-            { NeoTreeTabSeparatorInactive = { inherit = 'NeoTreeTabInactive', fg = { from = 'PanelBackground', attr = 'bg' } },
-            },
+            { NeoTreeWinSeparator = { link = "WinSeparator" } },
+            { NeoTreeTabActive = { link = "VisibleTab" } },
+            { NeoTreeTabSeparatorActive = { link = "VisibleTab" } },
+            { NeoTreeTabInactive = { inherit = "Comment", italic = false } },
+            { NeoTreeTabSeparatorInactive = { bg = "bg", fg = "bg" } },
           },
         },
       })
 
       vim.g.neo_tree_remove_legacy_commands = 1
 
+      local symbols = require("lspkind").symbol_map
+      local lsp_kinds = jm.ui.lsp.highlights
+
       require("neo-tree").setup {
-        sources = { "filesystem", "buffers", "git_status", "diagnostics" },
-        source_selector = { winbar = true, separator_active = " " },
+        sources = { "filesystem", "git_status", "document_symbols" },
+        source_selector = {
+          winbar = true,
+          separator_active = "",
+          sources = {
+            { source = "filesystem" },
+            { source = "git_status" },
+            { source = "document_symbols" },
+          },
+        },
         enable_git_status = true,
         git_status_async = true,
         nesting_rules = {
@@ -67,7 +77,7 @@ return {
         filesystem = {
           hijack_netrw_behavior = "open_current",
           use_libuv_file_watcher = true,
-          group_empty_dirs = true,
+          group_empty_dirs = false,
           follow_current_file = false,
           filtered_items = {
             visible = true,
@@ -85,15 +95,17 @@ return {
         },
         default_component_configs = {
           icon = {
-            folder_empty = "",
+            folder_empty = icons.documents.open_folder,
           },
-          diagnostics = {
-            highlights = {
-              hint = "DiagnosticHint",
-              info = "DiagnosticInfo",
-              warn = "DiagnosticWarn",
-              error = "DiagnosticError",
-            },
+          name = {
+            highlight_opened_files = true,
+          },
+          document_symbols = {
+            follow_cursor = true,
+            kinds = jm.fold(function(acc, v, k)
+              acc[k] = { icon = v, hl = lsp_kinds[k] }
+              return acc
+            end, symbols),
           },
           modified = {
             symbol = icons.misc.circle .. " ",
@@ -104,22 +116,22 @@ return {
               deleted = icons.git.remove,
               modified = icons.git.mod,
               renamed = icons.git.rename,
-              untracked = "",
-              ignored = "",
-              unstaged = "",
-              staged = "",
-              conflict = "",
+              untracked = icons.git.untracked,
+              ignored = icons.git.ignored,
+              unstaged = icons.git.unstaged,
+              staged = icons.git.staged,
+              conflict = icons.git.conflict,
             },
           },
         },
         window = {
           mappings = {
             ["o"] = "toggle_node",
-            ["<CR>"] = "open_with_window_picker",
+            ["<CR>"] = "open",
             ["<c-s>"] = "split_with_window_picker",
             ["<c-v>"] = "vsplit_with_window_picker",
             ["<esc>"] = "revert_preview",
-            ["P"] = { "toggle_preview", config = { use_float = true } },
+            ["P"] = { "toggle_preview", config = { use_float = false } },
           },
         },
       }
