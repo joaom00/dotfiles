@@ -7,7 +7,6 @@ return {
     build = ":TSUpdate",
     dependencies = {
       { "nvim-treesitter/nvim-treesitter-textobjects" },
-      { "HiPhish/nvim-ts-rainbow2" },
     },
     config = function()
       require("nvim-treesitter.configs").setup {
@@ -15,6 +14,7 @@ return {
           "lua",
           "javascript",
           "typescript",
+          "tsx",
           "go",
           "rust",
           "yaml",
@@ -39,20 +39,8 @@ return {
             node_decremental = "<c-backspace>",
           },
         },
-        autotag = { enable = true },
-        -- autopairs = { enable = true },
-        context_commentstring = { enable = true, config = { css = "// %s" } },
-        rainbow = {
-          enable = true,
-          extended_mode = false,
-          colors = {
-            "royalblue3",
-            "darkorange3",
-            "seagreen3",
-            "firebrick",
-            "darkorchid3",
-          },
-        },
+        autopairs = { enable = true },
+        context_commentstring = { enable = true },
         playground = {
           enable = true,
           disable = {},
@@ -77,7 +65,8 @@ return {
   { "JoosepAlviste/nvim-ts-context-commentstring" },
   {
     "windwp/nvim-ts-autotag",
-    ft = { "typescriptreact", "javascript", "javascriptreact", "html", "vue" },
+    lazy = false,
+    ft = { "typescriptreact", "javascript", "javascriptreact", "html", "tsx" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = true,
   },
@@ -91,9 +80,9 @@ return {
     event = "VeryLazy",
     init = function()
       highlight.plugin("treesitter-context", {
-        { TreesitterContextSeparator = { link = 'Dim' } },
-        { TreesitterContext = { inherit = 'Normal' } },
-        { TreesitterContextLineNumber = { inherit = 'LineNr' } },
+        { TreesitterContextSeparator = { link = "Dim" } },
+        { TreesitterContext = { inherit = "Normal" } },
+        { TreesitterContextLineNumber = { inherit = "LineNr" } },
       })
     end,
     opts = {

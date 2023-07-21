@@ -6,16 +6,106 @@ local P = ui.palette
 local function extensions(name)
   return require("telescope").extensions[name]
 end
+
+local function builtin(name)
+  return function()
+    return require("telescope.builtin")[name]
+  end
+end
+
 local function git_worktree(picker)
   return function()
     extensions("git_worktree")[picker]()
   end
 end
 
+local function git_files()
+  require("telescope.builtin").git_files {
+    git_command = { "git", "ls-files", "--exclude-standard", "--cached", "--deduplicate" },
+    sorting_strategy = "ascending",
+    show_untracked = true,
+  }
+end
+
+local function live_grep()
+  require("telescope.builtin").live_grep {
+    fzf_separator = "|>",
+    previewer = false,
+  }
+end
+
+local function live_grep_nvim_conf()
+  require("telescope.builtin").live_grep {
+    cwd = "~/.config/nvim",
+    fzf_separator = "|>",
+    previewer = false,
+  }
+end
+
+local function fd()
+  local themes = require "telescope.themes"
+  local opts = themes.get_ivy { hidden = false, sorting_strategy = "ascending" }
+  require("telescope.builtin").fd(opts)
+end
+
+local function project()
+  local themes = require "telescope.themes"
+  require("telescope").extensions.projects.projects(themes.get_dropdown {})
+end
+
+local function file_browser()
+  require("telescope").extensions.file_browser.file_browser()
+end
+
+local function grep_prompt()
+  require("telescope.builtin").grep_string {
+    layout_strategy = "vertical",
+    layout_config = {
+      prompt_position = "top",
+    },
+    sorting_strategy = "ascending",
+    search = vim.fn.input "Grep String > ",
+  }
+end
+
+local function search_all_files()
+  require("telescope.builtin").find_files {
+    find_command = { "rg", "--no-ignore", "--files", "--hidden" },
+  }
+end
+
+local function curbuf()
+  require("telescope.builtin").current_buffer_fuzzy_find {
+    border = true,
+    previewer = false,
+    path_display = { "shorten" },
+  }
+end
+
+local function edit_neovim()
+  require("telescope.builtin").fd {
+    cwd = vim.fn.stdpath "config",
+  }
+end
+
 return {
   "nvim-telescope/telescope.nvim",
   cmd = "Telescope",
   keys = {
+    { "<space>en", edit_neovim },
+    { "<space>ft", git_files },
+    { "<space>fg", live_grep },
+    { "<space>fgn", live_grep_nvim_conf },
+    { "<space>fd", fd },
+    { "<space>pp", project },
+    { "<space>fe", file_browser },
+    { "<space>gg", grep_prompt },
+    { "<space>ff", curbuf },
+    { "<space>fi", search_all_files },
+    { "<space>fo", builtin "oldfiles" },
+    { "<space>gs", builtin "git_status" },
+    { "<space>gc", builtin "git_commits" },
+    { "<space>gb", builtin "git_branches" },
     { "<space>gw", git_worktree "git_worktrees", desc = "list git worktrees" },
     { "<space>gwc", git_worktree "create_git_worktree", desc = "create git worktree" },
   },
@@ -25,16 +115,6 @@ return {
     { "nvim-telescope/telescope-frecency.nvim" },
     { "nvim-telescope/telescope-file-browser.nvim" },
     { "nvim-telescope/telescope-ui-select.nvim" },
-    {
-      "rlch/github-notifications.nvim",
-      branch = "hooks",
-      config = function()
-        require("github-notifications").setup {
-          username = "joaom00",
-          token = "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",
-        }
-      end,
-    },
     {
       "ahmedkhalf/project.nvim",
       config = function()
@@ -292,12 +372,9 @@ return {
 
     require("telescope").load_extension "fzf"
     require("telescope").load_extension "projects"
-    require("telescope").load_extension "ghn"
     require("telescope").load_extension "file_browser"
     require("telescope").load_extension "git_worktree"
     require("telescope").load_extension "ui-select"
     -- require('telescope').load_extension "twitch"
-    -- require("telescope").load_extension "dap"
-    -- require("telescope").load_extension "olddirs"
   end,
 }

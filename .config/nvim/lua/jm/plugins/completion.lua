@@ -1,5 +1,6 @@
 local highlight = jm.highlight
 local fmt = string.format
+local api = vim.api
 local border = jm.ui.current.border
 
 return {
@@ -18,54 +19,38 @@ return {
       { "abecodes/tabout.nvim", opts = { tabkey = "<c-o>", ignore_beginning = false, completion = false } },
       {
         "roobert/tailwindcss-colorizer-cmp.nvim",
-        config = function()
-          require("tailwindcss-colorizer-cmp").setup {
-            color_square_width = 2,
-          }
-        end,
+        opts = { color_square_width = 2 },
       },
     },
     config = function()
       local cmp = require "cmp"
       local luasnip = require "luasnip"
-      local kind_hls = jm.ui.lsp.highlights
-      -- local kind_hls = {}
+      local lspkind = require "lspkind"
       local ellipsis = jm.ui.icons.misc.ellipsis
+      local MIN_MENU_WIDTH, MAX_MENU_WIDTH = 25, math.min(50, math.floor(vim.o.columns * 0.5))
 
-      local menu_hls = {
-        { CmpItemAbbr = { foreground = "fg", background = "NONE", italic = false, bold = false } },
-        { CmpItemAbbrMatch = { foreground = { from = "Keyword" } } },
+      highlight.plugin("Cmp", {
+        { CmpItemKindVariable = { link = "Variable" } },
+        { CmpItemAbbrMatchFuzzy = { inherit = "CmpItemAbbrMatch", italic = true } },
         { CmpItemAbbrDeprecated = { strikethrough = true, inherit = "Comment" } },
-        { CmpItemAbbrMatchFuzzy = { italic = true, foreground = { from = "Keyword" } } },
-        -- Make the source information less prominent
-        { CmpItemMenu = { fg = { from = "Pmenu", attr = "bg", alter = 30 }, italic = true, bold = false } },
-      }
+        { CmpItemMenu = { inherit = "Comment", italic = true } },
+      })
 
-      highlight.plugin(
-        "Cmp",
-        jm.fold(function(accum, value, key)
-          table.insert(accum, { [fmt("CmpItemKind%s", key)] = { foreground = { from = value } } })
-          return accum
-        end, kind_hls, menu_hls)
-      )
-
-      local cmp_window = {
-        border = border,
-        winhighlight = table.concat({
-          "Normal:NormalFloat",
-          "FloatBorder:FloatBorder",
-          "CursorLine:Visual",
-          "Search:None",
-        }, ","),
-      }
       cmp.setup {
         experimental = { ghost_text = false },
         matching = {
           disallow_partial_fuzzy_matching = false,
         },
         window = {
-          completion = cmp.config.window.bordered(cmp_window),
-          documentation = cmp.config.window.bordered(cmp_window),
+          completion = cmp.config.window.bordered {
+            scrollbar = false,
+            border = "shadow",
+            winhighlight = "NormalFloat:Pmenu,CursorLine:PmenuSel,FloatBorder:FloatBorder",
+          },
+          documentation = cmp.config.window.bordered {
+            border = border,
+            winhighlight = "FloatBorder:FloatBorder",
+          },
         },
         snippet = {
           expand = function(args)
@@ -73,33 +58,35 @@ return {
           end,
         },
         formatting = {
-          -- deprecated = true,
-          -- fields = { "abbr", "kind", "menu" },
-          format = function(entry, vim_item)
-            local MAX = math.floor(vim.o.columns * 0.5)
-            if #vim_item.abbr >= MAX then
-              vim_item.abbr = vim_item.abbr:sub(1, MAX) .. ellipsis
-            end
-            vim_item.kind = fmt("%s %s", jm.ui.current.lsp_icons[vim_item.kind], vim_item.kind)
-            vim_item.menu = ({
+          deprecated = true,
+          fields = { "abbr", "kind", "menu" },
+          format = lspkind.cmp_format {
+            maxwidth = MAX_MENU_WIDTH,
+            ellipsis_char = ellipsis,
+            before = function(entry, vim_item)
+              vim_item = require("tailwindcss-colorizer-cmp").formatter(entry, vim_item)
+              local label, length = vim_item.abbr, api.nvim_strwidth(vim_item.abbr)
+              if length < MIN_MENU_WIDTH then
+                vim_item.abbr = label .. string.rep(" ", MIN_MENU_WIDTH - length)
+              end
+              return vim_item
+            end,
+            menu = {
               nvim_lsp = "[LSP]",
-              nvim_lua = "[Lua]",
-              emoji = "[E]",
-              path = "[Path]",
-              neorg = "[N]",
-              luasnip = "[SN]",
-              dictionary = "[D]",
-              buffer = "[B]",
-              spell = "[SP]",
-              cmdline = "[Cmd]",
-              cmdline_history = "[Hist]",
-              orgmode = "[Org]",
-              norg = "[Norg]",
-              rg = "[Rg]",
-              git = "[Git]",
-            })[entry.source.name]
-            return vim_item
-          end,
+              nvim_lua = "[LUA]",
+              emoji = "[EMOJI]",
+              path = "[PATH]",
+              neorg = "[NEORG]",
+              luasnip = "[SNIP]",
+              dictionary = "[DIC]",
+              buffer = "[BUF]",
+              spell = "[SPELL]",
+              orgmode = "[ORG]",
+              norg = "[NORG]",
+              rg = "[RG]",
+              git = "[GIT]",
+            },
+          },
         },
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
@@ -206,9 +193,6 @@ return {
           { name = "cmdline_history", priority = 10, max_item_count = 5 },
         },
       })
-      cmp.config.formatting = {
-        format = require("tailwindcss-colorizer-cmp").formatter,
-      }
     end,
   },
 }

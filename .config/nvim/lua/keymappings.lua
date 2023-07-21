@@ -19,8 +19,6 @@ imap <left> :echoerr "Pq você ta fazendo isso?"<CR>
 imap <right> :echoerr "Pq você ta fazendo isso?"<CR>
 ]]
 
-require "jm.telescope.mappings"
-
 -- Better window movement
 nmap("<C-h>", "<C-w>h")
 nmap("<C-j>", "<C-w>j")

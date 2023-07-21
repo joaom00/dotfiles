@@ -67,19 +67,6 @@ require("lazy").setup("jm.plugins", {
   },
 })
 
---require("colorizer").setup {
---  user_default_options = {
---    rgb_fn = true,
---    hsl_fn = true,
---    css = true,
---    css_fn = true,
---    tailwind = "both",
---  },
--- }
--- require("jm.colorscheme").xcode()
--- require("lsp.null-ls").setup()
--- require "lsp"
-
 require("jm.autocmds").define_augroups {
   terminal = {
     { "TermOpen", "*", "setlocal listchars= nonumber norelativenumber" },
@@ -119,6 +106,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     pcall(vim.api.nvim_clear_autocmds, { group = "FileExplorer" })
   end,
 })
+
 vim.api.nvim_create_autocmd("BufEnter", {
   group = vim.api.nvim_create_augroup("telescope-hijack-netrw", { clear = true }),
   pattern = "*",
@@ -141,7 +129,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
       -- ensure no buffers remain with the directory name
       vim.api.nvim_buf_set_option(0, "bufhidden", "wipe")
 
-      require("jm.telescope").fd()
+      require("telescope.builtin").fd()
 
       -- vim.fn.system "git rev-parse --is-inside-work-tree"
       -- local is_git = vim.v.shell_error == 0
@@ -162,6 +150,3 @@ vim.api.nvim_create_autocmd("BufEnter", {
 -- Color Scheme {{{1
 -----------------------------------------------------------------------------//
 jm.wrap_err("theme failed to load because", cmd.colorscheme, "horizon")
--- require("noirbuddy").setup {
---   preset = "miami-nights",
--- }

@@ -11,6 +11,7 @@ return {
   -- LSP,Completion & Debugger {{{1
   -----------------------------------------------------------------------------//
   "onsails/lspkind.nvim",
+  "b0o/schemastore.nvim",
   {
     {
       "williamboman/mason.nvim",
@@ -69,17 +70,6 @@ return {
           javascript = { "template_string" },
         },
       }
-      -- credit: https://github.com/JoosepAlviste
-      -- Typing = when () -> () => {|}
-      autopairs.add_rules {
-        Rule("%(.*%)%s*%=$", "> {}", { "typescript", "typescriptreact", "javascript", "vue" })
-          :use_regex(true)
-          :set_end_pair_length(1),
-        -- Typing n when the| -> then|end
-        Rule("then", "end", "lua"):end_wise(function(opts)
-          return string.match(opts.line, "^%s*if") ~= nil
-        end),
-      }
     end,
   },
   {
@@ -91,15 +81,23 @@ return {
     },
   },
   {
-    "jose-elias-alvarez/typescript.nvim",
-    ft = { "typescript", "typescriptreact" },
-    dependencies = { "jose-elias-alvarez/null-ls.nvim" },
-    config = function()
-      require("typescript").setup { server = require "jm.servers" "tsserver" }
-      require("null-ls").register {
-        sources = { require "typescript.extensions.null-ls.code-actions" },
-      }
-    end,
+    "pmizio/typescript-tools.nvim",
+    lazy = false,
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {
+      settings = {
+        tsserver_file_preferences = {
+          includeInlayParameterNameHints = "literal",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = false,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        },
+      },
+    },
   },
   {
     "numToStr/Comment.nvim",
@@ -129,7 +127,19 @@ return {
   },
   {
     "lvimuser/lsp-inlayhints.nvim",
-    enabled = false,
+    init = function()
+      jm.augroup("InlayHintsSetup", {
+        event = "LspAttach",
+        command = function(args)
+          local id = vim.tbl_get(args, "data", "client_id") --[[@as lsp.Client]]
+          if not id then
+            return
+          end
+          local client = vim.lsp.get_client_by_id(id)
+          require("lsp-inlayhints").on_attach(client, args.buf)
+        end,
+      })
+    end,
     opts = {
       inlay_hints = {
         highlight = "Comment",
