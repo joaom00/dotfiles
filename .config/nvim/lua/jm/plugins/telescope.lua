@@ -9,7 +9,7 @@ end
 
 local function builtin(name)
   return function()
-    return require("telescope.builtin")[name]
+    return require("telescope.builtin")[name]()
   end
 end
 
@@ -22,7 +22,7 @@ end
 local function git_files()
   require("telescope.builtin").git_files {
     git_command = { "git", "ls-files", "--exclude-standard", "--cached", "--deduplicate" },
-    sorting_strategy = "ascending",
+    sorting_strategy = "descending",
     show_untracked = true,
   }
 end
@@ -36,7 +36,7 @@ end
 
 local function live_grep_nvim_conf()
   require("telescope.builtin").live_grep {
-    cwd = "~/.config/nvim",
+    cwd = vim.fn.stdpath "config",
     fzf_separator = "|>",
     previewer = false,
   }
@@ -197,6 +197,9 @@ return {
         },
       },
       extensions = {
+        package_info = {
+          theme = "cursor",
+        },
         ["ui-select"] = {
           require("telescope.themes").get_dropdown {},
         },
@@ -354,10 +357,6 @@ return {
           theme = "dropdown",
           mappings = { i = { ["<c-x>"] = "delete_buffer" }, n = { ["<c-x>"] = "delete_buffer" } },
         },
-        -- oldfiles = {
-        --   theme = "dropdown",
-        --   previewer = false,
-        -- },
         colorscheme = {
           enable_preview = true,
         },
@@ -375,6 +374,7 @@ return {
     require("telescope").load_extension "file_browser"
     require("telescope").load_extension "git_worktree"
     require("telescope").load_extension "ui-select"
+    require("telescope").load_extension "package_info"
     -- require('telescope').load_extension "twitch"
   end,
 }

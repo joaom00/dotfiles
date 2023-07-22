@@ -21,7 +21,7 @@ vim.opt.shortmess = {
 -----------------------------------------------------------------------------//
 vim.opt.updatetime = 300
 vim.opt.timeout = true
-vim.opt.timeoutlen = 200
+vim.opt.timeoutlen = 500
 vim.opt.ttimeoutlen = 10
 -----------------------------------------------------------------------------//
 -- Window splitting and buffers {{{1

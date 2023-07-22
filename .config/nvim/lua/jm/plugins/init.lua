@@ -213,4 +213,19 @@ return {
       require("nvim-surround").setup()
     end,
   },
+  {
+    "NvChad/nvim-colorizer.lua",
+    event = "VeryLazy",
+    opts = {
+      user_default_options = {
+        tailwind = "both",
+      },
+    },
+  },
+  {
+    "vuki656/package-info.nvim",
+    config = function()
+      require("package-info").setup()
+    end,
+  },
 }
