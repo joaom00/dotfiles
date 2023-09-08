@@ -1,39 +1,50 @@
+local fn, api = vim.fn, vim.api
 local highlight = jm.highlight
 local icons = jm.ui.icons
+local autocmd = api.nvim_create_autocmd
 
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
-    branch = "v2.x",
+    branch = "v3.x",
     cmd = { "Neotree" },
-    keys = { { "<space>e", "<cmd>Neotree toggle reveal<CR>", desc = "NeoTree" } },
-    config = function()
-      highlight.plugin("NeoTree", {
-        theme = {
-          ["*"] = {
-            { NeoTreeNormal = { link = "PanelBackground" } },
-            { NeoTreeNormalNC = { link = "PanelBackground" } },
-            { NeoTreeCursorLine = { link = "Visual" } },
-            { NeoTreeRootName = { underline = true } },
-            { NeoTreeStatusLine = { link = "PanelSt" } },
-            { NeoTreeTabActive = { bg = { from = "PanelBackground" }, bold = true } },
-            { NeoTreeTabInactive = { bg = { from = "PanelDarkBackground", alter = 0.15 }, fg = { from = "Comment" } } },
-            { NeoTreeTabSeparatorActive = { inherit = "PanelBackground", fg = { from = "Comment" } } },
-            -- stylua: ignore
-            { NeoTreeTabSeparatorInactive = { inherit = 'NeoTreeTabInactive', fg = { from = 'PanelDarkBackground', attr = 'bg' } } },
-          },
-          -- NOTE: panel background colours don't get ignored by tint.nvim so avoid using them for now
-          horizon = {
-            { NeoTreeWinSeparator = { link = "WinSeparator" } },
-            { NeoTreeTabActive = { link = "VisibleTab" } },
-            { NeoTreeTabSeparatorActive = { link = "VisibleTab" } },
-            { NeoTreeTabInactive = { inherit = "Comment", italic = false } },
-            { NeoTreeTabSeparatorInactive = { bg = "bg", fg = "bg" } },
-          },
-        },
+    keys = { { "<c-e>", "<cmd>Neotree toggle reveal<CR>", desc = "NeoTree" } },
+    init = function()
+      autocmd("BufEnter", {
+        desc = "Load NeoTree if entering a directory",
+        callback = function(args)
+          if fn.isdirectory(api.nvim_buf_get_name(args.buf)) > 0 then
+            require("lazy").load { plugins = { "neo-tree.nvim" } }
+            api.nvim_del_autocmd(args.id)
+          end
+        end,
       })
-
-      vim.g.neo_tree_remove_legacy_commands = 1
+    end,
+    config = function()
+      -- highlight.plugin("NeoTree", {
+      --   theme = {
+      --     ["*"] = {
+      --       { NeoTreeNormal = { link = "PanelBackground" } },
+      --       { NeoTreeNormalNC = { link = "PanelBackground" } },
+      --       { NeoTreeCursorLine = { link = "Visual" } },
+      --       { NeoTreeRootName = { underline = true } },
+      --       { NeoTreeStatusLine = { link = "PanelSt" } },
+      --       { NeoTreeTabActive = { bg = { from = "PanelBackground" }, bold = true } },
+      --       { NeoTreeTabInactive = { bg = { from = "PanelDarkBackground", alter = 0.15 }, fg = { from = "Comment" } } },
+      --       { NeoTreeTabSeparatorActive = { inherit = "PanelBackground", fg = { from = "Comment" } } },
+      --       -- stylua: ignore
+      --       { NeoTreeTabSeparatorInactive = { inherit = 'NeoTreeTabInactive', fg = { from = 'PanelDarkBackground', attr = 'bg' } } },
+      --     },
+      --     -- NOTE: panel background colours don't get ignored by tint.nvim so avoid using them for now
+      --     horizon = {
+      --       { NeoTreeWinSeparator = { link = "WinSeparator" } },
+      --       { NeoTreeTabActive = { link = "VisibleTab" } },
+      --       { NeoTreeTabSeparatorActive = { link = "VisibleTab" } },
+      --       { NeoTreeTabInactive = { inherit = "Comment", italic = false } },
+      --       { NeoTreeTabSeparatorInactive = { bg = "bg", fg = "bg" } },
+      --     },
+      --   },
+      -- })
 
       local symbols = require("lspkind").symbol_map
       local lsp_kinds = jm.ui.lsp.highlights
@@ -50,35 +61,48 @@ return {
           },
         },
         enable_git_status = true,
+        enable_normal_mode_for_inputs = true,
         git_status_async = true,
-        nesting_rules = {
-          ["dart"] = { "freezed.dart", "g.dart" },
-        },
-        event_handlers = {
-          {
-            event = "neo_tree_buffer_enter",
-            handler = function()
-              highlight.set("Cursor", { blend = 100 })
-            end,
-          },
-          {
-            event = "neo_tree_buffer_leave",
-            handler = function()
-              highlight.set("Cursor", { blend = 0 })
-            end,
-          },
-          {
-            event = "neo_tree_window_after_close",
-            handler = function()
-              highlight.set("Cursor", { blend = 0 })
-            end,
-          },
-        },
+        -- event_handlers = {
+        --   {
+        --     event = "neo_tree_buffer_enter",
+        --     handler = function()
+        --       highlight.set("Cursor", { blend = 100 })
+        --     end,
+        --   },
+        --   {
+        --     event = "neo_tree_popup_buffer_enter",
+        --     handler = function()
+        --       highlight.set("Cursor", { blend = 0 })
+        --     end,
+        --   },
+        --   {
+        --     event = "neo_tree_buffer_leave",
+        --     handler = function()
+        --       highlight.set("Cursor", { blend = 0 })
+        --     end,
+        --   },
+        --   {
+        --     event = "neo_tree_popup_buffer_leave",
+        --     handler = function()
+        --       highlight.set("Cursor", { blend = 100 })
+        --     end,
+        --   },
+        --   {
+        --     event = "neo_tree_window_after_close",
+        --     handler = function()
+        --       highlight.set("Cursor", { blend = 0 })
+        --     end,
+        --   },
+        -- },
         filesystem = {
-          hijack_netrw_behavior = "open_current",
+          hijack_netrw_behavior = "disabled",
           use_libuv_file_watcher = true,
           group_empty_dirs = false,
-          follow_current_file = false,
+          follow_current_file = {
+            enabled = true,
+            leave_dirs_open = true,
+          },
           filtered_items = {
             visible = true,
             hide_dotfiles = false,
@@ -90,7 +114,16 @@ return {
             mappings = {
               ["/"] = "noop",
               ["g/"] = "fuzzy_finder",
+              ["o"] = "system_open",
             },
+          },
+          commands = {
+            system_open = function(state)
+              local node = state.tree:get_node()
+              local path = node:get_id()
+              path = fn.shellescape(path)
+              api.nvim_command("silent !xdg-open " .. path)
+            end,
           },
         },
         default_component_configs = {
@@ -140,22 +173,23 @@ return {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       "nvim-tree/nvim-web-devicons",
-      { "mrbjarksen/neo-tree-diagnostics.nvim" },
       {
         "s1n7ax/nvim-window-picker",
         version = "*",
-        opts = {
-          use_winbar = "smart",
-          autoselect_one = true,
-          include_current = false,
-          other_win_hl_color = highlight.get("Visual", "bg"),
-          filter_rules = {
-            bo = {
-              filetype = { "neo-tree-popup", "quickfix" },
-              buftype = { "terminal", "quickfix", "nofile" },
+        config = function()
+          require("window-picker").setup {
+            hint = "floating-big-letter",
+            autoselect_one = true,
+            include_current = false,
+            other_win_hl_color = highlight.get("Visual", "bg"),
+            filter_rules = {
+              bo = {
+                filetype = { "neo-tree-popup", "quickfix" },
+                buftype = { "terminal", "quickfix", "nofile" },
+              },
             },
-          },
-        },
+          }
+        end,
       },
     },
   },

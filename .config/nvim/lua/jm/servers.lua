@@ -1,7 +1,25 @@
 local servers = {
   vimls = {},
   cssls = {},
-  tailwindcss = {},
+  tailwindcss = {
+    settings = {
+      tailwindCSS = {
+        experimental = {
+          classRegex = {
+            "tv\\(([^)]*)\\)",
+            "[\"'`]([^\"'`]*).*?[\"'`]",
+            -- "cva\\(([^)]*)\\)",
+            -- "[\"'`]([^\"'`]*).*?[\"'`]",
+            -- "cx\\(([^)]*)\\)",
+            -- "(?:'|\"|`)([^']*)(?:'|\"|`)",
+            -- "tv\\(([^)]*)\\)",
+            -- "[\"'`]([^\"'`]*).*?[\"'`]",
+          },
+        },
+      },
+    },
+  },
+  intelephense = {},
   prismals = {},
   gopls = {},
   rust_analyzer = {},

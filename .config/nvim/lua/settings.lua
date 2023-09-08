@@ -189,10 +189,10 @@ vim.opt.virtualedit = "block" -- allow cursor to move where there is no text in 
 -------------------------------------------------------------------------------
 vim.opt.backup = false
 vim.opt.writebackup = false
-if vim.fn.isdirectory(vim.o.undodir) == 0 then
-  vim.fn.mkdir(vim.o.undodir, "p")
-end
-vim.opt.undofile = true
+-- if vim.fn.isdirectory(vim.o.undodir) == 0 then
+--   vim.fn.mkdir(vim.o.undodir, "p")
+-- end
+-- vim.opt.undofile = true
 vim.opt.swapfile = false
 -- The // at the end tells Vim to use the absolute path to the file to create the swap file.
 -- This will ensure that swap file name is unique, so there are no collisions between files
