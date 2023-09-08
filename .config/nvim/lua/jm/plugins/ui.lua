@@ -1,7 +1,6 @@
 local fn, api = vim.fn, vim.api
 local icons = jm.ui.icons.lsp
 local ui = jm.ui
-local highlight = jm.highlight
 local border = ui.current.border
 local strwidth = api.nvim_strwidth
 
@@ -12,9 +11,6 @@ return {
     event = "VimEnter",
     opts = { char = "▕" },
     init = function()
-      highlight.plugin("virt_column", {
-        { VirtColumn = { fg = { from = "Comment", alter = 10 } } },
-      })
       jm.augroup("VirtCol", {
         event = { "VimEnter", "BufEnter", "WinEnter" },
         command = function(args)
@@ -29,12 +25,6 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     enabled = false,
     lazy = false,
-    init = function()
-      highlight.plugin("indentline", {
-        { IndentBlanklineContextChar = { fg = { from = "Directory" } } },
-        { IndentBlanklineContextStart = { sp = { from = "Directory", attr = "fg" } } },
-      })
-    end,
     opts = {
       char = "│", -- ┆ ┊ 
       show_foldtext = false,
@@ -52,53 +42,6 @@ return {
         '', -- for all buffers without a file type
       },
     },
-  },
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    config = function()
-      require("indent_blankline").setup {
-        buftype_exclude = { "terminal", "nofile" },
-        filetype_exclude = {
-          "help",
-          "startify",
-          "dashboard",
-          "packer",
-          "neogitstatus",
-          "NvimTree",
-          "Trouble",
-        },
-        indentLine_enabled = 1,
-        -- char = "»",
-        char = " ",
-        show_trailing_blankline_indent = false,
-        show_end_of_line = true,
-        show_first_indent_level = true,
-        use_treesitter = true,
-        show_current_context = true,
-        context_patterns = {
-          "class",
-          "return",
-          "function",
-          "method",
-          "^if",
-          "^while",
-          "jsx_element",
-          "^for",
-          "^object",
-          "^table",
-          "block",
-          "arguments",
-          "if_statement",
-          "else_clause",
-          "jsx_element",
-          "jsx_self_closing_element",
-          "try_statement",
-          "catch_clause",
-          "import_statement",
-          "operation_type",
-        },
-      }
-    end,
   },
   {
     "stevearc/dressing.nvim",
@@ -131,19 +74,6 @@ return {
   {
     "rcarriga/nvim-notify",
     init = function()
-      highlight.plugin("notify", {
-        { NotifyERRORBorder = { bg = { from = "NormalFloat" } } },
-        { NotifyWARNBorder = { bg = { from = "NormalFloat" } } },
-        { NotifyINFOBorder = { bg = { from = "NormalFloat" } } },
-        { NotifyDEBUGBorder = { bg = { from = "NormalFloat" } } },
-        { NotifyTRACEBorder = { bg = { from = "NormalFloat" } } },
-        { NotifyERRORBody = { link = "NormalFloat" } },
-        { NotifyWARNBody = { link = "NormalFloat" } },
-        { NotifyINFOBody = { link = "NormalFloat" } },
-        { NotifyDEBUGBody = { link = "NormalFloat" } },
-        { NotifyTRACEBody = { link = "NormalFloat" } },
-      })
-
       local notify = require "notify"
 
       notify.setup {
@@ -184,10 +114,6 @@ return {
     opts = {
       tint = -30,
       -- stylua: ignore
-      highlight_ignore_patterns = {
-        'WinSeparator', 'St.*', 'Comment', 'Panel.*', 'Telescope.*',
-        'Bqf.*', 'VirtColumn', 'Headline.*', 'NeoTree.*',
-      },
       window_ignore_function = function(win_id)
         local win, buf = vim.wo[win_id], vim.bo[vim.api.nvim_win_get_buf(win_id)]
         -- TODO: ideally tint should just ignore all buffers with a special type other than maybe "acwrite"
