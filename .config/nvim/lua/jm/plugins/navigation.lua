@@ -21,31 +21,6 @@ return {
       })
     end,
     config = function()
-      -- highlight.plugin("NeoTree", {
-      --   theme = {
-      --     ["*"] = {
-      --       { NeoTreeNormal = { link = "PanelBackground" } },
-      --       { NeoTreeNormalNC = { link = "PanelBackground" } },
-      --       { NeoTreeCursorLine = { link = "Visual" } },
-      --       { NeoTreeRootName = { underline = true } },
-      --       { NeoTreeStatusLine = { link = "PanelSt" } },
-      --       { NeoTreeTabActive = { bg = { from = "PanelBackground" }, bold = true } },
-      --       { NeoTreeTabInactive = { bg = { from = "PanelDarkBackground", alter = 0.15 }, fg = { from = "Comment" } } },
-      --       { NeoTreeTabSeparatorActive = { inherit = "PanelBackground", fg = { from = "Comment" } } },
-      --       -- stylua: ignore
-      --       { NeoTreeTabSeparatorInactive = { inherit = 'NeoTreeTabInactive', fg = { from = 'PanelDarkBackground', attr = 'bg' } } },
-      --     },
-      --     -- NOTE: panel background colours don't get ignored by tint.nvim so avoid using them for now
-      --     horizon = {
-      --       { NeoTreeWinSeparator = { link = "WinSeparator" } },
-      --       { NeoTreeTabActive = { link = "VisibleTab" } },
-      --       { NeoTreeTabSeparatorActive = { link = "VisibleTab" } },
-      --       { NeoTreeTabInactive = { inherit = "Comment", italic = false } },
-      --       { NeoTreeTabSeparatorInactive = { bg = "bg", fg = "bg" } },
-      --     },
-      --   },
-      -- })
-
       local symbols = require("lspkind").symbol_map
       local lsp_kinds = jm.ui.lsp.highlights
 
@@ -63,38 +38,6 @@ return {
         enable_git_status = true,
         enable_normal_mode_for_inputs = true,
         git_status_async = true,
-        -- event_handlers = {
-        --   {
-        --     event = "neo_tree_buffer_enter",
-        --     handler = function()
-        --       highlight.set("Cursor", { blend = 100 })
-        --     end,
-        --   },
-        --   {
-        --     event = "neo_tree_popup_buffer_enter",
-        --     handler = function()
-        --       highlight.set("Cursor", { blend = 0 })
-        --     end,
-        --   },
-        --   {
-        --     event = "neo_tree_buffer_leave",
-        --     handler = function()
-        --       highlight.set("Cursor", { blend = 0 })
-        --     end,
-        --   },
-        --   {
-        --     event = "neo_tree_popup_buffer_leave",
-        --     handler = function()
-        --       highlight.set("Cursor", { blend = 100 })
-        --     end,
-        --   },
-        --   {
-        --     event = "neo_tree_window_after_close",
-        --     handler = function()
-        --       highlight.set("Cursor", { blend = 0 })
-        --     end,
-        --   },
-        -- },
         filesystem = {
           hijack_netrw_behavior = "disabled",
           use_libuv_file_watcher = true,
