@@ -25,16 +25,6 @@ return {
     },
     config = function(_, opts)
       require("neogit").setup(opts)
-      -- NOTE: highlights must be set AFTER neogit's setup
-      -- highlight.plugin("neogit", {
-      --   { NeogitDiffAdd = { link = "DiffAdd" } },
-      --   { NeogitDiffDelete = { link = "DiffDelete" } },
-      --   { NeogitDiffAddHighlight = { link = "DiffAdd" } },
-      --   { NeogitDiffDeleteHighlight = { link = "DiffDelete" } },
-      --   { NeogitDiffContextHighlight = { link = "NormalFloat" } },
-      --   { NeogitHunkHeader = { link = "TabLine" } },
-      --   { NeogitHunkHeaderHighlight = { link = "DiffText" } },
-      -- })
     end,
   },
   {
@@ -51,18 +41,6 @@ return {
       },
     },
     config = function()
-      highlight.plugin("diffview", {
-        { DiffAddedChar = { bg = "NONE", fg = { from = "diffAdded", attr = "bg", alter = 30 } } },
-        {
-          DiffChangedChar = { bg = "NONE", fg = { from = "diffChanged", attr = "bg", alter = 30 } },
-        },
-        { DiffviewStatusAdded = { link = "DiffAddedChar" } },
-        { DiffviewStatusModified = { link = "DiffChangedChar" } },
-        { DiffviewStatusRenamed = { link = "DiffChangedChar" } },
-        { DiffviewStatusUnmerged = { link = "DiffChangedChar" } },
-        { DiffviewStatusUntracked = { link = "DiffAddedChar" } },
-      })
-      ---@diagnostic disable-next-line: redundant-parameter
       require("diffview").setup {
         default_args = { DiffviewFileHistory = { "%" } },
         enhanced_diff_hl = true,

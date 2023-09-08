@@ -21,6 +21,11 @@ return {
       local lspkind = require "lspkind"
 
       cmp.setup {
+        experimental = {
+          ghost_text = {
+            hl_group = "CmpGhostText",
+          },
+        },
         window = {
           completion = cmp.config.window.bordered {
             scrollbar = false,
@@ -98,21 +103,6 @@ return {
           ["<C-e>"] = cmp.mapping.complete(),
         },
       }
-
-      -- cmp.setup.cmdline({ "/", "?" }, {
-      --   mapping = cmp.mapping.preset.cmdline(),
-      --   sources = {
-      --     sources = cmp.config.sources({ { name = "nvim_lsp_document_symbol" } }, { { name = "buffer" } }),
-      --   },
-      -- })
-      -- cmp.setup.cmdline(":", {
-      --   mapping = cmp.mapping.preset.cmdline(),
-      --   sources = cmp.config.sources {
-      --     { name = "cmdline", keyword_pattern = [=[[^[:blank:]\!]*]=] },
-      --     { name = "path" },
-      --     { name = "cmdline_history", priority = 10, max_item_count = 5 },
-      --   },
-      -- })
     end,
   },
 }

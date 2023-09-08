@@ -1,5 +1,4 @@
 local fn = vim.fn
-local fmt = string.format
 local ui = jm.ui
 local border = ui.current.border
 local highlight = jm.highlight
@@ -57,7 +56,6 @@ return {
     dependencies = { "hrsh7th/nvim-cmp" },
     config = function()
       local autopairs = require "nvim-autopairs"
-      local Rule = require "nvim-autopairs.rule"
       local cmp_autopairs = require "nvim-autopairs.completion.cmp"
       require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
       autopairs.setup {
@@ -100,16 +98,15 @@ return {
     "smjonas/inc-rename.nvim",
     event = "VeryLazy",
     config = function()
-      require("inc_rename").setup {
-        input_buffer_type = "dressing",
-        vim.keymap.set("n", "rn", function()
-          return ":IncRename " .. vim.fn.expand "<cword>"
-        end, { expr = true }),
-      }
+      require("inc_rename").setup {}
+      vim.keymap.set("n", "rn", function()
+        return ":IncRename " .. vim.fn.expand "<cword>"
+      end, { expr = true })
     end,
   },
   {
     "lvimuser/lsp-inlayhints.nvim",
+    enabled = false,
     init = function()
       jm.augroup("InlayHintsSetup", {
         event = "LspAttach",
@@ -146,13 +143,6 @@ return {
     end,
   },
   {
-    "kevinhwang91/nvim-bqf",
-    ft = "qf",
-    config = function()
-      highlight.plugin("bqf", { { BqfPreviewBorder = { fg = { from = "Comment" } } } })
-    end,
-  },
-  {
     "iamcco/markdown-preview.nvim",
     build = function()
       fn["mkdp#util#install"]()
@@ -161,30 +151,6 @@ return {
     config = function()
       vim.g.mkdp_auto_start = 0
       vim.g.mkdp_auto_close = 1
-    end,
-  },
-  {
-    "SmiteshP/nvim-navic",
-    dependencies = { "neovim/nvim-lspconfig" },
-    config = function()
-      vim.g.navic_silence = true
-      local misc = ui.icons.misc
-
-      highlight.plugin("navic", {
-        { NavicText = { bold = true } },
-        { NavicSeparator = { link = "Directory" } },
-      })
-      local icons = jm.map(function(icon, key)
-        highlight.set(fmt("NavicIcons%s", key), { link = ui.lsp.highlights[key] })
-        return icon .. " "
-      end, ui.current.lsp_icons)
-
-      require("nvim-navic").setup {
-        icons = icons,
-        highlight = true,
-        depth_limit_indicator = misc.ellipsis,
-        separator = (" %s "):format(misc.arrow_right),
-      }
     end,
   },
   {
