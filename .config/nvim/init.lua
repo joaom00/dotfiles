@@ -140,4 +140,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 -----------------------------------------------------------------------------//
 -- Color Scheme {{{1
 -----------------------------------------------------------------------------//
-jm.wrap_err("theme failed to load because", cmd.colorscheme, "horizon")
+vim.o.background = "dark"
+vim.g.gruvbox_material_background = "hard" -- hard | medium | soft
+jm.wrap_err("theme failed to load because", cmd.colorscheme, "gruvbox-material")

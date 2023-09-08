@@ -45,7 +45,7 @@ function M.setup()
       -- Disable sections and component separators
       component_separators = "",
       section_separators = "",
-      theme = "gruvbox-baby",
+      theme = "gruvbox-material",
       -- theme = {
       --   -- We are going to use lualine_c an lualine_x as left and
       --   -- right section. Both are highlighted by c theme .  So we
@@ -154,7 +154,6 @@ function M.setup()
     },
   }
 
-
   -- Insert mid section. You can make any number of sections in neovim :)
   -- for lualine it's any number greater then 2
   ins_left {
@@ -200,7 +199,7 @@ function M.setup()
   -- }
 
   ins_right {
-    status.listen
+    status.listen,
   }
 
   ins_right {

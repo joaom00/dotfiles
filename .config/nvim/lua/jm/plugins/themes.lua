@@ -6,4 +6,5 @@ return {
     lazy = false,
     dependencies = { "tjdevries/colorbuddy.nvim", branch = "dev" },
   },
+  { "sainnhe/gruvbox-material" },
 }
