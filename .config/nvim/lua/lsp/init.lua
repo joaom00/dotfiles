@@ -15,7 +15,6 @@ local on_attach = function(_, bufnr)
     vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap("<leader>rn", vim.lsp.buf.rename, "Rename")
   nmap("<space>ca", vim.lsp.buf.code_action, "Code Action")
   nmap("gd", vim.lsp.buf.definition, "Goto definition")
   nmap("gi", vim.lsp.buf.implementation, "Goto Implementation")

@@ -207,7 +207,6 @@ local function setup_mappings(_, bufnr)
   map("n", "gi", lsp.buf.implementation, with_desc "implementation")
   map("n", "gD", lsp.buf.type_definition, with_desc "go to type definition")
   map("n", "<leader>cl", lsp.codelens.run, with_desc "run code lens")
-  map("n", "<leader>rn", lsp.buf.rename, with_desc "rename")
   map("n", "<leader>rN", rename_file, with_desc "rename with input")
 end
 

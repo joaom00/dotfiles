@@ -98,18 +98,15 @@ return {
   { "andweeb/presence.nvim", lazy = false, enabled = false },
   {
     "smjonas/inc-rename.nvim",
-    opts = { hl_group = "Visual", preview_empty_name = true },
-    keys = {
-      {
-        "rn",
-        function()
-          return ":IncRename " .. fn.expand "<cword>"
-        end,
-        expr = true,
-        silent = false,
-        desc = "lsp: incremental rename",
-      },
-    },
+    event = "VeryLazy",
+    config = function()
+      require("inc_rename").setup {
+        input_buffer_type = "dressing",
+        vim.keymap.set("n", "rn", function()
+          return ":IncRename " .. vim.fn.expand "<cword>"
+        end, { expr = true }),
+      }
+    end,
   },
   {
     "lvimuser/lsp-inlayhints.nvim",

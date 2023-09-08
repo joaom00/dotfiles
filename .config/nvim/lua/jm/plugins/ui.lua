@@ -45,15 +45,15 @@ return {
   },
   {
     "stevearc/dressing.nvim",
-    init = function()
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.ui.select = function(...)
-        require("lazy").load { plugins = { "dressing.nvim" } }
-        return vim.ui.select(...)
-      end
-    end,
+    event = "VeryLazy",
     opts = {
-      input = { enabled = false },
+      input = {
+        override = function(conf)
+          conf.col = -1
+          conf.row = 0
+          return conf
+        end,
+      },
       select = {
         -- telescope = jm.telescope.adaptive_dropdown(),
         builtin = {

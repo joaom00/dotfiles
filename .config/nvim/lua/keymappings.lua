@@ -72,8 +72,6 @@ xnoremap("<A-k>", "<cmd>m '<-2<CR>gv=gv")
 nnoremap("<leader>np", "<cmd>lua require('package-info').change_version()<CR>")
 nnoremap("<leader>nd", "<cmd>lua require('package-info').delete()<CR>")
 
-nmap("rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
-
 vnoremap("<Space>f", "zf")
 
 -- Debugging
