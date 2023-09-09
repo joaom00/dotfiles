@@ -154,7 +154,7 @@ return {
     event = "VeryLazy",
     opts = {
       user_default_options = {
-        tailwind = "both",
+        tailwind = "lsp",
       },
     },
   },
