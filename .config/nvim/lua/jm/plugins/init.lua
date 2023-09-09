@@ -44,30 +44,16 @@ return {
   },
   {
     "folke/todo-comments.nvim",
-    event = "VeryLazy",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    config = function()
-      require("todo-comments").setup()
-    end,
+    cmd = { "TodoTrouble", "TodoTelescope" },
+    event = { "BufReadPost", "BufNewFile" },
+    config = true,
   },
   {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    dependencies = { "hrsh7th/nvim-cmp" },
+    "echasnovski/mini.pairs",
+    version = "*",
+    event = "VeryLazy",
     config = function()
-      local autopairs = require "nvim-autopairs"
-      local cmp_autopairs = require "nvim-autopairs.completion.cmp"
-      require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
-      autopairs.setup {
-        close_triple_quotes = true,
-        check_ts = true,
-        fast_wrap = { map = "<c-e>" },
-        ts_config = {
-          lua = { "string" },
-          dart = { "string" },
-          javascript = { "template_string" },
-        },
-      }
+      require("mini.pairs").setup()
     end,
   },
   {
@@ -83,17 +69,18 @@ return {
     lazy = false,
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
   },
+  { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
   {
-    "numToStr/Comment.nvim",
-    keys = { "gcc", { "gc", mode = { "x", "n", "o" } } },
-    opts = function(_, opts)
-      local ok, integration = pcall(require, "ts_context_commentstring.integrations.comment_nvim")
-      if ok then
-        opts.pre_hook = integration.create_pre_hook()
-      end
-    end,
+    "echasnovski/mini.comment",
+    event = "VeryLazy",
+    opts = {
+      options = {
+        custom_commentstring = function()
+          return require("ts_context_commentstring.internal").calculate_commentstring() or vim.bo.commentstring
+        end,
+      },
+    },
   },
-  { "andweeb/presence.nvim", lazy = false, enabled = false },
   {
     "smjonas/inc-rename.nvim",
     event = "VeryLazy",

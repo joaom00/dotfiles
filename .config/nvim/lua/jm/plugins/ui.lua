@@ -130,21 +130,26 @@ return {
       end,
     },
   },
+  { "echasnovski/mini.bufremove", version = "*" },
   {
     "akinsho/bufferline.nvim",
-    event = "VimEnter",
+    event = "VeryLazy",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       local groups = require "bufferline.groups"
       require("bufferline").setup {
         options = {
-          debug = { logging = true },
-          mode = "buffers",
-          sort_by = "insert_after_current",
-          right_mouse_command = "vert sbuffer %d",
+          -- mode = "buffers",
+          -- sort_by = "insert_after_current",
+          -- right_mouse_command = "vert sbuffer %d",
+          -- stylua: ignore
+          close_command = function (n) require('mini.bufremove').delete(n, false) end,
+          -- stylua: ignore
+          right_mouse_command = function (n) require('mini.bufremove').delete(n, false) end,
           show_close_icon = false,
           show_buffer_close_icons = true,
-          indicator = { style = "underline" },
+          always_show_bufferline = false,
+          -- indicator = { style = "underline" },
           diagnostics = "nvim_lsp",
           diagnostics_indicator = function(count, level)
             level = level:match "warn" and "warn" or level

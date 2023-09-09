@@ -62,7 +62,6 @@ return {
       }
     end,
   },
-  { "JoosepAlviste/nvim-ts-context-commentstring" },
   {
     "windwp/nvim-ts-autotag",
     lazy = false,
