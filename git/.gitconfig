@@ -1,6 +1,6 @@
 [user]
   name = João Pedro Magalhães
-  email = joaopsilvamagalhaes@gmail.com
+  email = joaom00.dev@gmail.com
 #  signingkey = joaopsilvamagalhaes@gmail.com
 
 [include]
@@ -30,6 +30,7 @@
   # Thanks r00k, this creates a pretty graph view of the log
   lg = log --graph --abbrev-commit --date=relative
   c = commit -m
+	count-lines = "! git log --author=\"$1\" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf \"added lines: %s, removed lines: %s, total lines: %s\\n\", add, subs, loc }' #"
 
 [delta]
   line-numbers = true

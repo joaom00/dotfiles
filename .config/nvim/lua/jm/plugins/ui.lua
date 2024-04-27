@@ -6,46 +6,9 @@ local strwidth = api.nvim_strwidth
 
 return {
   {
-    "lukas-reineke/virt-column.nvim",
-    enabled = false,
-    event = "VimEnter",
-    opts = { char = "▕" },
-    init = function()
-      jm.augroup("VirtCol", {
-        event = { "VimEnter", "BufEnter", "WinEnter" },
-        command = function(args)
-          ui.decorations.set_colorcolumn(args.buf, function(virtcolumn)
-            require("virt-column").setup_buffer { virtcolumn = virtcolumn }
-          end)
-        end,
-      })
-    end,
-  },
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    enabled = false,
-    lazy = false,
-    opts = {
-      char = "│", -- ┆ ┊ 
-      show_foldtext = false,
-      context_char = "▎",
-      char_priority = 12,
-      show_current_context = true,
-      show_current_context_start = true,
-      show_current_context_start_on_current_line = false,
-      show_first_indent_level = true,
-      -- stylua: ignore
-      filetype_exclude = {
-        'dbout', 'neo-tree-popup', 'log', 'gitcommit',
-        'txt', 'help', 'NvimTree', 'git', 'flutterToolsOutline',
-        'undotree', 'markdown', 'norg', 'org', 'orgagenda',
-        '', -- for all buffers without a file type
-      },
-    },
-  },
-  {
     "stevearc/dressing.nvim",
     event = "VeryLazy",
+    enabled = true,
     opts = {
       input = {
         override = function(conf)
@@ -106,30 +69,6 @@ return {
       })
     end,
   },
-  {
-    "levouh/tint.nvim",
-    enabled = false,
-    event = "WinNew",
-    branch = "untint-forcibly-closed-windows",
-    opts = {
-      tint = -30,
-      -- stylua: ignore
-      window_ignore_function = function(win_id)
-        local win, buf = vim.wo[win_id], vim.bo[vim.api.nvim_win_get_buf(win_id)]
-        -- TODO: ideally tint should just ignore all buffers with a special type other than maybe "acwrite"
-        -- since if there is a custom buftype it's probably a special buffer we always want to pay
-        -- attention to whilst its open.
-        -- BUG: neo-tree cannot be ignore as either nofile or by filetype as this causes tinting bugs
-        if win.diff or not jm.empty(fn.win_gettype(win_id)) then
-          return true
-        end
-        local ignore_bt = jm.p_table { terminal = true, prompt = true, nofile = false }
-        local ignore_ft = jm.p_table { ["Telescope.*"] = true, ["Neogit.*"] = true, ["qf"] = true }
-        local has_bt, has_ft = ignore_bt[buf.buftype], ignore_ft[buf.filetype]
-        return has_bt or has_ft
-      end,
-    },
-  },
   { "echasnovski/mini.bufremove", version = "*" },
   {
     "akinsho/bufferline.nvim",
@@ -139,8 +78,8 @@ return {
       local groups = require "bufferline.groups"
       require("bufferline").setup {
         options = {
-          -- mode = "buffers",
-          -- sort_by = "insert_after_current",
+          mode = "buffers",
+          sort_by = "insert_after_current",
           -- right_mouse_command = "vert sbuffer %d",
           -- stylua: ignore
           close_command = function (n) require('mini.bufremove').delete(n, false) end,
@@ -259,97 +198,9 @@ return {
     end,
   },
   {
-    "kevinhwang91/nvim-ufo",
-    enabled = false,
-    event = "VeryLazy",
-    dependencies = { "kevinhwang91/promise-async" },
-    keys = {
-      {
-        "zR",
-        function()
-          require("ufo").openAllFolds()
-        end,
-        "open all folds",
-      },
-      {
-        "zM",
-        function()
-          require("ufo").closeAllFolds()
-        end,
-        "close all folds",
-      },
-      {
-        "zP",
-        function()
-          require("ufo").peekFoldedLinesUnderCursor()
-        end,
-        "preview fold",
-      },
-    },
-    opts = {
-      open_fold_hl_timeout = 0,
-      preview = { win_config = { winhighlight = "Normal:Normal,FloatBorder:Normal" } },
-      enable_get_fold_virt_text = true,
-      fold_virt_text_handler = function(virt_text, _, end_lnum, width, truncate, ctx)
-        local result = {}
-        local padding = ""
-        local cur_width = 0
-        local suffix_width = strwidth(ctx.text)
-        local target_width = width - suffix_width
-
-        for _, chunk in ipairs(virt_text) do
-          local chunk_text = chunk[1]
-          local chunk_width = strwidth(chunk_text)
-          if target_width > cur_width + chunk_width then
-            table.insert(result, chunk)
-          else
-            chunk_text = truncate(chunk_text, target_width - cur_width)
-            local hl_group = chunk[2]
-            table.insert(result, { chunk_text, hl_group })
-            chunk_width = strwidth(chunk_text)
-            if cur_width + chunk_width < target_width then
-              padding = padding .. (" "):rep(target_width - cur_width - chunk_width)
-            end
-            break
-          end
-          cur_width = cur_width + chunk_width
-        end
-
-        local end_text = ctx.get_fold_virt_text(end_lnum)
-        -- reformat the end text to trim excess whitespace from
-        -- indentation usually the first item is indentation
-        if end_text[1] and end_text[1][1] then
-          end_text[1][1] = end_text[1][1]:gsub("[%s\t]+", "")
-        end
-
-        table.insert(result, { " ⋯ ", "UfoFoldedEllipsis" })
-        vim.list_extend(result, end_text)
-        table.insert(result, { padding, "" })
-
-        return result
-      end,
-      provider_selector = function()
-        return { "treesitter", "indent" }
-      end,
-    },
-  },
-  {
-    "ray-x/lsp_signature.nvim",
-    dev = true,
-    enabled = false,
-    event = "InsertEnter",
-    config = function()
-      require("lsp_signature").setup {
-        hint_enable = false,
-        handler_opts = { border = "single" },
-        max_width = 80,
-        check_completion_visible = false,
-      }
-    end,
-  },
-  {
     "folke/noice.nvim",
     event = "VeryLazy",
+    enabled = true,
     opts = {
       lsp = {
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -359,17 +210,24 @@ return {
           ["cmp.entry.get_documentation"] = true,
         },
         hover = {
+          enabled = false,
           silent = true,
         },
+        signature = {
+          enabled = false,
+        },
+        message = {
+          view = "mini",
+        },
+      },
+      messages = {
+        view = "mini",
       },
       notify = {
         enabled = false,
       },
       -- you can enable a preset for easier configuration
       presets = {
-        bottom_search = true, -- use a classic bottom cmdline for search
-        command_palette = true, -- position the cmdline and popupmenu together
-        long_message_to_split = true, -- long messages will be sent to a split
         inc_rename = true, -- enables an input dialog for inc-rename.nvim
         lsp_doc_border = true, -- add a border to hover docs and signature help
       },

@@ -5,7 +5,6 @@ local g = vim.g
 local fn = vim.fn
 local opt = vim.opt
 local loop = vim.loop
-local cmd = vim.cmd
 local data = fn.stdpath "data"
 
 ----------------------------------------------------------------------------------------------------
@@ -59,12 +58,7 @@ opt.runtimepath:prepend(lazypath)
 require("lazy").setup("jm.plugins", {
   defaults = { lazy = true },
   change_detection = { notify = false },
-  checker = {
-    enabled = true,
-    concurrency = 30,
-    notify = false,
-    frequency = 3600, -- check for updates every hour
-  },
+  checker = { enabled = true, notify = false },
   dev = {
     path = "~/dev/plugins/",
   },
@@ -140,6 +134,27 @@ vim.api.nvim_create_autocmd("BufEnter", {
 -----------------------------------------------------------------------------//
 -- Color Scheme {{{1
 -----------------------------------------------------------------------------//
-vim.o.background = "dark"
-vim.g.gruvbox_material_background = "hard" -- hard | medium | soft
-jm.wrap_err("theme failed to load because", cmd.colorscheme, "gruvbox-material")
+-- vim.o.background = "dark"
+-- vim.g.gruvbox_material_background = "hard" -- hard | medium | soft
+-- jm.wrap_err("theme failed to load because", cmd.colorscheme, "gruvbox-material")
+
+local colors = {
+  fg = "#fffff",
+  bg = "#fffff",
+}
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    -- change the background color of floating windows and borders.
+    vim.cmd "highlight NormalFloat guibg=none guifg=none"
+    vim.cmd("highlight FloatBorder guifg=" .. colors.fg .. " guibg=none")
+    vim.cmd "highlight NormalNC guibg=none guifg=none"
+
+    -- change neotree background colors
+    -- Default: NeoTreeNormal  xxx ctermfg=223 ctermbg=232 guifg=#d4be98 guibg=#141617
+    vim.cmd "highlight NeoTreeNormal guibg=NONE"
+    vim.cmd "highlight NeoTreeFloatNormal guifg=NONE guibg=NONE"
+    vim.cmd "highlight NeoTreeFloatBorder guifg=NONE guibg=NONE"
+    vim.cmd "highlight NeoTreeEndOfBuffer guibg=NONE" -- 1d2021
+  end,
+})

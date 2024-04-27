@@ -1,6 +1,9 @@
 local servers = {
   vimls = {},
   cssls = {},
+  pyright = {},
+  tsserver = {},
+  eslint = {},
   tailwindcss = {
     settings = {
       tailwindCSS = {
@@ -17,7 +20,6 @@ local servers = {
   prismals = {},
   gopls = {},
   rust_analyzer = {},
-  emmet_language_server = {},
   jsonls = {
     settings = {
       json = {

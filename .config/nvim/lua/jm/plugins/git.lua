@@ -1,5 +1,4 @@
 local cwd = vim.fn.getcwd
-local highlight = jm.highlight
 local border = jm.ui.current.border
 local icons = jm.ui.icons.separators
 
@@ -85,6 +84,5 @@ return {
       require("git-conflict").setup()
     end,
   },
-  { "ThePrimeagen/git-worktree.nvim" },
-  { "rhysd/committia.vim" },
+  { "rhysd/committia.vim", event = "VeryLazy" },
 }

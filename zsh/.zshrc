@@ -4,6 +4,7 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH="/usr/bin:$PATH"
 export FLYCTL_INSTALL="/home/$USER/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
+# export PATH="~/.bun/bin"
 # source /usr/share/autojump/autojump.sh
 # export PATH="$HOME/.miniconda/bin:$PATH"  # commented out by conda initialize
 
@@ -155,3 +156,10 @@ bindkey "^K" end-of-line
 export PNPM_HOME="/home/$USER/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
+
+# bun completions
+[ -s "/home/joao/.bun/_bun" ] && source "/home/joao/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

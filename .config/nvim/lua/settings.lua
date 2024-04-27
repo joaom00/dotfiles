@@ -19,7 +19,7 @@ vim.opt.shortmess = {
 -----------------------------------------------------------------------------//
 -- Timings {{{1
 -----------------------------------------------------------------------------//
-vim.opt.updatetime = 300
+vim.opt.updatetime = 100
 vim.opt.timeout = true
 vim.opt.timeoutlen = 500
 vim.opt.ttimeoutlen = 10

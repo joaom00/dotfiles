@@ -1,7 +1,6 @@
 local fn = vim.fn
 local ui = jm.ui
 local border = ui.current.border
-local highlight = jm.highlight
 
 return {
   "nvim-lua/plenary.nvim", -- THE LIBRARY
@@ -11,37 +10,6 @@ return {
   -----------------------------------------------------------------------------//
   "onsails/lspkind.nvim",
   "b0o/schemastore.nvim",
-  {
-    {
-      "williamboman/mason.nvim",
-      cmd = "Mason",
-      opts = { ui = { border = border, height = 0.8 } },
-    },
-    {
-      "williamboman/mason-lspconfig.nvim",
-      event = { "BufReadPre", "BufNewFile" },
-      dependencies = {
-        "mason.nvim",
-        {
-          "neovim/nvim-lspconfig",
-          config = function()
-            require("lspconfig.ui.windows").default_options.border = border
-          end,
-        },
-      },
-      config = function()
-        require("mason-lspconfig").setup { automatic_installation = true }
-        require("mason-lspconfig").setup_handlers {
-          function(name)
-            local config = require "jm.servers"(name)
-            if config then
-              require("lspconfig")[name].setup(config)
-            end
-          end,
-        }
-      end,
-    },
-  },
   {
     "folke/todo-comments.nvim",
     cmd = { "TodoTrouble", "TodoTelescope" },
@@ -66,8 +34,14 @@ return {
   },
   {
     "pmizio/typescript-tools.nvim",
-    lazy = false,
+    event = "VeryLazy",
+    enabled = false,
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {
+      settings = {
+        expose_as_code_action = { "add_missing_imports", "fix_all", "remove_unused" },
+      },
+    },
   },
   { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
   {
@@ -115,19 +89,6 @@ return {
         type_hints = { prefix = "=> ", remove_colon_start = true },
       },
     },
-  },
-  {
-    "zbirenbaum/neodim",
-    event = "LspAttach",
-    opts = function()
-      highlight.plugin("neodim", { { TSVariable = { fg = { from = "Normal" } } } })
-      -- don't use opts here as the value of highlight.get needs to be evaluated later
-      require("neodim").setup {
-        alpha = 0.45,
-        blend_color = highlight.get("Normal", "bg"),
-        update_in_insert = { enable = true, delay = 200 },
-      }
-    end,
   },
   {
     "iamcco/markdown-preview.nvim",

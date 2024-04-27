@@ -3,9 +3,9 @@ local ui = jm.ui
 local icons = ui.icons
 local P = ui.palette
 
-local function extensions(name)
-  return require("telescope").extensions[name]
-end
+-- local function extensions(name)
+--   return require("telescope").extensions[name]
+-- end
 
 local function builtin(name)
   return function()
@@ -13,11 +13,11 @@ local function builtin(name)
   end
 end
 
-local function git_worktree(picker)
-  return function()
-    extensions("git_worktree")[picker]()
-  end
-end
+-- local function git_worktree(picker)
+--   return function()
+--     extensions("git_worktree")[picker]()
+--   end
+-- end
 
 local function git_files()
   require("telescope.builtin").git_files {
@@ -106,8 +106,8 @@ return {
     { "<space>gs", builtin "git_status" },
     { "<space>gc", builtin "git_commits" },
     { "<space>gb", builtin "git_branches" },
-    { "<space>gw", git_worktree "git_worktrees", desc = "list git worktrees" },
-    { "<space>gwc", git_worktree "create_git_worktree", desc = "create git worktree" },
+    -- { "<space>gw", git_worktree "git_worktrees", desc = "list git worktrees" },
+    -- { "<space>gwc", git_worktree "create_git_worktree", desc = "create git worktree" },
   },
   dependencies = {
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -360,9 +360,6 @@ return {
         colorscheme = {
           enable_preview = true,
         },
-        lsp_code_actions = {
-          theme = "dropdown",
-        },
         projects = {
           theme = "dropdown",
         },
@@ -372,7 +369,7 @@ return {
     require("telescope").load_extension "fzf"
     require("telescope").load_extension "projects"
     require("telescope").load_extension "file_browser"
-    require("telescope").load_extension "git_worktree"
+    -- require("telescope").load_extension "git_worktree"
     require("telescope").load_extension "ui-select"
     require("telescope").load_extension "package_info"
     -- require('telescope').load_extension "twitch"
