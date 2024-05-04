@@ -24,7 +24,7 @@ eval "$(zoxide init zsh)"
 
 autoload -Uz colors && colors
 
-
+export PATH=$HOME/.config/rofi/scripts:$PATH
 export GO111MODULE='on'
 export GOPROXY='https://proxy.golang.org'
 export PATH=$PATH:/usr/local/go/bin

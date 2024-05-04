@@ -1,4 +1,6 @@
 local fn, api = vim.fn, vim.api
+local highlight = jm.highlight
+local icons = jm.ui.icons
 
 return {
   {
@@ -8,6 +10,7 @@ return {
     keys = { { "<c-e>", "<cmd>Neotree toggle reveal<CR>", desc = "NeoTree" } },
     config = function()
       require("neo-tree").setup {
+        popup_border_style = "rounded",
         sources = { "filesystem", "git_status", "document_symbols" },
         source_selector = {
           winbar = true,
@@ -69,17 +72,15 @@ return {
           },
           git_status = {
             symbols = {
-              -- Change type
-              added = "",
-              deleted = "",
-              modified = "",
-              renamed = "",
-              -- Status type
-              untracked = "",
-              ignored = "",
-              unstaged = "",
-              staged = "",
-              conflict = "",
+              added = icons.git.add,
+              deleted = icons.git.remove,
+              modified = icons.git.mod,
+              renamed = icons.git.rename,
+              untracked = icons.git.untracked,
+              ignored = icons.git.ignored,
+              unstaged = icons.git.unstaged,
+              staged = icons.git.staged,
+              conflict = icons.git.conflict,
             },
           },
         },
