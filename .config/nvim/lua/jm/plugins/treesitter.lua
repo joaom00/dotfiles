@@ -51,16 +51,9 @@ return {
   },
   {
     "windwp/nvim-ts-autotag",
-    lazy = false,
     ft = { "typescriptreact", "javascript", "javascriptreact", "html", "tsx" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
-    config = function()
-      require("nvim-treesitter.configs").setup {
-        autotag = {
-          enable_close_on_slash = false,
-        },
-      }
-    end,
+    opts = {},
   },
   {
     "nvim-treesitter/playground",

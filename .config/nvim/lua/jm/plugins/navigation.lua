@@ -1,5 +1,4 @@
 local fn, api = vim.fn, vim.api
-local highlight = jm.highlight
 local icons = jm.ui.icons
 
 return {

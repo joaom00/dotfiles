@@ -1,56 +1,129 @@
 local fn, api = vim.fn, vim.api
-local icons = jm.ui.icons.lsp
+local icons = jm.ui.icons
 local ui = jm.ui
 local border = ui.current.border
--- local uLualine = require "jm.util.lualine"
 
 return {
   {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VeryLazy",
-    config = function()
-      require("lualine").setup {
+    init = function()
+      vim.g.lualine_laststatus = vim.o.laststatus
+      if vim.fn.argc(-1) > 0 then
+        -- set an empty statusline till lualine loads
+        vim.o.statusline = " "
+      else
+        -- hide the statusline on the starter page
+        vim.o.laststatus = 0
+      end
+    end,
+    opts = function()
+      local lualine_require = require "lualine_require"
+      lualine_require.require = require
+
+      vim.o.laststatus = vim.g.lualine_laststatus
+
+      return {
         options = {
-          icons_enabled = true,
           theme = "gruvbox-material",
-          component_separators = { left = "", right = "" },
-          section_separators = { left = "", right = "" },
-          disabled_filetypes = {
-            statusline = {},
-            winbar = {},
-          },
-          ignore_focus = {},
-          always_divide_middle = true,
-          globalstatus = false,
-          refresh = {
-            statusline = 1000,
-            tabline = 1000,
-            winbar = 1000,
-          },
+          globalstatus = true,
         },
         sections = {
           lualine_a = { "mode" },
-          lualine_b = { "branch", "diff", "diagnostics" },
-          lualine_c = { "filename" },
-          lualine_x = { "encoding", "fileformat", "filetype" },
-          lualine_y = { "progress" },
-          lualine_z = { "location" },
+          lualine_b = { "branch" },
+          lualine_c = {
+            jm.util.lualine.root_dir(),
+            {
+              "diagnostics",
+              symbols = {
+                error = icons.lsp.error,
+                warn = icons.lsp.warn,
+                info = icons.lsp.info,
+                hint = icons.lsp.hint,
+              },
+            },
+            { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+            { jm.util.lualine.pretty_path() },
+          },
+          lualine_x = {
+            {
+              require("lazy.status").updates,
+              cond = require("lazy.status").has_updates,
+            },
+            {
+              "diff",
+              symbols = {
+                added = icons.git.add,
+                modified = icons.git.mod,
+                removed = icons.git.remove,
+              },
+              source = function()
+                local gitsigns = vim.b.gitsigns_status_dict
+                if gitsigns then
+                  return {
+                    added = gitsigns.added,
+                    modified = gitsigns.changed,
+                    removed = gitsigns.removed,
+                  }
+                end
+              end,
+            },
+          },
+          lualine_y = {
+            { "progress", separator = " ", padding = { left = 1, right = 0 } },
+            { "location", padding = { left = 0, right = 1 } },
+          },
+          lualine_z = {
+            function()
+              return " " .. os.date "%R"
+            end,
+          },
         },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { "filename" },
-          lualine_x = { "location" },
-          lualine_y = {},
-          lualine_z = {},
-        },
-        tabline = {},
-        winbar = {},
-        inactive_winbar = {},
-        extensions = {},
       }
     end,
+    -- config = function()
+    --   require("lualine").setup {
+    --     options = {
+    --       icons_enabled = true,
+    --       theme = "gruvbox-material",
+    --       component_separators = { left = "", right = "" },
+    --       section_separators = { left = "", right = "" },
+    --       disabled_filetypes = {
+    --         statusline = {},
+    --         winbar = {},
+    --       },
+    --       ignore_focus = {},
+    --       always_divide_middle = true,
+    --       globalstatus = false,
+    --       refresh = {
+    --         statusline = 1000,
+    --         tabline = 1000,
+    --         winbar = 1000,
+    --       },
+    --     },
+    --     sections = {
+    --       lualine_a = { "mode" },
+    --       lualine_b = { "branch", "diff", "diagnostics" },
+    --       lualine_c = { "filename" },
+    --       lualine_x = { "encoding", "fileformat", "filetype" },
+    --       lualine_y = { "progress" },
+    --       lualine_z = { "location" },
+    --     },
+    --     inactive_sections = {
+    --       lualine_a = {},
+    --       lualine_b = {},
+    --       lualine_c = { "filename" },
+    --       lualine_x = { "location" },
+    --       lualine_y = {},
+    --       lualine_z = {},
+    --     },
+    --     tabline = {},
+    --     winbar = {},
+    --     inactive_winbar = {},
+    --     extensions = {},
+    --   }
+    -- end,
   },
   {
     "stevearc/dressing.nvim",
@@ -123,6 +196,7 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       local groups = require "bufferline.groups"
+      -- require("bufferline").setup {}
       require("bufferline").setup {
         options = {
           mode = "buffers",

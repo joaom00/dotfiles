@@ -32,17 +32,6 @@ return {
       hide_cursor = true,
     },
   },
-  {
-    "pmizio/typescript-tools.nvim",
-    event = "VeryLazy",
-    enabled = false,
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    opts = {
-      settings = {
-        expose_as_code_action = { "add_missing_imports", "fix_all", "remove_unused" },
-      },
-    },
-  },
   { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
   {
     "echasnovski/mini.comment",

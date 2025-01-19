@@ -56,13 +56,15 @@ end
 opt.runtimepath:prepend(lazypath)
 -----------------------------------------------------------------------------
 require("lazy").setup("jm.plugins", {
-  defaults = { lazy = true },
+  -- defaults = { lazy = true },
   change_detection = { notify = false },
   checker = { enabled = true, notify = false },
   dev = {
     path = "~/dev/plugins/",
   },
 })
+
+_G.jm.util = require "jm.util"
 
 require("jm.autocmds").define_augroups {
   terminal = {
@@ -131,6 +133,28 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
   desc = "Telescope replacement for netrw",
 })
+
+-- Keep the cursor position when yanking
+local cursorPreYank
+
+vim.keymap.set({ "n", "x" }, "y", function()
+  cursorPreYank = vim.api.nvim_win_get_cursor(0)
+  return "y"
+end, { expr = true })
+
+vim.keymap.set("n", "Y", function()
+  cursorPreYank = vim.api.nvim_win_get_cursor(0)
+  return "y$"
+end, { expr = true })
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    if vim.v.event.operator == "y" and cursorPreYank then
+      vim.api.nvim_win_set_cursor(0, cursorPreYank)
+    end
+  end,
+})
+
 -----------------------------------------------------------------------------//
 -- Color Scheme {{{1
 -----------------------------------------------------------------------------//
