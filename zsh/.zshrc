@@ -116,6 +116,8 @@ SPACESHIP_PROMPT_ORDER=(
   rust          # Rust section
   golang        # Go section
   docker        # Docker section
+  venv          # virtualenv section
+  # pyenv         # Pyenv section
   conda         # conda virtualenv section
   exec_time     # Execution time
   line_sep      # Line break

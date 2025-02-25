@@ -18,6 +18,7 @@
     ~/.gitmessage: git/.gitmessage
     ~/themes.gitconfig: git/themes.gitconfig
     ~/.config/nvim: .config/nvim
+    ~/.config/i3: .config/i3
     ~/.config/gh/config.yml: .config/gh/config.yml
     ~/.config/pgcli/config: .config/pgcli/config
     ~/update-golang.sh: update-golang.sh
